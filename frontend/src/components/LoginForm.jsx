@@ -16,6 +16,7 @@ function LoginForm() {
   // const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
   const postData = () => {
+    
     if (!emailRegex.test(email)) {
       setErrorMessage("Please enter a valid email");
       return;
@@ -24,6 +25,7 @@ function LoginForm() {
     //   setErrorMessage("Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
     //   return;
     // }
+    
 
     fetch("http://localhost:5000/", {
       method: "POST",
@@ -50,7 +52,7 @@ function LoginForm() {
             progress: undefined,
             theme: "dark",
           });
-          navigate("/home"); // Navigate to home or dashboard page
+          navigate("/home"); 
         }
       })
       .catch((error) => {
