@@ -60,7 +60,7 @@ function SignUpForm() {
             console.error("Error:", error);
             setErrorMessage("Something went wrong. Please try again later.");
         });
-};
+  };
 
   return (
     <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8">

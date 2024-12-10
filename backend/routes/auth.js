@@ -50,11 +50,9 @@ router.get('/', (req, res) => {
 //         });
 // });
 
-
-
 router.post('/signup', (req, res) => {
-    // Log to check if email and other fields are coming correctly
-    console.log(req.body);  // Check the incoming data from frontend
+    
+    // console.log(req.body);  
 
     const { name, userName, email, password } = req.body;
 
@@ -100,15 +98,27 @@ router.post('/signup', (req, res) => {
 
 router.post('/', (req, res) => {
     const { email, password } = req.body;
-    if(!email || !password){
+    if( !email || !password ){
         return res.status(422).json({ error: "Please add email and password." });
+
     }
-    
-    USER.findOne({ email: email }).then((saveUser) => {
+    USER.findOne({ email:email }).then((savedUser)=>{
         if(!savedUser){
-            return res.status(422).json({ error: "User not found with this email." });
+            return res.status(422).json({ error: "Invalid email or password." });
         }
-        console.log(saveUser);
+        bcrypt.compare(password, savedUser.password)
+        .then((match)=>{
+            if(match){
+                return res.status(200).json({match : "Signed in Successfully" });
+            }
+            else{
+                return res.status(422).json({ error: "Invalid email or password." });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: "Failed to authenticate user." });
+        });
         
     })
 

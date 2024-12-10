@@ -1,11 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import IGimg from "./../img/LoginPage/instagram.png";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; // Make sure you have installed react-toastify for the toast notifications
 
-function loginForm() {
+function LoginForm() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State to store error message
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+  const postData = () => {
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Please enter a valid email");
+      return;
+    }
+    // if (!passwordRegex.test(password)) {
+    //   setErrorMessage("Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+    //   return;
+    // }
+
+    fetch("http://localhost:5000/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setErrorMessage(data.error);
+        } else {
+          toast.success("Successfully Logged In!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          navigate("/home"); // Navigate to home or dashboard page
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setErrorMessage("Something went wrong. Please try again later.");
+      });
+  };
+
   return (
     <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8">
       <div className="border-gray-700 border text-white p-6 sm:p-8 md:p-10 w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg">
@@ -14,18 +67,34 @@ function loginForm() {
         </div>
         <div className="flex flex-col text-[14px]">
           <input
+            value={email}
             className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border-[1px] border-slate-300"
             placeholder="Phone number, username, or email"
             type="text"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <input
+            value={password}
             className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border-[1px] border-slate-300"
             placeholder="Password"
             type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
         </div>
+        {errorMessage && (
+          <div className="text-red-500 text-sm mt-3">{errorMessage}</div>
+        )}
         <div className="flex ">
-          <Link to="/home" className="mt-4 w-full rounded-[10px] font-semibold text-white bg-blue-600 hover:bg-blue-500 py-2 font-Poppins text-center">Log in</Link>
+          <button
+            onClick={postData}
+            className="mt-4 w-full rounded-[10px] font-semibold text-white bg-blue-600 hover:bg-blue-500 py-2 font-Poppins text-center"
+          >
+            Log in
+          </button>
         </div>
         <div className="flex items-center px-2 mt-5 font-Poppins">
           <div className="flex-grow border-t border-gray-600"></div>
@@ -110,4 +179,4 @@ function loginForm() {
   );
 }
 
-export default loginForm;
+export default LoginForm;
