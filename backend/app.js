@@ -1,12 +1,24 @@
 const express = require('express');
+
+const cors = require('cors');
 const app = express();
-
+const mongoose = require('mongoose');
 const PORT = 5000;
+const MongoUrl = require('./key.js');
 
-app.get('/',(req, res)=>{
-    res.json("dhirajbhawsar")
+app.use(cors())
+
+require('./models/model')
+app.use(express.json());
+app.use(require("./routes/auth"))
+mongoose.connect(MongoUrl)
+
+mongoose.connection.on("connected", ()=>{
+    console.log("MongoDB connected");
 })
-app.listen(PORT,()=> {
-    console.log("helelworld running on" + PORT);
-    
-});
+mongoose.connection.on("error", ()=>{
+    console.log("MongoDB is not connected");
+})
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+})

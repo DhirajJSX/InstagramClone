@@ -1,12 +1,10 @@
 import React from "react";
 import IGimg from "./../img/LoginPage/instagram.png";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import GooglePlay from "./../img/LoginPage/playstore.png";
-import Microsoft from "./../img/LoginPage/microsoft.png";
 
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link } from "react-router-dom";
-// import SignupPage from "./../pages/SignupPage";
+
 function loginForm() {
   return (
     <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8">
@@ -49,7 +47,7 @@ function loginForm() {
           <button className="text-center text-gray-200 hover:underline">
             Forgot Password?
           </button>
-        </div>  
+        </div>
       </div>
 
       {/* Sign Up Section */}
@@ -57,7 +55,10 @@ function loginForm() {
         <div className="p-5 text-[16px] flex justify-center">
           <span>
             Don&apos;t have an account?{" "}
-            <Link to="/SignUp" className="font-Poppins text-[#0095f6] hover:underline">
+            <Link
+              to="/SignUp"
+              className="font-Poppins text-[#0095f6] hover:underline"
+            >
               Sign up
             </Link>
           </span>
@@ -70,36 +71,24 @@ function loginForm() {
           <span className="text-[16px]">Get the app.</span>
         </div>
         <div className="flex items-center justify-center gap-4">
-          {/* <a href="">
-            <img
+          {imgButton.map((item, index) => (
+            <a key={item.id || index} href={item.href}>
+              <img
                 className="w-[160px] sm:w-[170px] h-[55px] cursor-pointer"
-                src={GooglePlay}
-                alt="Google Play"
-            />
-          </a>
-        > */}
-          {
-            imgButton.map((item, index) => (
-              <div key={item}>
-                  <a href={item.href}>
-                      <img
-                        className="w-[160px] sm:w-[170px] h-[55px] cursor-pointer"
-                        src={item.img}
-                        alt={item.alt}
-                    />
-                  </a>
-              </div>
-            ))
-          }
+                src={item.img}
+                alt={item.alt}
+              />
+            </a>
+          ))}
         </div>
       </div>
 
       {/* Footer Section */}
       <div className="flex flex-col flex-wrap justify-around mt-10 text-[13px] gap-4 px-4">
         <div className="flex flex-wrap justify-center gap-2">
-          {FooterTerms.map((term, index) => (
+          {FooterTerms.map((term) => (
             <div
-              key={index}
+              key={term.id} // Ensure a unique key for FooterTerms
               className="p-2 cursor-pointer text-gray-400 hover:text-gray-300 hover:underline"
             >
               {term.label}
@@ -108,14 +97,14 @@ function loginForm() {
         </div>
         <div className="flex justify-center">
           <select className="p-2 border rounded-md bg-black cursor-pointer outline-none text-gray-400">
-            {Languages.map((lang, index) => (
-              <option key={index} value={lang.value}>
+            {Languages.map((lang) => (
+              <option key={lang.value} value={lang.value}>
                 {lang.label}
               </option>
             ))}
           </select>
-          <div  className=" m-2 ml-3 flex justify-center items-center ">
-            <span className=" text-gray-300">© 2024 Instagram from Meta</span>
+          <div className="m-2 ml-3 flex justify-center items-center">
+            <span className="text-gray-300">© 2024 Instagram from Meta</span>
           </div>
         </div>
       </div>
