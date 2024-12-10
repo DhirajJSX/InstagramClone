@@ -3,6 +3,8 @@ import IGimg from "./../img/LoginPage/instagram.png";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUpForm() {
   const navigate = useNavigate(); 
@@ -13,40 +15,52 @@ function SignUpForm() {
   const [errorMessage, setErrorMessage] = useState(""); 
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
   const postData = () => {
-    if(!emailRegex.test(email)) {
-      console.log("true");
-      
+    if (!emailRegex.test(email)) {
+        setErrorMessage("Please enter a valid email");
+        return;
+    } else if (!passwordRegex.test(password)) {
+        setErrorMessage("Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+        return;
     }
 
-    // Send data to server
     fetch("http://localhost:5000/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
-        userName: username,
-      }),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password,
+            userName: username,
+        }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          
-          setErrorMessage(data.error); 
-        } else {
-          console.log(data);
-          navigate("/"); 
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setErrorMessage("Something went wrong. Please try again later.");
-      });
-  };
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.error) {
+                setErrorMessage(data.error);
+            } else {
+                // console.log(data);
+                toast.success("Successfully Registered!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                navigate("/"); // Navigate to home or login page
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            setErrorMessage("Something went wrong. Please try again later.");
+        });
+};
 
   return (
     <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8">

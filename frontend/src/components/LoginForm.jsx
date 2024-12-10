@@ -24,10 +24,8 @@ function loginForm() {
             type="password"
           />
         </div>
-        <div>
-          <button className="mt-4 w-full rounded-[10px] text-white bg-blue-600 hover:bg-blue-500 py-2 font-Poppins">
-            Log in
-          </button>
+        <div className="flex ">
+          <Link to="/home" className="mt-4 w-full rounded-[10px] font-semibold text-white bg-blue-600 hover:bg-blue-500 py-2 font-Poppins text-center">Log in</Link>
         </div>
         <div className="flex items-center px-2 mt-5 font-Poppins">
           <div className="flex-grow border-t border-gray-600"></div>
@@ -56,7 +54,7 @@ function loginForm() {
           <span>
             Don&apos;t have an account?{" "}
             <Link
-              to="/SignUp"
+              to="/Signup"
               className="font-Poppins text-[#0095f6] hover:underline"
             >
               Sign up
