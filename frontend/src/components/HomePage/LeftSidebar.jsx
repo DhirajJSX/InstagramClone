@@ -3,13 +3,16 @@ import IGimg from "../../img/LoginPage/instagram.png";
 
 function LeftSidebar() {
   return (
-    <aside className="w-[300px] dark:border-gray-700 text-white border-r p-4 hidden lg:block sticky top-0 h-screen">
+    <aside className="w-full lg:w-[300px] dark:border-gray-700 text-white border-r p-4 hidden lg:flex flex-col justify-between lg:sticky lg:top-0 lg:h-screen overflow-hidden">
+      {/* Logo Section */}
       <div className="flex items-center ml-5 my-6">
         <img className="w-[130px]" src={IGimg} alt="Instagram" />
       </div>
 
-      <div className="flex gap-16 flex-col">
-        <ul>
+      {/* Navigation Sections */}
+      <div className="flex flex-col h-full">
+        {/* Main Navigation */}
+        <ul className="flex-grow">
           {[
             { name: "Home", icon: "🏠" },
             { name: "Search", icon: "🔍" },
@@ -25,26 +28,23 @@ function LeftSidebar() {
               className="flex items-center space-x-4 p-3 m-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition cursor-pointer"
             >
               <span className="text-2xl">{item.icon}</span>
-              <p className="text-lg">{item.name}</p>
+              <p className="text-lg truncate">{item.name}</p>
             </li>
           ))}
         </ul>
 
-        {/* Add space between the two groups */}
-        <div className="mt-4"></div>
-
-        <ul>
+        {/* Secondary Navigation */}
+        <ul className="space-y-2">
           {[
             { name: "Settings", icon: "⚙️" },
             { name: "AI Studio", icon: "🤖" },
-            { name: "Threads", icon: "🧵" },
           ].map((item, index) => (
             <li
               key={index}
               className="flex items-center space-x-4 p-3 m-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition cursor-pointer"
             >
               <span className="text-2xl">{item.icon}</span>
-              <p className="text-lg">{item.name}</p>
+              <p className="text-lg truncate">{item.name}</p>
             </li>
           ))}
         </ul>
