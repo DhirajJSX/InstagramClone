@@ -7,7 +7,6 @@ function MainContent() {
         <div key={idx} className="rounded-lg shadow-md overflow-hidden">
           <div className="flex justify-between items-center px-4 py-2">
             <div className=" flex cursor-pointer">
-              <img src="https://img.freepik.com/free-photo/close-up-portrait-young-african-man-with-stubble_171337-1296.jpg" alt="Profile" className="w-11 h-11 rounded-full" />
               <div className="ml-3 ">
                 <p className="font-semibold text-gray-700 dark:text-gray-300">User {idx + 1}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">2 hours ago</p>

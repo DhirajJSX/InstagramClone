@@ -3,7 +3,7 @@ import IGimg from "../../img/LoginPage/instagram.png";
 
 function LeftSidebar() {
   return (
-    <aside className="w-full lg:w-[300px] dark:border-gray-700 text-white border-r p-4 hidden lg:flex flex-col justify-between lg:sticky lg:top-0 lg:h-screen overflow-hidden">
+    <aside className="w-full lg:w-[300px] dark:border-gray-700 text-white border-r p-4 pb-10 hidden lg:flex flex-col justify-between lg:sticky lg:top-0 lg:h-screen overflow-hidden">
       {/* Logo Section */}
       <div className="flex items-center ml-5 my-6">
         <img className="w-[130px]" src={IGimg} alt="Instagram" />
@@ -12,7 +12,7 @@ function LeftSidebar() {
       {/* Navigation Sections */}
       <div className="flex flex-col h-full">
         {/* Main Navigation */}
-        <ul className="flex-grow">
+        <ul className="flex-grow ">
           {[
             { name: "Home", icon: "🏠" },
             { name: "Search", icon: "🔍" },
@@ -34,7 +34,7 @@ function LeftSidebar() {
         </ul>
 
         {/* Secondary Navigation */}
-        <ul className="space-y-2">
+        <ul className="">
           {[
             { name: "Settings", icon: "⚙️" },
             { name: "AI Studio", icon: "🤖" },
