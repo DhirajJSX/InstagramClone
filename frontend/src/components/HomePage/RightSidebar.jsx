@@ -2,7 +2,7 @@ import React from "react";
 
 function RightSidebar() {
   return (
-    <aside className="w-[20%] hidden lg:block p-10">
+    <aside className="w-[20%] hidden mr-20 lg:block p-10">
       <div className="space-y-4">
         <div className="flex items-center">
           <img src="/profile.jpg" alt="Profile" className="w-12 h-12 rounded-full bg-gray-300 dark:bg-gray-600" />
@@ -12,9 +12,9 @@ function RightSidebar() {
           </div>
         </div>
         <div>
-          <p className="font-semibold text-white mb-2">Suggested for you</p>
-          <ul className="space-y-4">
-            {Array(5).fill(null).map((_, idx) => (
+          <p className="font-semibold  my-5 text-gray-400">Suggested for you</p>
+          <ul className="space-y-4 mt-10">
+              {Array(5).fill(null).map((_, idx) => (
               <li key={idx} className="flex items-center justify-between">
                 <div className="flex items-center">
                   <img src="/profile.jpg" alt="Profile" className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600" />

@@ -22,11 +22,18 @@ function MainContent() {
           </div>
 
           <div className="px-4 py-2">
-            <div className="flex items-center space-x-4">
-              <button>❤️</button>
-              <button>💬</button>
-              <button>📤</button>
+            <div className="flex justify-between items-center ">
+              <div className="flex items-center space-x-4">
+                <button>❤️</button>
+                <button>💬</button>
+                <button>📤</button>
+              </div>
+
+              <div className=" flex justify-center items-center px-3">
+                <button>🚀</button>
+              </div>
             </div>
+
             <p className="mt-2 text-gray-600 dark:text-gray-300">Liked by 120 people</p>
             <p className="text-sm text-gray-600 dark:text-gray-400">View all 10 comments</p>
           </div>

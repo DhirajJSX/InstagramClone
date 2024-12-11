@@ -1,7 +1,7 @@
 import React from "react";
 import IGimg from "../../img/LoginPage/instagram.png";
 
-function Header() {
+function MobileHeader() {
   return (
     <header className="lg:hidden top-0 z-50 px-4 py-3 border-b-[1px] border-gray-700 flex items-center justify-between">
       <img src={IGimg} alt="Instagram Logo" className="h-8 mt-1" />
@@ -13,14 +13,14 @@ function Header() {
         />
         <button className="text-gray-600 dark:text-gray-300">🔔</button>
         <button className="text-gray-600 dark:text-gray-300">✉️</button>
-        <img
+        {/* <img
           src="/profile.jpg"
           alt="Profile"
           className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600"
-        />
+        /> */}
       </div>
     </header>
   );
 }
 
-export default Header;
+export default MobileHeader;
