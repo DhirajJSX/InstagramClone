@@ -1,6 +1,5 @@
 // StoriesSection.jsx
 import React from "react";
-import img from "../../img/InstargamSquare.png"
 function StoriesSection() {
   return (
     <div className="py-4 w-full lg:w-[80%] flex justify-center flex-row shadow-md">
