@@ -33,7 +33,7 @@ function StoriesSection() {
           .fill(null)
           .map((_, idx) => (
             <div key={idx} className="flex flex-col items-center space-y-2">
-              <div className="w-16 h-16 rounded-full border-2 border-indigo-500 p-1 cursor-pointer flex items-center justify-center">
+              <div className="w-[75px] h-[75px] rounded-full border-2 border-indigo-500 p-1 cursor-pointer flex items-center justify-center">
                 <img
                   src="https://img.freepik.com/free-photo/close-up-portrait-young-african-man-with-stubble_171337-1296.jpg"
                   alt={`User ${idx + 1}`}

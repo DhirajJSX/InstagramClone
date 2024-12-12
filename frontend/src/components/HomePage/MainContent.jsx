@@ -1,5 +1,5 @@
 import React from "react";
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 function MainContent() {
   return (
     <main className="flex-1 mb-16 max-w-[600px] w-full pb-4 space-y-6">
@@ -13,7 +13,7 @@ function MainContent() {
               </div>
             </div>
             <div className="flex justify-center items-center cursor-pointer">
-              <span>---</span>
+              <MoreVertIcon style={{fontSize: "30px"}} />
             </div>
           </div>
           <div className="w-full ">
