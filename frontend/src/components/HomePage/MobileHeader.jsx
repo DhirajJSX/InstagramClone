@@ -4,6 +4,7 @@ import { useSwipeable } from "react-swipeable";
 import IGimg from "../../img/LoginPage/instagram.png";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import SearchIcon from "@mui/icons-material/Search";
 
 function MobileHeader() {
   const navigate = useNavigate();
@@ -26,11 +27,18 @@ function MobileHeader() {
     >
       <img src={IGimg} alt="Instagram Logo" className="h-8 mt-1" />
       <div className="flex items-center space-x-4">
-        <input
-          type="text"
-          placeholder="Search"
-          className="hidden md:block px-4 py-2 text-sm bg-gray-100 dark:bg-gray-700 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none"
-        />
+        <div className="relative hidden md:block">
+          <input
+            type="text"
+            placeholder="Search"
+            className="px-4 py-2 text-sm rounded-lg bg-black focus:outline-none w-full pr-10"
+          />
+          <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <SearchIcon style={{ fontSize: "24px" }} />
+          </button>
+        </div>
+
+        {/* Icons for notifications and messages */}
         <div className="flex justify-between px-1">
           <button className="text-gray-600 pr-3 mr-2 dark:text-gray-300">
             <NotificationsNoneOutlinedIcon style={{ fontSize: "30px" }} />

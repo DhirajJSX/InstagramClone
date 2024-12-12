@@ -16,15 +16,12 @@ function StoriesSection() {
 
   return (
     <div className="py-4 w-full lg:w-[80%] flex justify-center items-center relative">
-      {/* Left Scroll Button (Hidden on mobile users) */}
       <button
         onClick={() => handleScroll("left")}
         className="absolute left-2 z-10 bg-gray-800 text-white rounded-full p-2 outline-none hover:bg-gray-700 hidden sm:block"
       >
       {"<"}
       </button>
-
-      {/* Stories Container */}
       <div
         ref={scrollContainerRef}
         className="flex overflow-x-auto space-x-4 no-scrollbar w-full"
@@ -44,8 +41,6 @@ function StoriesSection() {
             </div>
           ))}
       </div>
-
-      {/* Right Scroll Button (Hidden on mobile users) */}
       <button
         onClick={() => handleScroll("right")}
         className="absolute right-2 z-10 bg-gray-800 text-white rounded-full outline-none p-2 hover:bg-gray-700 hidden sm:block"
