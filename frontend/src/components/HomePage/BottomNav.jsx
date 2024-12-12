@@ -2,7 +2,6 @@ import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
-import TheatersOutlinedIcon from '@mui/icons-material/TheatersOutlined';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import ProfileIcon from '@mui/icons-material/PersonOutlineOutlined';
 function BottomNav() {
