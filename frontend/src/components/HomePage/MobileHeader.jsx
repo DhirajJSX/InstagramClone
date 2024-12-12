@@ -31,9 +31,9 @@ function MobileHeader() {
           <input
             type="text"
             placeholder="Search"
-            className="px-4 py-2 text-sm rounded-lg bg-black focus:outline-none w-full pr-10"
+            className="px-4 py-2 text-sm rounded-2xl bg-black border-gray-700 border  focus:outline-none w-full pr-10"
           />
-          <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <button className="px-1 absolute right-2 top-1/2 transform -translate-y-1/2 text-white">
             <SearchIcon style={{ fontSize: "24px" }} />
           </button>
         </div>
