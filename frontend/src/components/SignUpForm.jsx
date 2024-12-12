@@ -3,7 +3,7 @@ import IGimg from "./../img/LoginPage/instagram.png";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function SignUpForm() {
