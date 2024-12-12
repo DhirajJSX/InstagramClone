@@ -9,7 +9,7 @@ function UserNotificationPage() {
       <LeftSidebar />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col bg-gray-100 dark:bg-gray-900 overflow-y-auto">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         {/* Header */}
         <div className="w-full max-w-5xl mx-auto px-6 py-4 border-b border-gray-300 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
@@ -24,7 +24,7 @@ function UserNotificationPage() {
             .map((_, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-4 py-3 border-b border-gray-300 dark:border-gray-700"
+                className="flex items-center space-x-4 py-3  cursor-pointer"
               >
                 <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden">
                   <img

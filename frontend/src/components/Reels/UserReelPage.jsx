@@ -29,7 +29,7 @@ function UserReelPage() {
       <LeftSidebar />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col bg-gray-100 dark:bg-gray-900 overflow-y-auto">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         {/* Header */}
         <div className="w-full max-w-5xl mx-auto px-6 py-4 border-b border-gray-300 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">

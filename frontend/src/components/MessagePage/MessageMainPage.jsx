@@ -8,7 +8,7 @@ function MessagePage() {
       <LeftSidebar />
 
       {/* Messages Section */}
-      <div className="flex-1 flex flex-col dark:bg-gray-900">
+      <div className="flex-1 flex flex-col ">
         {/* Header */}
         <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
           <button className="text-xl text-gray-800 dark:text-white">
