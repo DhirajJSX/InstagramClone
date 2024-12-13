@@ -13,13 +13,14 @@ function UserSearch() {
       <div className="flex-1 flex flex-col overflow-y-auto">
         {/* Search Bar - Sticky */}
         <div className="w-full max-w-5xl mx-auto px-6 py-4 sticky top-0 border-b border-gray-500 bg-black z-10 sm:border-b-0">
-          <div className="flex items-center bg-gray-700 rounded-lg px-4 py-2">
-            <SearchIcon className="text-gray-200"  />
+          <div className="flex items-center  rounded-lg px-4 py-2">
+           
             <input
               type="text"
               placeholder="Search"
-              className="w-full bg-gray-700  text-white ml-2 focus:outline-none outline-0"
+              className="w-full bg-black text-sm ml-2 focus:outline-none outline-0"
             />
+             <SearchIcon className="text-gray-200 p-1"  />
           </div>
         </div>
 
