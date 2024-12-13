@@ -10,7 +10,9 @@ function UserProfile() {
         <LeftSidebar />
 
         {/* Profile Content */}
-        <div className="flex-1 flex flex-col items-center overflow-y-auto">
+        <div className="flex-1 flex flex-col items-center 
+        
+        overflow-y-auto">
           {/* Profile Header */}
           <div className="w-full max-w-5xl px-6 py-4">
             <div className="flex items-center space-x-8">
