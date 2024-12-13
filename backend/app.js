@@ -9,8 +9,10 @@ const {mongoUrl} = require('./key.js');
 app.use(cors())
 
 require('./models/model')
+require('./models/userPost.js')
 app.use(express.json());
 app.use(require("./routes/auth"))
+app.use(require("./routes/createPost"))
 mongoose.connect(mongoUrl)
 
 mongoose.connection.on("connected", ()=>{

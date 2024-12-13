@@ -99,38 +99,43 @@ router.post('/signup', (req, res) => {
 
 router.post('/', (req, res) => {
     const { email, password } = req.body;
-    if( !email || !password ){
-        return res.status(422).json({ error: "Please add email and password." });
 
+    if (!email || !password) {
+        return res.status(422).json({ error: "Please add email and password." });
     }
-    USER.findOne({ email:email }).then((savedUser)=>{
-        if(!savedUser){
+
+    USER.findOne({ email: email }).then((savedUser) => {
+        if (!savedUser) {
             return res.status(422).json({ error: "Invalid email or password." });
         }
+
         bcrypt.compare(password, savedUser.password)
-        .then((match)=>{
-            if(match){
-                return res.status(200).json({match : "Signed in Successfully" });
-                const token = jwt.sign({_id:savedUser.id}, JwtSecret)
-                res.json(token)
-                console.log(token); 
-            }
-            else{
-                return res.status(422).json({ error: "Invalid email or password." });
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).json({ error: "Failed to authenticate user." });
-        });
-        
-    })
+            .then((match) => {
+                if (!match) {
+                    return res.status(422).json({ error: "Invalid email or password." });
+                }
 
-})
+                // Generate the JWT token upon successful login
+                const token = jwt.sign({ _id: savedUser.id }, JwtSecret);
+                res.status(200).json({
+                    message: "Signed in Successfully",
+                    token, // Send the token in the response
+                });
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).json({ error: "Failed to authenticate user." });
+            });
+    }).catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: "Internal server error." });
+    });
+});
 
-router.get('/createPost',requireLogin,(req,res) => {
-    console.log("hello helloooo!!!!!!!");
+
+// router.get('/createPost',requireLogin,(req,res) => {
+//     console.log("hello helloooo!!!!!!!");
     
-})
+// })
 
 module.exports = router;
