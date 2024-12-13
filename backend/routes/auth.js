@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const USER = mongoose.model("USER")
 const {JwtSecret} = require("../key.js")
+const requireLogin = require('../middleware/requireLogin.js')
 router.get('/', (req, res) => {
     res.send("Hello Auth????");
 });
@@ -125,6 +126,11 @@ router.post('/', (req, res) => {
         
     })
 
+})
+
+router.get('/createPost',requireLogin,(req,res) => {
+    console.log("hello helloooo!!!!!!!");
+    
 })
 
 module.exports = router;
