@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
+const express = require('express')
+const router = express.Router()
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const USER = mongoose.model("USER");
-
-
+const jwt = require('jsonwebtoken')
+const USER = mongoose.model("USER")
+const {JwtSecret} = require("../key.js")
 router.get('/', (req, res) => {
     res.send("Hello Auth????");
 });
@@ -110,6 +110,9 @@ router.post('/', (req, res) => {
         .then((match)=>{
             if(match){
                 return res.status(200).json({match : "Signed in Successfully" });
+                const token = jwt.sign({_id:savedUser.id}, JwtSecret)
+                res.json(token)
+                console.log(token); 
             }
             else{
                 return res.status(422).json({ error: "Invalid email or password." });

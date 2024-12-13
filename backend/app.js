@@ -4,14 +4,14 @@ const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const PORT = 5000;
-const MongoUrl = require('./key.js');
+const {mongoUrl} = require('./key.js');
 
 app.use(cors())
 
 require('./models/model')
 app.use(express.json());
 app.use(require("./routes/auth"))
-mongoose.connect(MongoUrl)
+mongoose.connect(mongoUrl)
 
 mongoose.connection.on("connected", ()=>{
     console.log("MongoDB connected");
