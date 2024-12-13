@@ -62,7 +62,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8 py-7">
       <div className="border-gray-700 border text-white p-6 sm:p-8 md:p-10 w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg">
         <div className="flex justify-center py-6">
           <img className="w-[150px] sm:w-[200px]" src={IGimg} alt="Instagram" />
