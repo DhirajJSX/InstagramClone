@@ -1,5 +1,6 @@
 import React from "react";
 import LeftSidebar from "../HomePage/LeftSidebar";
+import BottomNav from "../HomePage/BottomNav";
 
 function MessagePage() {
   return (
@@ -8,13 +9,13 @@ function MessagePage() {
       <LeftSidebar />
 
       {/* Messages Section */}
-      <div className="flex-1 flex flex-col ">
+      <div className="flex-1 flex flex-col">
         {/* Header */}
         <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
           <button className="text-xl text-gray-800 dark:text-white">
             <i className="fa fa-arrow-left"></i>
           </button>
-          <h1 className="text-xl font-semibold text-gray-800 dark:text-white">Direct</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white">Direct</h1>
           <button className="text-xl text-gray-800 dark:text-white">
             <i className="fa fa-pencil-alt"></i>
           </button>
@@ -65,7 +66,7 @@ function MessagePage() {
         </div>
 
         {/* Bottom Navigation Bar */}
-        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700">
+        <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 sm:hidden lg:flex">
           <button className="text-xl text-gray-800 dark:text-white">
             <i className="fa fa-home"></i>
           </button>
@@ -83,6 +84,7 @@ function MessagePage() {
           </button>
         </nav>
       </div>
+      <BottomNav/ >
     </div>
   );
 }

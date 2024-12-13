@@ -12,6 +12,9 @@ function MobileHeader() {
     navigate("/messages");
   };
 
+  const notificationBtn = () =>{
+    navigate("/notification")
+  }
   const swipeHandlers = useSwipeable({
     onSwipedRight: () => handleMessageClick(),
     preventDefaultTouchmoveEvent: true,
@@ -39,7 +42,7 @@ function MobileHeader() {
 
         {/* Icons for notifications and messages */}
         <div className="flex justify-between px-1">
-          <button className="text-gray-600 pr-3 mr-2 dark:text-gray-300">
+          <button onClick={notificationBtn} className="text-gray-600 pr-3 mr-2 dark:text-gray-300">
             <NotificationsNoneOutlinedIcon style={{ fontSize: "30px" }} />
           </button>
           <button

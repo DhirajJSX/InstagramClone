@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
-
-function UserMediaUpload() {
+import React, { useState } from "react";
+import SendIcon from '@mui/icons-material/Send';
+function UserMediaUpload({ closeModal }) {
   const [file, setFile] = useState(null);
+  const [caption, setCaption] = useState("");
 
-  // Function to handle file selection
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      setFile(URL.createObjectURL(selectedFile)); // Preview the file
+      setFile(URL.createObjectURL(selectedFile));
     }
   };
 
-  return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-center text-2xl font-bold mb-4">Upload Your Photo or Video</h2>
+  const handleCaptionChange = (e) => {
+    setCaption(e.target.value);
+  };
 
-        <div className="flex justify-center mb-4">
-          <input
-            type="file"
-            accept="image/*,video/*"
-            onChange={handleFileChange}
-            className="hidden"
-            id="file-input"
-          />
-          <label
-            htmlFor="file-input"
-            className="cursor-pointer bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600"
-          >
-            Choose File
-          </label>
-        </div>
+  return (
+    <div className="fixed font-Poppins inset-0 p-3 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-[#262626] p-6 rounded-lg w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] shadow-lg flex flex-col space-y-4">
+        <h2 className="text-center text-xl font-semibold text-white">
+          Upload Media
+        </h2>
+
+        <label
+          htmlFor="file-input"
+          className="text-white text-smbg-transparent text-center border-2 border-gray-600 p-2 rounded-lg cursor-pointer"
+        >
+          Select File
+        </label>
+        <input
+          id="file-input"
+          type="file"
+          accept="image/*,video/*"
+          onChange={handleFileChange}
+          className="hidden"
+        />
 
         {file && (
           <div className="flex justify-center mb-4">
@@ -38,30 +42,40 @@ function UserMediaUpload() {
               <video
                 src={file}
                 controls
-                className="w-full max-w-xs rounded-md"
+                className="w-full max-w-[350px] rounded-lg"
                 alt="Preview"
               />
             ) : (
               <img
                 src={file}
                 alt="Preview"
-                className="w-full max-w-xs rounded-md"
+                className="w-full max-w-[350px] rounded-lg"
               />
             )}
           </div>
         )}
 
-        <div className="flex justify-between items-center">
+        <div className="mb-4">
+          <textarea
+            value={caption}
+            onChange={handleCaptionChange}
+            placeholder="Write a caption..."
+            rows="3"
+            className="w-full p-3 text-white bg-transparent border border-gray-500 rounded-md focus:outline-none resize-none overflow-auto"
+          />
+        </div>
+        
+        <div className="flex justify-between space-x-4">
           <button
-            className="bg-gray-300 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-400"
-            onClick={() => setFile(null)} // Clear selected file
+            className=""
+            onClick={closeModal}
           >
-            Cancel
+            <div className=" flex justify-center  items-center">
+              <span className="text-[14px]">Cancel</span>
+            </div>
           </button>
-          <button
-            className="bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600"
-          >
-            Upload
+          <button className=" py-2 px-2">
+            <SendIcon />
           </button>
         </div>
       </div>
