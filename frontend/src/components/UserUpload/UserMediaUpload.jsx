@@ -96,12 +96,12 @@ function UserMediaUpload({ closeModal }) {
           toast.success("Post uploaded successfully!");  // Show success toast
           setTimeout(() => {
             closeModal();  // Close modal after 3 seconds
-          }, 3000);
+          }, 1000);
           setLoading(false);
         })
         .catch((err) => {
           console.error("Error saving post:", err);
-          toast.error("Failed to upload post!");  // Show error toast
+          toast.error("Something Wents Wrong,Please Login your Account Again");  // Show error toast
           setLoading(false);
         });
     }
@@ -172,7 +172,7 @@ function UserMediaUpload({ closeModal }) {
       </div>
 
       {/* Toast Container for showing notifications */}
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 }

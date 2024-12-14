@@ -4,36 +4,37 @@ import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import UserComment from "../HomePage/UserComment/UserComment";
+import { formatDistanceToNow } from "date-fns"; // Import date-fns for formatting
 
 function MainContent() {
-  const [activeCommentIndex, setActiveCommentIndex] = useState(null); // Track the active post
-  const [posts, setPosts] = useState([]); // State to store posts
-  const [loading, setLoading] = useState(true); // State for loading
+  const [activeCommentIndex, setActiveCommentIndex] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch posts from backend
+  // Fetch posts from the backend
   useEffect(() => {
-  fetch("http://localhost:5000/allposts") // Replace with your backend URL
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setPosts(data.reverse()); // Reverse the array to show latest post first
-      setLoading(false);
-    })
-    .catch((error) => {
-      setLoading(false);
-    });
-}, []);
+    fetch("http://localhost:5000/allposts")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPosts(data.reverse());
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  }, []);
 
   const toggleCommentSection = (idx) => {
-    setActiveCommentIndex((prevIndex) => (prevIndex === idx ? null : idx)); // Toggle logic
+    setActiveCommentIndex((prevIndex) => (prevIndex === idx ? null : idx)); // Toggle comments
   };
 
   if (loading) {
-    return <p className="text-center text-gray-600">Loading posts...</p>; // Show loading state
+    return <p className="text-center text-gray-600">Loading posts...</p>;
   }
 
   return (
@@ -49,12 +50,9 @@ function MainContent() {
                 className="w-9 h-9 object-cover rounded-full shadow-lg"
               />
               <div className="ml-3">
-                <p className="text-[15px]">
-                  {post.postedBy?.userName}
-                </p>
+                <p className="text-[15px]">{post.postedBy?.userName}</p>
                 <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                  {post.updatedAt}
-                  {/* Replace with real timestamp if available */}
+                  {formatDistanceToNow(new Date(post.updatedAt))} ago
                 </p>
               </div>
             </div>
@@ -89,16 +87,13 @@ function MainContent() {
                 </button>
               </div>
             </div>
-            <div className=" mt-2 flex items-center tex">
+            <div className="mt-2 flex items-center">
               <span className="mr-1 font-Poppins text-[14px] font-semibold">
                 {post.postedBy.name}
               </span>
-              <p className=" text-[14px] font-Poppins  ">
-                {post.body} {/* Post body from backend */}
-              </p>
+              <p className="text-[14px] font-Poppins">{post.body}</p>
             </div>
-
-            <p className=" text-[13px] text-gray-600 dark:text-gray-300">
+            <p className="text-[13px] text-gray-600 dark:text-gray-300">
               Liked by 120 people
             </p>
           </div>
