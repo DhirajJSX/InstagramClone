@@ -36,19 +36,22 @@ router.post("/createPost", requireLogin, (req, res) => {
 });
 
 // Route: Get All Posts
+// Route: Get All Posts (with Sorting)
 router.get("/allposts", (req, res) => {
   POST.find()
-    .populate("postedBy", "_id name") // Populate postedBy field
+    .populate("postedBy", "_id name userName") // Populate postedBy field
+    .sort({ createdAt: -1 }) // Sort by createdAt in descending order (latest first)
     .then((posts) => {
-    //   if (!posts.length) {
-    //     return res.status(404).json({ error: "No posts found." });
-    //   }
+      if (!posts.length) {
+        return res.status(404).json({ error: "No posts found." });
+      }
       res.json(posts);
     })
     .catch((err) => {
       console.error("Error fetching posts:", err);
-    //   res.status(500).json({ error: "Failed to fetch posts." });
+      res.status(500).json({ error: "Failed to fetch posts." });
     });
 });
+
 
 module.exports = router;
