@@ -13,7 +13,7 @@ const userPostSchema = new Schema(
     },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "USER", // Reference to the 'USER' model
+      ref: "USER", // Assuming 'USER' model is defined
     },
     // likes: {
     //   type: [mongoose.Schema.Types.ObjectId], // Array of user IDs who liked the post

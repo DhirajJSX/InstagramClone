@@ -5,6 +5,7 @@ const requireLogin = require("../middleware/requireLogin");
 const POST = mongoose.model("POST");
 
 // Route: Create a New Post
+// Route: Create a New Post
 router.post("/createPost", requireLogin, (req, res) => {
   const { body, pic } = req.body;
 
@@ -17,6 +18,7 @@ router.post("/createPost", requireLogin, (req, res) => {
     body,
     image: pic, // Using 'image' for clarity
     postedBy: req.user, // Attach user info
+    likes: [], // Initialize with an empty array for likes
   });
 
   post
@@ -53,7 +55,72 @@ router.get("/allposts", (req, res) => {
     });
 });
 
-
-
-
+// Like a post
+router.put("/like/:postId", requireLogin, (req, res) => {
+    const { postId } = req.params;
+    POST.findById(postId)
+      .then((post) => {
+        if (!post) {
+          return res.status(404).json({ error: "Post not found" });
+        }
+  
+        // Check if the user has already liked the post
+        if (post.likes.includes(req.user._id)) {
+          return res.status(400).json({ error: "You already liked this post" });
+        }
+  
+        // Add the user's ID to the likes array
+        post.likes.push(req.user._id);
+  
+        // Save the updated post
+        post.save()
+          .then((updatedPost) => {
+            res.json({ post: updatedPost });
+          })
+          .catch((err) => {
+            console.error("Error liking post:", err);
+            res.status(500).json({ error: "Failed to like post" });
+          });
+      })
+      .catch((err) => {
+        console.error("Error finding post:", err);
+        res.status(500).json({ error: "Failed to find post" });
+      });
+  });
+  
+  // Unlike a post
+  router.put("/unlike/:postId", requireLogin, (req, res) => {
+    const { postId } = req.params;
+    POST.findById(postId)
+      .then((post) => {
+        if (!post) {
+          return res.status(404).json({ error: "Post not found" });
+        }
+  
+        // Check if the user has not liked the post
+        if (!post.likes.includes(req.user._id)) {
+          return res.status(400).json({ error: "You have not liked this post" });
+        }
+  
+        // Remove the user's ID from the likes array
+        post.likes = post.likes.filter(
+          (userId) => userId.toString() !== req.user._id.toString()
+        );
+  
+        // Save the updated post
+        post.save()
+          .then((updatedPost) => {
+            res.json({ post: updatedPost });
+          })
+          .catch((err) => {
+            console.error("Error unliking post:", err);
+            res.status(500).json({ error: "Failed to unlike post" });
+          });
+      })
+      .catch((err) => {
+        console.error("Error finding post:", err);
+        res.status(500).json({ error: "Failed to find post" });
+      });
+  });
+  
 module.exports = router;
