@@ -53,6 +53,9 @@ function LoginForm() {
             theme: "dark",
           });
           navigate("/home"); 
+          localStorage.setItem("JWT", data.token)
+          console.log(data.token);
+          
         }
       })
       .catch((error) => {
