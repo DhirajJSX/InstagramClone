@@ -10,6 +10,7 @@ function MainContent() {
   const [activeCommentIndex, setActiveCommentIndex] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [likedPosts, setLikedPosts] = useState(new Set()); // Store liked post IDs
 
   // Fetch posts from the backend
   useEffect(() => {
@@ -31,6 +32,20 @@ function MainContent() {
 
   const toggleCommentSection = (idx) => {
     setActiveCommentIndex((prevIndex) => (prevIndex === idx ? null : idx)); // Toggle comments
+  };
+
+  const likeHandle = (postId) => {
+    setLikedPosts((prevLikedPosts) => {
+      const updatedLikes = new Set(prevLikedPosts);
+      if (updatedLikes.has(postId)) {
+        updatedLikes.delete(postId); // Remove from liked posts (dislike)
+        console.log("hello dislike");
+      } else {
+        updatedLikes.add(postId); // Add to liked posts (like)
+        console.log("hello like");
+      }
+      return updatedLikes;
+    });
   };
 
   if (loading) {
@@ -74,7 +89,7 @@ function MainContent() {
           <div className="px-4 mt-1 py-2">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
-                <button>
+                <button onClick={() => likeHandle(post._id)}>
                   <FavoriteBorderRoundedIcon style={{ fontSize: "30px" }} />
                 </button>
                 <button onClick={() => toggleCommentSection(idx)}>
