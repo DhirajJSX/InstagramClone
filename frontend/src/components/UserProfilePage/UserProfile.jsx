@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
+import Mobilelogout from "./MobileHeader/Mobilelogout";
 
 function UserProfile() {
+  const [activeTab, setActiveTab] = useState("posts");
+
+  // Handler to switch between tabs
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <>
       <div className="flex h-screen flex-row">
@@ -10,11 +18,10 @@ function UserProfile() {
         <LeftSidebar />
 
         {/* Profile Content */}
-        <div
-          className="flex-1 flex flex-col items-center 
-        
-        overflow-y-auto"
-        >
+        <div className="flex-1 flex flex-col items-center overflow-y-auto">
+          {/* Mobile Header (Visible only on small screens) */}
+          <Mobilelogout />
+
           {/* Profile Header */}
           <div className="w-full max-w-5xl px-6 py-4">
             <div className="flex items-center space-x-8">
@@ -35,9 +42,6 @@ function UserProfile() {
                   </h2>
                   <button className="px-4 py-1 border rounded-md text-sm font-medium dark:text-gray-300">
                     Edit Profile
-                  </button>
-                  <button className="px-3 py-1 border rounded-md text-sm font-medium dark:text-gray-300 hidden sm:inline-block">
-                    Settings
                   </button>
                 </div>
                 <div className="flex space-x-6">
@@ -85,31 +89,48 @@ function UserProfile() {
           {/* Tab Navigation */}
           <div className="w-full max-w-5xl border-t border-b border-gray-300 dark:border-gray-700">
             <div className="flex justify-center space-x-10 text-gray-500 dark:text-gray-400 py-2">
-              <button className="hover:text-gray-800 dark:hover:text-gray-100">
-                <i className="fas fa-th"></i> Posts
+              <button
+                onClick={() => handleTabChange("posts")}
+                className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "posts" ? "text-gray-800 dark:text-gray-100" : ""}`}
+              >
+                Posts
               </button>
-              <button className="hover:text-gray-800 dark:hover:text-gray-100">
-                <i className="fas fa-video"></i> Reels
+              <button
+                onClick={() => handleTabChange("reels")}
+                className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "reels" ? "text-gray-800 dark:text-gray-100" : ""}`}
+              >
+                Reels
               </button>
-              <button className="hover:text-gray-800 dark:hover:text-gray-100">
-                <i className="fas fa-user-tag"></i> Tagged
+              <button
+                onClick={() => handleTabChange("tagged")}
+                className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "tagged" ? "text-gray-800 dark:text-gray-100" : ""}`}
+              >
+                Tagged
               </button>
             </div>
           </div>
 
-          {/* Posts Section (Flexbox) */}
+          {/* Dynamic Posts Section */}
           <div className="w-full max-w-5xl px-6 py-4 flex flex-wrap justify-start gap-4">
-            {Array(12)
-              .fill(null)
-              .map((_, index) => (
-                <div className="w-[30%] aspect-square bg-gray-300 dark:bg-gray-700 rounded-md overflow-hidden">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsjGRSLZ4Hl455aXB6QgpijhQujfDyopXXJ7v0S8HD1LgldIhbAMQqGgRxIzej6KfzAyFLUjgtZr6ScYR0UZlunn1zWen8nOfWag2G7A"
-                    alt={`Post ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
+            {activeTab === "posts" && (
+              Array(60)
+                .fill(null)
+                .map((_, index) => (
+                  <div key={index} className="w-[30%] aspect-square bg-gray-300 dark:bg-gray-700 rounded-md overflow-hidden">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsjGRSLZ4Hl455aXB6QgpijhQujfDyopXXJ7v0S8HD1LgldIhbAMQqGgRxIzej6KfzAyFLUjgtZr6ScYR0UZlunn1zWen8nOfWag2G7A"
+                      alt={`Post ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))
+            )}
+            {activeTab === "reels" && (
+              <p>Reels content will be displayed here.</p>
+            )}
+            {activeTab === "tagged" && (
+              <p>Tagged content will be displayed here.</p>
+            )}
           </div>
         </div>
         <BottomNav />

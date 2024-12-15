@@ -9,9 +9,9 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ProfileIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useNavigate } from "react-router-dom";
 import UserMediaUpload from "./../../UserUpload/UserMediaUpload";
+
 function LeftSiderTop() {
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
-  const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
   const messageButtonDestop = () => {
@@ -42,71 +42,64 @@ function LeftSiderTop() {
     navigate("/reels");
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(URL.createObjectURL(selectedFile)); // Preview the file
-    }
-  };
-
-  const handleCloseModal = () => {
-    setIsMediaModalOpen(false);
-    setFile(null); // Clear file on modal close
-  };
-
   return (
     <>
       <ul className="flex-grow">
-        <li onClick={homeButton} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <HomeIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Home</p>
-        </li>
-        <li onClick={searchButton} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <SearchIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Search</p>
-        </li>
-        <li onClick={exploreButton} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <ExploreOutlinedIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Explore</p>
-        </li>
-        <li onClick={reelButton} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <VideocamOutlinedIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Reels</p>
-        </li>
-        <li onClick={messageButtonDestop} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <MailOutlinedIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Messages</p>
-        </li>
-        <li onClick={notificationButton} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <NotificationsNoneOutlinedIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Notification</p>
+        <li
+          onClick={homeButton}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <HomeIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Home</p>
         </li>
         <li
-          onClick={() => setIsMediaModalOpen(true)} // Open media upload modal
-          className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer"
+          onClick={searchButton}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
         >
-          <span className=" font-normal">
-            <AddOutlinedIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Create</p>
+          <SearchIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Search</p>
         </li>
-        <li onClick={ProfileButton} className="flex items-center space-x-4 p-3 my-0.5 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-700 ease-out cursor-pointer">
-          <span className=" font-normal">
-            <ProfileIcon style={{ fontSize: "30px", marginBottom: "3px" }} />
-          </span>
-          <p className="text-[15px]">Profile</p>
+        <li
+          onClick={exploreButton}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <ExploreOutlinedIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Explore</p>
+        </li>
+        <li
+          onClick={reelButton}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <VideocamOutlinedIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Reels</p>
+        </li>
+        <li
+          onClick={messageButtonDestop}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <MailOutlinedIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Messages</p>
+        </li>
+        <li
+          onClick={notificationButton}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <NotificationsNoneOutlinedIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Notification</p>
+        </li>
+        <li
+          onClick={() => setIsMediaModalOpen(true)}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <AddOutlinedIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Create</p>
+        </li>
+        <li
+          onClick={ProfileButton}
+          className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
+        >
+          <ProfileIcon style={{ fontSize: "24px" }} />
+          <p className="text-sm">Profile</p>
         </li>
       </ul>
 
