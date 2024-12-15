@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 import Mobilelogout from "./MobileHeader/Mobilelogout";
 
 function UserProfile() {
   const [activeTab, setActiveTab] = useState("posts");
+  const [posts, setPosts] = useState([]);
+  const [userInfo, setUserInfo] = useState({}); // To store user details
 
   // Handler to switch between tabs
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    // Fetch posts and user info from the backend
+    fetch("http://localhost:5000/me", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("JWT"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.length > 0) {
+          setPosts(result);
+          setUserInfo(result[0].postedBy); // Extract user info from the first post
+        }
+      })
+      .catch((err) => console.error("Error fetching posts:", err));
+  }, []);
 
   return (
     <>
@@ -19,7 +38,7 @@ function UserProfile() {
 
         {/* Profile Content */}
         <div className="flex-1 flex flex-col items-center overflow-y-auto">
-          {/* Mobile Header (Visible only on small screens) */}
+          {/* Mobile Header */}
           <Mobilelogout />
 
           {/* Profile Header */}
@@ -38,7 +57,7 @@ function UserProfile() {
               <div className="flex-1">
                 <div className="flex items-center space-x-4 mb-4">
                   <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-                    johndoe
+                    {userInfo.userName || "Loading..."} {/* Dynamic Name */}
                   </h2>
                   <button className="px-4 py-1 border rounded-md text-sm font-medium dark:text-gray-300">
                     Edit Profile
@@ -47,7 +66,7 @@ function UserProfile() {
                 <div className="flex space-x-6">
                   <p>
                     <span className="font-semibold text-gray-800 dark:text-gray-100">
-                      24
+                      {posts.length}
                     </span>{" "}
                     posts
                   </p>
@@ -70,10 +89,10 @@ function UserProfile() {
             {/* User Bio */}
             <div className="mt-4">
               <p className="font-semibold text-gray-800 dark:text-gray-100">
-                John Doe
+                {userInfo.name || "User"} {/* Dynamic Name */}
               </p>
               <p className="text-gray-600 dark:text-gray-400">
-                Photographer | Traveler | Nature Lover
+                Photographer | Traveler | Nature Lover {/* Static Example */}
               </p>
               <a
                 href="https://example.com"
@@ -91,19 +110,27 @@ function UserProfile() {
             <div className="flex justify-center space-x-10 text-gray-500 dark:text-gray-400 py-2">
               <button
                 onClick={() => handleTabChange("posts")}
-                className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "posts" ? "text-gray-800 dark:text-gray-100" : ""}`}
+                className={`hover:text-gray-800 dark:hover:text-gray-100 ${
+                  activeTab === "posts" ? "text-gray-800 dark:text-gray-100" : ""
+                }`}
               >
                 Posts
               </button>
               <button
                 onClick={() => handleTabChange("reels")}
-                className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "reels" ? "text-gray-800 dark:text-gray-100" : ""}`}
+                className={`hover:text-gray-800 dark:hover:text-gray-100 ${
+                  activeTab === "reels" ? "text-gray-800 dark:text-gray-100" : ""
+                }`}
               >
                 Reels
               </button>
               <button
                 onClick={() => handleTabChange("tagged")}
-                className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "tagged" ? "text-gray-800 dark:text-gray-100" : ""}`}
+                className={`hover:text-gray-800 dark:hover:text-gray-100 ${
+                  activeTab === "tagged"
+                    ? "text-gray-800 dark:text-gray-100"
+                    : ""
+                }`}
               >
                 Tagged
               </button>
@@ -112,22 +139,28 @@ function UserProfile() {
 
           {/* Dynamic Posts Section */}
           <div className="w-full max-w-5xl px-6 py-4 flex flex-wrap justify-start gap-4">
-            {activeTab === "posts" && (
-              Array(60)
-                .fill(null)
-                .map((_, index) => (
-                  <div key={index} className="w-[30%] aspect-square bg-gray-300 dark:bg-gray-700 rounded-md overflow-hidden">
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsjGRSLZ4Hl455aXB6QgpijhQujfDyopXXJ7v0S8HD1LgldIhbAMQqGgRxIzej6KfzAyFLUjgtZr6ScYR0UZlunn1zWen8nOfWag2G7A"
-                      alt={`Post ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))
+            {activeTab === "posts" && posts.length > 0 ? (
+              posts.map((post, index) => (
+                <div
+                  key={post._id || index}
+                  className="w-[30%] aspect-square bg-gray-300 dark:bg-gray-700 rounded-md overflow-hidden"
+                >
+                  <img
+                    src={post.image}
+                    alt={post.body}
+                    className="w-full h-full object-cover"
+                  />
+                  <p className="text-center text-sm mt-2 text-gray-800 dark:text-gray-100">
+                    {post.body}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-600 dark:text-gray-400">
+                No posts to display.
+              </p>
             )}
-            {activeTab === "reels" && (
-              <p>Reels content will be displayed here.</p>
-            )}
+            {activeTab === "reels" && <p>Reels content will be displayed here.</p>}
             {activeTab === "tagged" && (
               <p>Tagged content will be displayed here.</p>
             )}

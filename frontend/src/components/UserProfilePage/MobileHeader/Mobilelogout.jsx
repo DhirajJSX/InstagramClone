@@ -37,8 +37,6 @@ function Mobilelogout() {
         { y: "100%", opacity: 0, scale: 0.5 },
         { y: "0%", opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }
       );
-    } else {
-      gsap.to(".logout-button", { y: "100%", opacity: 0, scale: 0.5, duration: 0.6, ease: "power3.in" });
     }
   }, [showLogout]);
 

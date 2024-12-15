@@ -33,15 +33,15 @@ function LeftSiderButtom() {
         { opacity: 0, y: -30, scale: 0.8 },
         { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }
       );
-    } else {
-      // Scale and slide out
-      gsap.to(logoutDropdownRef.current, {
-        opacity: 0,
-        y: -30,
-        scale: 0.8,
-        duration: 0.3,
-        ease: "power3.in",
-      });
+    // } else {
+    //   // Scale and slide out
+    //   gsap.to(logoutDropdownRef.current, {
+    //     opacity: 0,
+    //     y: -30,
+    //     scale: 0.8,
+    //     duration: 0.3,
+    //     ease: "power3.in",
+    //   });
     }
   }, [showLogout]); // Trigger animation whenever the `showLogout` state changes
 
