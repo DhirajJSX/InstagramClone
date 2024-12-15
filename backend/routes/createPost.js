@@ -55,6 +55,16 @@ router.get("/allposts", (req, res) => {
     });
 });
 
+
+router.get('/me', requireLogin ,(req, res) => {
+  POST.find({postedBy: req.user._id})
+  .populate('postedBy', '_id name userName') // Populate postedBy field
+  .then(myposts=>{
+    res.json(myposts);
+  })
+  
+})
+
 // Like a post
 router.put("/like/:postId", requireLogin, (req, res) => {
     const { postId } = req.params;
