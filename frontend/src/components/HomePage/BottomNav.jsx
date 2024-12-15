@@ -19,7 +19,7 @@ function BottomNav() {
 
   return (
     <>
-      <nav className="fixed bottom-0 w-full bg-black border-t border-gray-300 dark:border-gray-700 flex justify-around items-center pt-1 pb-2 lg:hidden z-50">
+      <nav className="fixed bottom-0 w-full bg-black border-t border-gray-300 dark:border-gray-700 flex justify-around items-center pt-1 pb-2 lg:hidden">
         <button onClick={homeButton} className="p-2">
           <HomeOutlinedIcon style={{ fontSize: "30px" }} />
         </button>
