@@ -155,17 +155,17 @@ function UserProfile() {
           </div>
 
           {/* Posts Section */}
-          <div className="w-full max-w-5xl flex flex-wrap justify-start gap-[4px]">
+          <div className="w-full max-w-5xl grid grid-cols-3 gap-[5px] justify-center">
             {activeTab === "posts" && posts.length > 0 ? (
               [...posts].reverse().map((post, index) => (
                 <div
                   key={post._id || index}
-                  className="w-[32%] sm:w-[30%] lg:w-[30%] aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden"
+                  className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden"
                 >
                   <img
                     src={post.image}
                     alt={post.body}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover cursor-pointer"
                   />
                   <p className="text-center text-sm mt-2 text-gray-800 dark:text-gray-100">
                     {post.body}
