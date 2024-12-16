@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 function RightSidebar() {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null); // To store user details dynamically
 
   useEffect(() => {
@@ -20,8 +21,11 @@ function RightSidebar() {
       .catch((err) => console.error("Error fetching user info:", err));
   }, []);
 
+  const userInfoButton = () =>{
+    navigate("/profile", { state: { userId: userInfo?._id } })
+  }
   return (
-    <aside className="w-[20%] cursor-pointer hidden mr-20 lg:block px-5 py-6">
+    <aside onClick={userInfoButton} className="w-[20%] cursor-pointer hidden mr-20 lg:block px-5 py-6">
       <div className="space-y-4">
         <div className="flex items-center">
           <img

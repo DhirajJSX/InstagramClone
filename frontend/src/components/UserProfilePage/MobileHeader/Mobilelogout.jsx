@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { gsap } from "gsap";
@@ -9,28 +9,29 @@ function Mobilelogout() {
   const navigate = useNavigate();
 
   const [showLogout, setShowLogout] = useState(false);
+  const [username, setUsername] = useState(""); // State to hold the username
 
   const hamburgerButtonHandle = () => {
     setShowLogout(!showLogout);
   };
 
   const touchAnyWhere = () => {
-    setShowLogout(false); 
+    setShowLogout(false);
   };
 
   const handleLogout = () => {
     setShowLogout(false);
-    localStorage.clear();  // Clear the user session from local storage
-    window.history.replaceState(null, '', '/'); // Remove the current page from history
-    navigate('/'); // Navigate to the login page or home page
+    localStorage.clear(); // Clear the user session from local storage
+    window.history.replaceState(null, "", "/"); // Remove the current page from history
+    navigate("/"); // Navigate to the login page or home page
   };
 
   const handleAddAccountClick = () => {
     setShowLogout(false);
-    navigate('/'); 
+    navigate("/");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (showLogout) {
       gsap.fromTo(
         ".logout-button",
@@ -38,7 +39,23 @@ function Mobilelogout() {
         { y: "0%", opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }
       );
     }
-  }, [showLogout]);
+
+    // Fetch user info on component mount
+    console.log("Fetching user data...");
+    fetch("http://localhost:5000/me", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("JWT"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        const userName = result[0]?.postedBy?.userName; 
+        setUsername(userName);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });    
+  }, []);
 
   return (
     <div className="w-full bg-black max-w-5xl px-4 py-2 flex items-center justify-between border-b border-gray-600 sticky top-0 z-10 lg:hidden">
@@ -48,7 +65,9 @@ function Mobilelogout() {
             className="mx-1 mt-1"
             style={{ color: "white", fontSize: "18px" }}
           />
-          <span className="mt-1 text-lg sm:text-xl md:text-2xl">Username</span>
+          <span className="mt-1 text-lg sm:text-xl md:text-2xl">
+            {username}
+          </span>
         </button>
       </div>
 
