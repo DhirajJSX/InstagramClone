@@ -66,71 +66,102 @@ router.get('/me', requireLogin ,(req, res) => {
 })
 
 // Like a post
-router.put("/like/:postId", requireLogin, (req, res) => {
-    const { postId } = req.params;
-    POST.findById(postId)
-      .then((post) => {
-        if (!post) {
-          return res.status(404).json({ error: "Post not found" });
-        }
+// router.put("/like/:postId", requireLogin, (req, res) => {
+//     const { postId } = req.params;
+//     POST.findById(postId)
+//       .then((post) => {
+//         if (!post) {
+//           return res.status(404).json({ error: "Post not found" });
+//         }
   
-        // Check if the user has already liked the post
-        if (post.likes.includes(req.user._id)) {
-          return res.status(400).json({ error: "You already liked this post" });
-        }
+//         // Check if the user has already liked the post
+//         if (post.likes.includes(req.user._id)) {
+//           return res.status(400).json({ error: "You already liked this post" });
+//         }
   
-        // Add the user's ID to the likes array
-        post.likes.push(req.user._id);
+//         // Add the user's ID to the likes array
+//         post.likes.push(req.user._id);
   
-        // Save the updated post
-        post.save()
-          .then((updatedPost) => {
-            res.json({ post: updatedPost });
-          })
-          .catch((err) => {
-            console.error("Error liking post:", err);
-            res.status(500).json({ error: "Failed to like post" });
-          });
-      })
-      .catch((err) => {
-        console.error("Error finding post:", err);
-        res.status(500).json({ error: "Failed to find post" });
-      });
-  });
+//         // Save the updated post
+//         post.save()
+//           .then((updatedPost) => {
+//             res.json({ post: updatedPost });
+//           })
+//           .catch((err) => {
+//             console.error("Error liking post:", err);
+//             res.status(500).json({ error: "Failed to like post" });
+//           });
+//       })
+//       .catch((err) => {
+//         console.error("Error finding post:", err);
+//         res.status(500).json({ error: "Failed to find post" });
+//       });
+//   });
   
-  // Unlike a post
-  router.put("/unlike/:postId", requireLogin, (req, res) => {
-    const { postId } = req.params;
-    POST.findById(postId)
-      .then((post) => {
-        if (!post) {
-          return res.status(404).json({ error: "Post not found" });
-        }
+//   // Unlike a post
+//   router.put("/unlike/:postId", requireLogin, (req, res) => {
+//     const { postId } = req.params;
+//     POST.findById(postId)
+//       .then((post) => {
+//         if (!post) {
+//           return res.status(404).json({ error: "Post not found" });
+//         }
   
-        // Check if the user has not liked the post
-        if (!post.likes.includes(req.user._id)) {
-          return res.status(400).json({ error: "You have not liked this post" });
-        }
+//         // Check if the user has not liked the post
+//         if (!post.likes.includes(req.user._id)) {
+//           return res.status(400).json({ error: "You have not liked this post" });
+//         }
   
-        // Remove the user's ID from the likes array
-        post.likes = post.likes.filter(
-          (userId) => userId.toString() !== req.user._id.toString()
-        );
+//         // Remove the user's ID from the likes array
+//         post.likes = post.likes.filter(
+//           (userId) => userId.toString() !== req.user._id.toString()
+//         );
   
-        // Save the updated post
-        post.save()
-          .then((updatedPost) => {
-            res.json({ post: updatedPost });
-          })
-          .catch((err) => {
-            console.error("Error unliking post:", err);
-            res.status(500).json({ error: "Failed to unlike post" });
-          });
-      })
-      .catch((err) => {
-        console.error("Error finding post:", err);
-        res.status(500).json({ error: "Failed to find post" });
-      });
-  });
+//         // Save the updated post
+//         post.save()
+//           .then((updatedPost) => {
+//             res.json({ post: updatedPost });
+//           })
+//           .catch((err) => {
+//             console.error("Error unliking post:", err);
+//             res.status(500).json({ error: "Failed to unlike post" });
+//           });
+//       })
+//       .catch((err) => {
+//         console.error("Error finding post:", err);
+//         res.status(500).json({ error: "Failed to find post" });
+//       });
+//   });
   
+// Route: Search for Users
+router.get("/searchuser", (req, res) => {
+  const { query } = req.query; // Accept search term in query parameter (e.g., ?query=john)
+
+  if (!query) {
+    return res.status(422).json({ error: "Search query is required" });
+  }
+
+  // Search for users by name or userName (case-insensitive)
+  const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
+
+  mongoose.model("USER").find({
+    $or: [
+      { name: { $regex: regex } },
+      { userName: { $regex: regex } }
+    ]
+  })
+    .select("_id name userName email") // Select specific fields to return
+    .limit(10) // Optional: limit the number of results
+    .then((users) => {
+      if (users.length === 0) {
+        return res.status(404).json({ error: "No users found" });
+      }
+      res.json({ users });
+    })
+    .catch((err) => {
+      console.error("Error searching users:", err);
+      res.status(500).json({ error: "Failed to search users" });
+    });
+});
+
 module.exports = router;
