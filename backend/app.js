@@ -10,9 +10,11 @@ app.use(cors())
 
 require('./models/model')
 require('./models/userPost.js')
+require('./models/profileModel.js')
 app.use(express.json());
 app.use(require("./routes/auth"))
 app.use(require("./routes/createPost"))
+app.use(require("./routes/profile"))
 mongoose.connect(mongoUrl)
 
 mongoose.connection.on("connected", ()=>{

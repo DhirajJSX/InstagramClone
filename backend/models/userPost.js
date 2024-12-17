@@ -1,7 +1,7 @@
+// models/userPost.js
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
 
-const userPostSchema = new Schema(
+const userPostSchema = new mongoose.Schema(
   {
     body: {
       type: String,
@@ -13,12 +13,13 @@ const userPostSchema = new Schema(
     },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "USER", // Assuming 'USER' model is defined
+      ref: "USER",
     },
-    // likes: {
-    //   type: [mongoose.Schema.Types.ObjectId], // Array of user IDs who liked the post
-    //   default: [],
-    // },
+    likes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "USER",
+      default: [],
+    },
   },
   { timestamps: true }
 );
