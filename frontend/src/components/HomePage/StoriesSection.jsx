@@ -18,7 +18,7 @@ function StoriesSection() {
     <div className="py-4 pl-2 w-full lg:w-[80%] flex justify-center items-center relative">
       <button
         onClick={() => handleScroll("left")}
-        className="absolute left-2 z-10 bg-gray-800 text-white rounded-full p-2 outline-none hover:bg-gray-700 hidden sm:block"
+        className="absolute left-2 bg-gray-800 text-white rounded-full p-2 outline-none hover:bg-gray-700 hidden sm:block "
       >
       {"<"}
       </button>

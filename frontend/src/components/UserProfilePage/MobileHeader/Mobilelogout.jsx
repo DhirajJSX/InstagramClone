@@ -7,9 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 function Mobilelogout() {
   const navigate = useNavigate();
-
+  const [userInfo, setUserInfo] = useState(null);
   const [showLogout, setShowLogout] = useState(false);
-  const [username, setUsername] = useState(""); // State to hold the username
 
   const hamburgerButtonHandle = () => {
     setShowLogout(!showLogout);
@@ -40,21 +39,23 @@ function Mobilelogout() {
       );
     }
 
-    // Fetch user info on component mount
-    console.log("Fetching user data...");
-    fetch("http://localhost:5000/me", {
+
+   
+    fetch("http://localhost:5000/profile", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
       },
     })
       .then((res) => res.json())
-      .then((result) => {
-        const userName = result[0]?.postedBy?.userName; 
-        setUsername(userName);
+      .then((data) => {
+        setUserInfo(data.user); // Set user info (name, email, etc.)
+        setProfile(data.profile);
+        console.log(data);
+        // Set profile info (bio, followers, etc.)
       })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });    
+      .catch((err) => {
+        // console.error(err + " dhirajbhavsr");
+      });
   }, []);
 
   return (
@@ -66,7 +67,7 @@ function Mobilelogout() {
             style={{ color: "white", fontSize: "18px" }}
           />
           <span className="mt-1 text-lg sm:text-xl md:text-2xl">
-            {username}
+          {userInfo?.userName} 
           </span>
         </button>
       </div>

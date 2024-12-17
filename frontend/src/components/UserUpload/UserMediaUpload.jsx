@@ -6,17 +6,17 @@ import "react-toastify/dist/ReactToastify.css";
 function UserMediaUpload({ closeModal }) {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState("");
-  const [url, setUrl] = useState("");  // To store the uploaded image URL
+  const [url, setUrl] = useState(""); // To store the uploaded image URL
   const [loading, setLoading] = useState(false);
 
   // Function to handle file upload when the user clicks "Upload"
   const handleUpload = () => {
     if (!file) {
-      toast.error("Please select an image or video to upload!");  // If no file selected, show an error
-      return;  // Don't proceed if no file is selected
+      toast.error("Please select an image or video to upload!"); // If no file selected, show an error
+      return; // Don't proceed if no file is selected
     }
 
-    setLoading(true);  // Start loading when the file is selected
+    setLoading(true); // Start loading when the file is selected
 
     const data = new FormData();
     data.append("file", file);
@@ -36,14 +36,14 @@ function UserMediaUpload({ closeModal }) {
       })
       .then((data) => {
         console.log("File uploaded successfully, Cloudinary response:", data);
-        
+
         // Successfully uploaded the file, get the image URL
-        setUrl(data.url);  // Save the URL to state
-        console.log("Image URL:", data.url);  // Log the image URL
+        setUrl(data.url); // Save the URL to state
+        console.log("Image URL:", data.url); // Log the image URL
       })
       .catch((err) => {
         console.error("File upload failed:", err);
-        toast.error("Failed to upload file!");  // Show error toast
+        toast.error("Failed to upload file!"); // Show error toast
         setLoading(false);
       });
   };
@@ -52,11 +52,15 @@ function UserMediaUpload({ closeModal }) {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       // Validate file size and type
-      if (selectedFile.size > 50000000) { // 5MB size limit
+      if (selectedFile.size > 50000000) {
+        // 5MB size limit
         toast.error("File size is too large!");
         return;
       }
-      if (!selectedFile.type.includes("image") && !selectedFile.type.includes("video")) {
+      if (
+        !selectedFile.type.includes("image") &&
+        !selectedFile.type.includes("video")
+      ) {
         toast.error("Only images and videos are allowed!");
         return;
       }
@@ -78,7 +82,7 @@ function UserMediaUpload({ closeModal }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + localStorage.getItem("JWT"),
+          Authorization: "Bearer " + localStorage.getItem("JWT"),
         },
         body: JSON.stringify({
           body: caption,
@@ -93,24 +97,27 @@ function UserMediaUpload({ closeModal }) {
         })
         .then((data) => {
           console.log("Post created successfully:", data);
-          toast.success("Post uploaded successfully!");  // Show success toast
+          toast.success("Post uploaded successfully!"); // Show success toast
           setTimeout(() => {
-            closeModal();  // Close modal after 3 seconds
+            closeModal(); // Close modal after 3 seconds
+            window.location.reload();
           }, 1000);
           setLoading(false);
         })
         .catch((err) => {
           console.error("Error saving post:", err);
-          toast.error("Something Wents Wrong,Please Login your Account Again");  // Show error toast
+          toast.error("Something Wents Wrong,Please Login your Account Again"); // Show error toast
           setLoading(false);
         });
     }
-  }, [url, caption, closeModal]);  // Only run this effect when `url` is updated
+  }, [url, caption, closeModal]); // Only run this effect when `url` is updated
 
   return (
     <div className="fixed font-Poppins inset-0 p-3 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-[#262626] p-6 rounded-lg w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] shadow-lg flex flex-col space-y-4">
-        <h2 className="text-center text-xl font-semibold text-white">Upload Media</h2>
+        <h2 className="text-center text-xl font-semibold text-white">
+          Upload Media
+        </h2>
 
         <label
           htmlFor="file-input"

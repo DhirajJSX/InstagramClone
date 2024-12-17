@@ -65,7 +65,7 @@ function LeftSiderTop() {
         >
           <ExploreOutlinedIcon style={{ fontSize: "24px" }} />
           <p className="text-sm">Explore</p>
-        </li>
+        </li> 
         {/* <li
           onClick={reelButton}
           className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"

@@ -58,6 +58,8 @@ function MobileHeader() {
 
       const data = await response.json();
       setResults(data.users); // Set the fetched users to state
+      console.log(data);
+      
     } catch (error) {
       console.error("Error fetching search results:", error);
       setResults([]); // Clear results in case of error
@@ -87,7 +89,7 @@ function MobileHeader() {
             placeholder="Search"
             className="px-4 py-2 text-sm rounded-2xl bg-black border-gray-700 border focus:outline-none w-full pr-10"
             value={query}
-            onChange={handleSearchInputChange} // Call handleSearchInputChange on input change
+            onChange={handleSearchInputChange}
           />
           <button className="px-1 absolute right-2 top-1/2 transform -translate-y-1/2 text-white">
             <SearchIcon style={{ fontSize: "24px" }} />

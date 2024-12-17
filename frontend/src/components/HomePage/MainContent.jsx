@@ -22,8 +22,11 @@ function MainContent() {
         return response.json();
       })
       .then((data) => {
-        setPosts(data.reverse());
+        setPosts(data);
         setLoading(false);
+        // console.log(data);
+        
+
       })
       .catch((error) => {
         setLoading(false);
@@ -49,7 +52,13 @@ function MainContent() {
   };
 
   if (loading) {
-    return <p className="text-center text-gray-600">Loading posts...</p>;
+    return <>
+      <div className="flex justify-center items-center h-screen">
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    </>
   }
 
   return (
@@ -86,7 +95,7 @@ function MainContent() {
           </div>
 
           {/* Post Actions */}
-          <div className="px-4 mt-1 py-2">
+          <div className="px-1 mt-1 py-2">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
                 <button onClick={() => likeHandle(post._id)}>
