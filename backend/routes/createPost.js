@@ -162,6 +162,37 @@ router.get("/searchuser", (req, res) => {
       console.error("Error searching users:", err);
       res.status(500).json({ error: "Failed to search users" });
     });
+})
+
+
+// Like a post
+router.put("/like", requireLogin, (req, res) => {
+  POST.findByIdAndUpdate(req.body.postId, {
+    $push: { like: req.user._id }
+  }, {
+    new: true
+  }).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      res.json({ result });
+    }
+  });
 });
 
+// Unlike a post
+router.put("/unlike", requireLogin, (req, res) => {
+  POST.findByIdAndUpdate(req.body.postId, {
+    $pull: { like: req.user._id }
+  }, {
+    new: true
+  }).exec((err, result) => {
+    if (err) {
+      return res.status(422).json({ error: err });
+    } else {
+      res.json({ result });
+    }
+  });
+});
+  
 module.exports = router;

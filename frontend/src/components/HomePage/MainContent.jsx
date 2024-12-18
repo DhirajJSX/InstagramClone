@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import UserComment from "../HomePage/UserComment/UserComment";
-import { formatDistanceToNow } from "date-fns"; // Import date-fns for formatting
+import { motion } from "framer-motion";
+import { formatDistanceToNow } from "date-fns";
 
 function MainContent() {
   const [activeCommentIndex, setActiveCommentIndex] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [likedPosts, setLikedPosts] = useState(new Set()); // Store liked post IDs
+  const lastTapRef = useRef(null); // Track the last tap for mobile double-tap detection
 
   // Fetch posts from the backend
   useEffect(() => {
@@ -23,15 +26,14 @@ function MainContent() {
       })
       .then((data) => {
         setPosts(data);
+        setLikedPosts(new Set(data.filter(post => post.isLiked).map(post => post._id))); // Initialize liked posts
         setLoading(false);
-        // console.log(data);
-        
-
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
       });
   }, []);
+  
 
   const toggleCommentSection = (idx) => {
     setActiveCommentIndex((prevIndex) => (prevIndex === idx ? null : idx)); // Toggle comments
@@ -42,23 +44,30 @@ function MainContent() {
       const updatedLikes = new Set(prevLikedPosts);
       if (updatedLikes.has(postId)) {
         updatedLikes.delete(postId); // Remove from liked posts (dislike)
-        console.log("hello dislike");
       } else {
         updatedLikes.add(postId); // Add to liked posts (like)
-        console.log("hello like");
       }
       return updatedLikes;
     });
   };
 
+  const handleDoubleTapOrClick = (postId) => {
+    // Mobile: Double-tap detection
+    const now = Date.now();
+    if (lastTapRef.current && now - lastTapRef.current < 300) {
+      likeHandle(postId); // Double-tap detected
+    }
+    lastTapRef.current = now;
+  };
+
   if (loading) {
-    return <>
+    return (
       <div className="flex justify-center items-center h-screen">
         <div className="spinner-border text-primary" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       </div>
-    </>
+    );
   }
 
   return (
@@ -86,7 +95,11 @@ function MainContent() {
           </div>
 
           {/* Post Image */}
-          <div className="w-full">
+          <div
+            className="w-full"
+            onDoubleClick={() => likeHandle(post._id)} // Desktop double-click
+            onTouchEnd={() => handleDoubleTapOrClick(post._id)} // Mobile double-tap
+          >
             <img
               className="w-full h-auto max-h-[550px] object-cover"
               src={post.image} // Post image from backend
@@ -97,10 +110,26 @@ function MainContent() {
           {/* Post Actions */}
           <div className="px-1 mt-1 py-2">
             <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-4">
-                <button onClick={() => likeHandle(post._id)}>
-                  <FavoriteBorderRoundedIcon style={{ fontSize: "30px" }} />
-                </button>
+              <div className="flex justify-center items-center space-x-4">
+                <motion.div
+                  className="cursor-pointer text-white px-3"
+                  initial={false}
+                  animate={{ scale: likedPosts.has(post._id) ? 1.3 : 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  onClick={() => likeHandle(post._id)}
+                >
+                  {likedPosts.has(post._id) ? (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <FavoriteIcon style={{ fontSize: "30px", color: "red" }} />
+                    </motion.div>
+                  ) : (
+                    <FavoriteBorderIcon style={{ fontSize: "30px", color: "white" }} />
+                  )}
+                </motion.div>
                 <button onClick={() => toggleCommentSection(idx)}>
                   <ModeCommentOutlinedIcon style={{ fontSize: "30px" }} />
                 </button>

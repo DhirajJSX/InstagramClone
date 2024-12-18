@@ -15,11 +15,10 @@ const userPostSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "USER",
     },
-    likes: {
+    like:{
       type: [mongoose.Schema.Types.ObjectId],
       ref: "USER",
-      default: [],
-    },
+    }
   },
   { timestamps: true }
 );
