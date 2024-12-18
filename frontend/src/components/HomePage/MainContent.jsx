@@ -31,7 +31,7 @@ function MainContent() {
         setLoadingPosts(new Array(data.length).fill(true)); 
         setTimeout(() => {
           setLoadingPosts(new Array(data.length).fill(false)); 
-        }, 2000);
+        }, 3000);
       })
       .catch(() => {
         setLoadingPosts([]);
@@ -69,7 +69,8 @@ function MainContent() {
           {/* Loading Placeholder */}
           {loadingPosts[idx] ? (
             <div className="w-full">
-              <Instagram  backgroundColor="rgba(0,0,0,0.30)" />
+              <Instagram   foregroundColor="#515151"
+    backgroundColor="rgba(0,0,0,10.30)" />
             </div>
           ) : (
             <div>
