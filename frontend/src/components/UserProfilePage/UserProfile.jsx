@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 import Mobilelogout from "./MobileHeader/Mobilelogout";
- // Import the modal
 import ProfileAbout from "./ProfileAbout.js/ProfileAbout"; // Import ProfileAbout
+import ProfilePostLoader from "../Loaders/ProfilePostLoader";
 
 function UserProfile() {
   const [activeTab, setActiveTab] = useState("posts");
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true); // State for loader
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -19,11 +19,8 @@ function UserProfile() {
     setIsModalOpen(true);
   };
 
-  // const handleSaveProfile = (updatedData) => {
-  //   setUserInfo(updatedData);
-  // };
-
   useEffect(() => {
+    setLoading(true); // Start loading when data fetch starts
     // Fetch posts and user info from the backend
     fetch("http://localhost:5000/me", {
       headers: {
@@ -36,10 +33,14 @@ function UserProfile() {
           setPosts(result);
           setUserInfo(result[0].postedBy);
         }
-        // console.log(result);
-        
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000); // Stop loading when data is fetched
       })
-      .catch((err) => console.error("Error fetching posts:", err));
+      .catch((err) => {
+        console.error("Error fetching posts:", err);
+        setLoading(false); // Stop loading even in case of error
+      });
   }, []);
 
   return (
@@ -67,16 +68,6 @@ function UserProfile() {
               >
                 Posts
               </button>
-              {/* <button
-                onClick={() => handleTabChange("reels")}
-                className={`hover:text-gray-800 dark:hover:text-gray-100 ${
-                  activeTab === "reels"
-                    ? "text-gray-800 dark:text-gray-100"
-                    : ""
-                }`}
-              >
-                Reels
-              </button> */}
               <button
                 onClick={() => handleTabChange("tagged")}
                 className={`hover:text-gray-800 dark:hover:text-gray-100 ${
@@ -90,43 +81,46 @@ function UserProfile() {
             </div>
           </div>
 
-          {/* Posts Section */}
-          <div className="w-full max-w-5xl grid grid-cols-3 gap-[5px] justify-center">
-            {activeTab === "posts" && posts.length > 0 ? (
-              [...posts].reverse().map((post, index) => (
-                <div
-                  key={post._id || index}
-                  className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden"
-                >
-                  <img
-                    src={post.image}
-                    alt={post.body}
-                    className="w-full h-full object-cover cursor-pointer"
-                  />
-                  <p className="text-center text-sm mt-2 text-gray-800 dark:text-gray-100">
-                    {post.body}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-600 dark:text-gray-400">
-                No posts to display.
-              </p>
-            )}
-            {activeTab === "reels" && (
-              <p>Reels content will be displayed here.</p>
-            )}
-            {activeTab === "tagged" && (
-              <p>Tagged content will be displayed here.</p>
-            )}
-          </div>
+          {/* Loader */}
+          {loading ? (
+            <div className="flex justify-center items-center w-full h-64">
+              <ProfilePostLoader />
+            </div>
+          ) : (
+            // Posts Section
+            <div className="w-full max-w-5xl grid grid-cols-3 gap-[5px] justify-center">
+              {activeTab === "posts" && posts.length > 0 ? (
+                [...posts].reverse().map((post, index) => (
+                  <div
+                    key={post._id || index}
+                    className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden"
+                  >
+                    <img
+                      src={post.image}
+                      alt={post.body}
+                      className="w-full h-full object-cover cursor-pointer"
+                    />
+                    <p className="text-center text-sm mt-2 text-gray-800 dark:text-gray-100">
+                      {post.body}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600 dark:text-gray-400">
+                  No posts to display.
+                </p>
+              )}
+              {activeTab === "tagged" && (
+                <p>Tagged content will be displayed here.</p>
+              )}
+            </div>
+          )}
         </div>
 
         <BottomNav />
       </div>
 
       {/* Edit Profile Modal */}
-     
     </>
   );
 }

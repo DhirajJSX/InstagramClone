@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 import SearchIcon from "@mui/icons-material/Search";
+import ProfilePostLoader from "../Loaders/ProfilePostLoader";
 
 function UserSearch() {
   const [query, setQuery] = useState(""); // State for the search query
   const [results, setResults] = useState([]); // State for storing search results
-  const [isSearching, setIsSearching] = useState(false); // State to track if search has been initiated
+  const [isLoading, setIsLoading] = useState(false); // State to track loading
   const [error, setError] = useState(null); // State to store any errors
 
   // Function to handle search input change
@@ -14,39 +15,37 @@ function UserSearch() {
     setQuery(event.target.value);
   };
 
-  // Function to fetch users from the API based on the search query
+  // Function to fetch users from the API
   const fetchSearchResults = async () => {
     if (query.trim() === "") {
       setResults([]); // Clear results if query is empty
-      setIsSearching(false);
+      setIsLoading(false);
       setError(null);
       return;
     }
 
-    setIsSearching(true); // Set searching state
+    setIsLoading(true); // Show loader
     setError(null); // Reset previous errors
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/searchuser?query=${encodeURIComponent(query)}`
-      );
+      // Simulating 2-second delay for the loader
+      setTimeout(async () => {
+        const response = await fetch(
+          `http://localhost:5000/searchuser?query=${encodeURIComponent(query)}`
+        );
 
-      // Check if the response is successful
-      if (!response.ok) {
-        console.error("Server responded with:", response.statusText);
-        throw new Error("Failed to fetch search results");
-      }
+        if (!response.ok) {
+          throw new Error("Failed to fetch search results");
+        }
 
-      const data = await response.json();
-
-      // Ensure data structure is correct
-      setResults(data.users || []);
+        const data = await response.json();
+        setResults(data.users || []); // Update results
+      }, 2000); // 2-second delay
     } catch (err) {
-      console.error("Error fetching search results:", err.message);
       setError("Unable to fetch search results. Please try again.");
-      setResults([]);
+      setResults([]); // Clear results in case of an error
     } finally {
-      setIsSearching(false); // Stop the loading state
+      setTimeout(() => setIsLoading(false), 2000); // Stop loader after 2 seconds
     }
   };
 
@@ -62,7 +61,7 @@ function UserSearch() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-y-auto">
-        {/* Search Bar - Sticky */}
+        {/* Search Bar */}
         <div className="w-full max-w-5xl mx-auto px-1 py-2 sticky top-0 border-b border-gray-500 bg-black z-10 sm:border-b-0">
           <div className="flex items-center rounded-lg px-4 py-2">
             <input
@@ -76,23 +75,27 @@ function UserSearch() {
           </div>
         </div>
 
-        {/* Search Results - Column Layout */}
-        <div className="w-full max-w-5xl mx-auto px-6 pt-1 pb-16">
-          {/* Loading State */}
-          {isSearching && (
-            <p className="text-center text-gray-500">Searching...</p>
+        {/* Search Results */}
+        <div className="relative w-full max-w-5xl mx-auto px-6 pt-1 pb-16">
+          {/* Loader */}
+          {isLoading && (
+            <div className="absolute inset-0 flex justify-center items-center">
+              <ProfilePostLoader />
+            </div>
           )}
 
           {/* Error Message */}
-          {error && <p className="text-center text-red-500">{error}</p>}
+          {!isLoading && error && (
+            <p className="text-center text-red-500">{error}</p>
+          )}
 
-          {/* Results */}
-          {!isSearching && !error && query.trim() && results.length === 0 && (
+          {/* No Results Message */}
+          {!isLoading && !error && query.trim() && results.length === 0 && (
             <p className="text-center text-gray-500">No users found</p>
           )}
 
-          {/* Map Results */}
-          {!isSearching &&
+          {/* Render Results */}
+          {!isLoading &&
             results.map((user) => (
               <div
                 key={user._id}

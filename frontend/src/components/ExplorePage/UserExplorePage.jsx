@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
-import Loader from "../Loaders/Loader";
+
+import ProfilePostLoader from "../Loaders/ProfilePostLoader";
 
 function UserExplorePage() {
   const [posts, setPosts] = useState([]);
@@ -50,7 +51,7 @@ function UserExplorePage() {
         {loading ? (
           <div className="flex justify-center items-center h-full">
             {/* Temporarily replace loader with text for debugging */}
-            <Loader />
+            <ProfilePostLoader />
           </div>
         ) : (
           <div className="w-full max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
