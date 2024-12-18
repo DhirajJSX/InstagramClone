@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import noProfile from "../../img/noImageProfile.jpg";
+import DeskTopRIghtSiderLoader from "../Loaders/deskTopRIghtSiderLoader";
 
 function RightSidebar() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(""); // To store user details dynamically
   const [img, setImg] = useState("");
+  const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
     // Fetch user info from the backend
@@ -18,13 +20,29 @@ function RightSidebar() {
       .then((result) => {
         setUserInfo(result.user);
         setImg(result.profile);
+        setTimeout(() => {
+          setLoading(false)
+        }, 3000); // Data is loaded, set loading to false
       })
-      .catch((err) => console.error("Error fetching user info:", err));
+      .catch((err) => {
+        console.error("Error fetching user info:", err);
+        setLoading(false); // In case of error, stop loading
+      });
   }, []);
 
   const userInfoButton = () => {
     navigate("/profile", { state: { userId: userInfo?._id } });
   };
+
+  // If loading, show a loading placeholder
+  if (loading) {
+    return (
+    <>
+    <DeskTopRIghtSiderLoader  />
+    </>
+      
+    );
+  }
 
   return (
     <aside onClick={userInfoButton} className="w-[20%] cursor-pointer hidden mr-20 lg:block px-5 py-6">

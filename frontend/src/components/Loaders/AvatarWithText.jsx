@@ -1,39 +1,29 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react";
 
-const EventsLoader = props => (
-  <ContentLoader
-    width={700}
-    height={300}
-    viewBox="0 0 700 300"
-    // backgroundColor="#f5f5f5"
-    foregroundColor="#515151"
-    backgroundColor="rgba(0,0,0,10.30)"
-    {...props}
-  >
-    
-    <circle cx="128" cy="120" r="120" />
-    {/* <rect x="412" y="113" rx="3" ry="3" width="102" height="7" /> */}
-    <rect x="288" y="70" rx="3" ry="3" width="178" height="25" />
-    {/* <rect x="405" y="139" rx="3" ry="3" width="178" height="6" /> */}
-    {/* <rect x="416" y="162" rx="3" ry="3" width="102" height="7" /> */}
-    {/* <rect x="405" y="189" rx="3" ry="3" width="178" height="6" /> */}
-    <rect x="290" y="120" rx="14" ry="14" width="72" height="45" />
-    <rect x="400" y="120" rx="14" ry="14" width="72" height="45" />
+const AvatarWithText = () => {
+  return (
+    <div className="animate-pulse space-y-4 pb-[20px]">
+      {/* Header: Profile Picture and User Info */}
+      <div className="flex items-center space-x-8">
+        <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 bg-[#252625] rounded-full"></div>
 
-    <rect x="520" y="120" rx="14" ry="14" width="72" height="45" />
-    
-    <rect x="10" y="250" rx="3" ry="3" width="231" height="12" />
-    <rect x="10" y="270" rx="3" ry="3" width="231" height="12" />
-    <rect x="10" y="290" rx="3" ry="3" width="231" height="10" />
-  </ContentLoader>
-)
+        <div className="flex-1 space-y-4">
+          <div className="h-4 bg-[#252625] rounded w-40 sm:w-48 md:w-64 lg:w-72"></div>
+          <div className="h-3 bg-[#252625] rounded w-24 sm:w-32 md:w-40 lg:w-48"></div>
+        </div>
+      </div>
 
-EventsLoader.metadata = {
-  name: 'Sridhar Easwaran',
-  github: 'sridhareaswaran',
-  description: 'Events',
-  filename: 'EventsLoader',
-}
+      {/* Statistics (Posts, Followers, Following) */}
+     
 
-export default EventsLoader
+      {/* Bio and Link */}
+      <div className="mt-4">
+        <div className="h-4 bg-[#252625] rounded w-40 sm:w-48 md:w-64 lg:w-72"></div>
+        <div className="h-3 bg-[#252625] rounded w-24 sm:w-32 md:w-40 lg:w-48 mt-2"></div>
+        <div className="h-3 bg-[#252625] rounded w-24 sm:w-32 md:w-40 lg:w-48 mt-2"></div>
+      </div>
+    </div>
+  );
+};
+
+export default AvatarWithText;

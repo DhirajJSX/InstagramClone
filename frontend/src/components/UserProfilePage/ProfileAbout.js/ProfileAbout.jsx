@@ -39,7 +39,7 @@ function ProfileAbout() {
           setLoading(false); // Set loading to false once data is fetched
         })
         .catch((err) => console.error("Error fetching posts:", err));
-    }, 3000); // 2-second delay
+    }, 2000); // 2-second delay
   }, []);
 
   // Show the loader while loading data

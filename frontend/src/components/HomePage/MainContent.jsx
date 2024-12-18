@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Instagram } from 'react-content-loader';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import ShareIcon from '@mui/icons-material/Share';
+import { Instagram } from "react-content-loader";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
+import ShareIcon from "@mui/icons-material/Share";
 import UserComment from "../HomePage/UserComment/UserComment";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
@@ -12,7 +12,7 @@ import { formatDistanceToNow } from "date-fns";
 function MainContent() {
   const [activeCommentIndex, setActiveCommentIndex] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [loadingPosts, setLoadingPosts] = useState([]); 
+  const [loadingPosts, setLoadingPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState(new Set());
   const lastTapRef = useRef(null);
 
@@ -27,10 +27,12 @@ function MainContent() {
       })
       .then((data) => {
         setPosts(data);
-        setLikedPosts(new Set(data.filter(post => post.isLiked).map(post => post._id)));
-        setLoadingPosts(new Array(data.length).fill(true)); 
+        setLikedPosts(
+          new Set(data.filter((post) => post.isLiked).map((post) => post._id))
+        );
+        setLoadingPosts(new Array(data.length).fill(true));
         setTimeout(() => {
-          setLoadingPosts(new Array(data.length).fill(false)); 
+          setLoadingPosts(new Array(data.length).fill(false));
         }, 3000);
       })
       .catch(() => {
@@ -69,8 +71,7 @@ function MainContent() {
           {/* Loading Placeholder */}
           {loadingPosts[idx] ? (
             <div className="w-full">
-              <Instagram   foregroundColor="#515151"
-    backgroundColor="rgba(0,0,0,10.30)" />
+              <Instagram foregroundColor="#3b3a3a" backgroundColor="#282b29" />
             </div>
           ) : (
             <div>
@@ -83,7 +84,9 @@ function MainContent() {
                     className="w-9 h-9 object-cover rounded-full shadow-lg"
                   />
                   <div className="ml-3">
-                    <p className="text-[15px] font-semibold">{post.postedBy?.userName}</p>
+                    <p className="text-[15px] font-semibold">
+                      {post.postedBy?.userName}
+                    </p>
                     <p className="text-[11px] text-gray-500 dark:text-gray-400">
                       {formatDistanceToNow(new Date(post.updatedAt))} ago
                     </p>
@@ -101,7 +104,7 @@ function MainContent() {
                 onTouchEnd={() => handleDoubleTapOrClick(post._id)}
               >
                 <img
-                  className="w-full h-auto max-h-[550px] object-cover"
+                  className="w-full h-auto max-h-[480px] object-cover"
                   src={post.image}
                   alt="Post"
                 />
@@ -115,7 +118,11 @@ function MainContent() {
                       className="cursor-pointer text-white px-3"
                       initial={false}
                       animate={{ scale: likedPosts.has(post._id) ? 1.3 : 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 15,
+                      }}
                       onClick={() => likeHandle(post._id)}
                     >
                       {likedPosts.has(post._id) ? (
@@ -124,10 +131,14 @@ function MainContent() {
                           animate={{ scale: 1 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <FavoriteIcon style={{ fontSize: "30px", color: "red" }} />
+                          <FavoriteIcon
+                            style={{ fontSize: "30px", color: "red" }}
+                          />
                         </motion.div>
                       ) : (
-                        <FavoriteBorderIcon style={{ fontSize: "30px", color: "white" }} />
+                        <FavoriteBorderIcon
+                          style={{ fontSize: "30px", color: "white" }}
+                        />
                       )}
                     </motion.div>
                     <button onClick={() => toggleCommentSection(idx)}>
