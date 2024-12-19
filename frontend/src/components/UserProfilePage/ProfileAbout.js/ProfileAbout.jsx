@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { gsap } from "gsap";
 import noProfile from "../../../img/noImageProfile.jpg";
-import AvatarWithText from "../../Loaders/AvatarWithText"; // Import the AvatarWithText loader
+import AvatarWithText from "../../Loaders/AvatarWithText";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
 function ProfileAbout() {
-  // State variables to store user, profile, and posts data
   const [userInfo, setUserInfo] = useState(null);
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Simulate a 2-second delay before fetching data
     setTimeout(() => {
-      // Fetch profile data
       fetch("http://localhost:5000/profile", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("JWT"),
@@ -20,14 +20,13 @@ function ProfileAbout() {
       })
         .then((res) => res.json())
         .then((data) => {
-          setUserInfo(data.user); // Set user info (name, email, etc.)
+          setUserInfo(data.user);
           setProfile(data.profile);
         })
         .catch((err) => {
           console.error(err);
         });
 
-      // Fetch posts data
       fetch("http://localhost:5000/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("JWT"),
@@ -35,56 +34,70 @@ function ProfileAbout() {
       })
         .then((res) => res.json())
         .then((result) => {
-          setPosts(result); // Set posts data (an array of posts)
-          setLoading(false); // Set loading to false once data is fetched
+          setPosts(result);
+          setLoading(false);
         })
         .catch((err) => console.error("Error fetching posts:", err));
-    }, 2000); // 2-second delay
+    }, 2000);
   }, []);
 
-  // Show the loader while loading data
+  const handleEditProfileClick = () => {
+    setIsModalOpen(true); // Open the modal when "Edit Profile" is clicked
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      // GSAP animations for the profile section after data is loaded
+      gsap.from(".profile-img", { opacity: 0, scale: 0.8, duration: 1, ease: "back.out(1.7)" });
+      gsap.from(".profile-info", { opacity: 0, y: 20, duration: 1, delay: 0.2, ease: "power3.out" });
+      gsap.from(".profile-stats", { opacity: 0, y: 20, duration: 1, delay: 0.4, ease: "power3.out" });
+      gsap.from(".profile-description", { opacity: 0, y: 20, duration: 1, delay: 0.6, ease: "power3.out" });
+    }
+  }, [loading]);
+
   return (
     <div className="w-full max-w-5xl px-3 py-4">
       {loading ? (
-        <AvatarWithText /> // Show the loader during the 2-second delay
+        <AvatarWithText />
       ) : (
         <div>
           <div className="flex items-center space-x-8">
-            {/* Profile Image */}
-            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full overflow-hidden">
+            <div className="profile-img w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full overflow-hidden">
               <img
-                src={profile?.profileImage && noProfile} // Use profileImage from the fetched data, or fallback to noProfile
+                src={profile?.profileImage && noProfile}
                 className="object-fill rounded-full"
                 alt="Profile"
               />
             </div>
 
             <div className="flex-1">
-              <div className="flex items-center ml-5 space-x-4 mb-4">
+              <div className="flex items-center ml-5 space-x-4 mb-4 profile-info">
                 <h2 className="text-[16px] font-semibold text-gray-800 dark:text-gray-100">
-                  {userInfo?.userName || "Loading..."} {/* Conditional rendering */}
+                  {userInfo?.userName || "Loading..."}
                 </h2>
-                <button className="px-4 py-1 border rounded-md text-sm font-medium">
+                <button
+                  onClick={handleEditProfileClick} // Trigger modal on click
+                  className="px-4 py-1 border rounded-md text-sm font-medium"
+                >
                   Edit Profile
                 </button>
               </div>
-              <div className="flex justify-around items-center w-full max-w-sm">
+              <div className="flex justify-around items-center w-full max-w-sm profile-stats">
                 <div className="flex flex-col items-center">
                   <span className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                    {posts.length || 0}{" "}
-                    {/* Display number of posts or 0 if not available */}
+                    {posts.length || 0}
                   </span>
                   <span className="text-sm text-gray-600 dark:text-gray-400">Posts</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <span className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                    {profile?.followers.length || 0} {/* Display number of followers */}
+                    {profile?.followers.length || 0}
                   </span>
                   <span className="text-sm text-gray-600 dark:text-gray-400">Followers</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <span className="text-lg font-semibold text-gray-800 dark:text-gray-100">
-                    {profile?.following.length || 0} {/* Display number of following */}
+                    {profile?.following.length || 0}
                   </span>
                   <span className="text-sm text-gray-600 dark:text-gray-400">Following</span>
                 </div>
@@ -92,13 +105,12 @@ function ProfileAbout() {
             </div>
           </div>
 
-          {/* Bio and Website */}
-          <div className="mt-4">
+          <div className="mt-4 profile-description">
             <p className="font-semibold text-gray-800 dark:text-gray-100">
-              {userInfo?.name || "Name not available"} {/* Bio */}
+              {userInfo?.name || "Name not available"}
             </p>
             <p className="text-gray-600 dark:text-gray-400">
-              {profile?.bio || "Bio not available"} {/* Bio */}
+              {profile?.bio || "Bio not available"}
             </p>
             <a
               href={profile?.link || "#"}
@@ -106,10 +118,20 @@ function ProfileAbout() {
               rel="noopener noreferrer"
               className="text-blue-500 dark:text-blue-400"
             >
-              {profile?.link || "No Link Yet"} {/* Display website link */}
+              {profile?.link || "No Link Yet"}
             </a>
           </div>
         </div>
+      )}
+
+      {/* Render the Edit Profile Modal if it's open */}
+      {isModalOpen && (
+        <EditProfileModal
+          setIsModalOpen={setIsModalOpen}
+          userInfo={userInfo}
+          profile={profile}
+          setProfile={setProfile}
+        />
       )}
     </div>
   );

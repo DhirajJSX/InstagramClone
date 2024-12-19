@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 import Mobilelogout from "./MobileHeader/Mobilelogout";
-import ProfileAbout from "./ProfileAbout.js/ProfileAbout"; // Import ProfileAbout
+import ProfileAbout from "./ProfileAbout.js/ProfileAbout";
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
 
 function UserProfile() {
   const [activeTab, setActiveTab] = useState("posts");
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
-  const [loading, setLoading] = useState(true); // State for loader
+  const [loading, setLoading] = useState(true);
+  const postsRef = useRef(null); // Ref for the posts container
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -20,8 +22,7 @@ function UserProfile() {
   };
 
   useEffect(() => {
-    setLoading(true); // Start loading when data fetch starts
-    // Fetch posts and user info from the backend
+    setLoading(true);
     fetch("http://localhost:5000/me", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
@@ -35,13 +36,24 @@ function UserProfile() {
         }
         setTimeout(() => {
           setLoading(false);
-        }, 2000); // Stop loading when data is fetched
+        }, 2000);
       })
       .catch((err) => {
         console.error("Error fetching posts:", err);
-        setLoading(false); // Stop loading even in case of error
+        setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (!loading && activeTab === "posts") {
+      // GSAP animation for the posts
+      gsap.fromTo(
+        postsRef.current.children,
+        { opacity: 0, y: 50, scale: 0.8 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" }
+      );
+    }
+  }, [loading, activeTab]);
 
   return (
     <>
@@ -56,7 +68,7 @@ function UserProfile() {
           />
 
           {/* Tabs */}
-          <div className="w-full max-w-5xl border-t border-b border-gray-300 dark:border-gray-700">
+          <div className="w-full max-w-5xl border-t border-b py-2 border-gray-300 dark:border-gray-700">
             <div className="flex justify-center space-x-10 text-gray-500 dark:text-gray-400 py-2">
               <button
                 onClick={() => handleTabChange("posts")}
@@ -88,7 +100,10 @@ function UserProfile() {
             </div>
           ) : (
             // Posts Section
-            <div className="w-full max-w-5xl grid grid-cols-3 gap-[5px] justify-center">
+            <div
+              className="w-full max-w-5xl grid grid-cols-3 gap-[5px] py-2 pb-16 justify-center"
+              ref={postsRef}
+            >
               {activeTab === "posts" && posts.length > 0 ? (
                 [...posts].reverse().map((post, index) => (
                   <div
@@ -96,6 +111,9 @@ function UserProfile() {
                     className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden"
                   >
                     <img
+                      onClick={() => {
+                        console.log(`Navigating to post: ${post._id}`);
+                      }}
                       src={post.image}
                       alt={post.body}
                       className="w-full h-full object-cover cursor-pointer"
@@ -116,11 +134,8 @@ function UserProfile() {
             </div>
           )}
         </div>
-
         <BottomNav />
       </div>
-
-      {/* Edit Profile Modal */}
     </>
   );
 }

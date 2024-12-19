@@ -33,7 +33,7 @@ function UserExplorePage() {
         // Ensure loader stays visible for 2 seconds minimum
         setTimeout(() => {
           setLoading(false);
-        }, 2000);
+        }, 1000);
       }
     };
 
@@ -54,7 +54,7 @@ function UserExplorePage() {
             <ProfilePostLoader />
           </div>
         ) : (
-          <div className="w-full max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+          <div className="w-full max-w-6xl mx-auto px-2 pb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
             {posts.length === 0 ? (
               <p className="text-white">No posts available</p>
             ) : (
@@ -63,7 +63,7 @@ function UserExplorePage() {
                 .map((post) => (
                   <div
                     key={post._id}
-                    className="bg-[#1A1A1A] cursor-pointer rounded-sm
+                    className="bg-[#1A1A1A] cursor-pointer rounded-2xl
                  shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl duration-200"
                   >
                     {/* Post Image */}
