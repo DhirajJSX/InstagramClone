@@ -146,7 +146,7 @@ function UserMediaUpload({ closeModal }) {
               <img
                 src={URL.createObjectURL(file)}
                 alt="Preview"
-                className="w-full max-w-[350px] rounded-lg"
+                className="w-full max-w-[170px] rounded-lg"
               />
             )}
           </div>

@@ -54,7 +54,7 @@ function UserExplorePage() {
             <ProfilePostLoader />
           </div>
         ) : (
-          <div className="w-full max-w-6xl mx-auto px-2 pb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+          <div className="w-full max-w-6xl mx-auto px-2 pb-10 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
             {posts.length === 0 ? (
               <p className="text-white">No posts available</p>
             ) : (

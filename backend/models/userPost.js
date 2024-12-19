@@ -15,12 +15,13 @@ const userPostSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "USER",
     },
-    like:{
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "USER",
-    }
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "USER"
+    }]
   },
   { timestamps: true }
 );
 
 mongoose.model("POST", userPostSchema);
+ 

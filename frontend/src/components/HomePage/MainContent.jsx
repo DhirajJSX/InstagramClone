@@ -6,17 +6,16 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import UserComment from "../HomePage/UserComment/UserComment";
-import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 
 function MainContent() {
   const [activeCommentIndex, setActiveCommentIndex] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState([]);
-  const [likedPosts, setLikedPosts] = useState(new Set());
+  const [likedPosts, setLikedPosts] = useState(new Set()); // Track liked post IDs
   const lastTapRef = useRef(null);
 
-  // Fetch posts from the backend with simulated loading delay
+  // Fetch posts from the backend
   useEffect(() => {
     fetch("http://localhost:5000/allposts")
       .then((response) => {
@@ -27,9 +26,7 @@ function MainContent() {
       })
       .then((data) => {
         setPosts(data);
-        setLikedPosts(
-          new Set(data.filter((post) => post.isLiked).map((post) => post._id))
-        );
+        setLikedPosts(new Set(data.filter((post) => post.isLiked).map((post) => post._id)));
         setLoadingPosts(new Array(data.length).fill(true));
         setTimeout(() => {
           setLoadingPosts(new Array(data.length).fill(false));
@@ -44,24 +41,59 @@ function MainContent() {
     setActiveCommentIndex((prevIndex) => (prevIndex === idx ? null : idx));
   };
 
-  const likeHandle = (postId) => {
-    setLikedPosts((prevLikedPosts) => {
-      const updatedLikes = new Set(prevLikedPosts);
-      if (updatedLikes.has(postId)) {
-        updatedLikes.delete(postId);
-      } else {
-        updatedLikes.add(postId);
-      }
-      return updatedLikes;
-    });
+  const likepost = (id) => {
+    fetch("http://localhost:5000/likes", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("JWT"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("Post liked:", result);
+        setLikedPosts((prevLikedPosts) => new Set(prevLikedPosts.add(id))); // Add post ID to the set
+      })
+      .catch((err) => {
+        console.error("Error liking the post:", err);
+        alert(err.message);
+      });
   };
 
-  const handleDoubleTapOrClick = (postId) => {
-    const now = Date.now();
-    if (lastTapRef.current && now - lastTapRef.current < 300) {
-      likeHandle(postId);
+  const unlikepost = (id) => {
+    fetch("http://localhost:5000/unlikes", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("JWT"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("Post unliked:", result);
+        setLikedPosts((prevLikedPosts) => {
+          const updatedLikedPosts = new Set(prevLikedPosts);
+          updatedLikedPosts.delete(id); // Remove post ID from the set
+          return updatedLikedPosts;
+        });
+      })
+      .catch((err) => {
+        console.error("Error unliking the post:", err);
+      });
+  };
+
+  const toggleLike = (id) => {
+    if (likedPosts.has(id)) {
+      unlikepost(id);
+    } else {
+      likepost(id);
     }
-    lastTapRef.current = now;
   };
 
   return (
@@ -84,9 +116,7 @@ function MainContent() {
                     className="w-9 h-9 object-cover rounded-full shadow-lg"
                   />
                   <div className="ml-3">
-                    <p className="text-[15px] font-semibold">
-                      {post.postedBy?.userName}
-                    </p>
+                    <p className="text-[15px] font-semibold">{post.postedBy?.userName}</p>
                     <p className="text-[11px] text-gray-500 dark:text-gray-400">
                       {formatDistanceToNow(new Date(post.updatedAt))} ago
                     </p>
@@ -98,11 +128,7 @@ function MainContent() {
               </div>
 
               {/* Post Image */}
-              <div
-                className="w-full"
-                onDoubleClick={() => likeHandle(post._id)}
-                onTouchEnd={() => handleDoubleTapOrClick(post._id)}
-              >
+              <div className="w-full">
                 <img
                   className="w-full h-auto max-h-[480px] object-cover"
                   src={post.image}
@@ -114,33 +140,13 @@ function MainContent() {
               <div className="px-1 mt-1 py-2">
                 <div className="flex justify-between items-center">
                   <div className="flex justify-center items-center space-x-4">
-                    <motion.div
-                      className="cursor-pointer text-white px-3"
-                      initial={false}
-                      animate={{ scale: likedPosts.has(post._id) ? 1.3 : 1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 15,
-                      }}
-                      onClick={() => likeHandle(post._id)}
-                    >
+                    <button onClick={() => toggleLike(post._id)}>
                       {likedPosts.has(post._id) ? (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <FavoriteIcon
-                            style={{ fontSize: "30px", color: "red" }}
-                          />
-                        </motion.div>
+                        <FavoriteIcon style={{ fontSize: "30px", color: "red" }} />
                       ) : (
-                        <FavoriteBorderIcon
-                          style={{ fontSize: "30px", color: "white" }}
-                        />
+                        <FavoriteBorderIcon style={{ fontSize: "30px" }} />
                       )}
-                    </motion.div>
+                    </button>
                     <button onClick={() => toggleCommentSection(idx)}>
                       <ModeCommentOutlinedIcon style={{ fontSize: "30px" }} />
                     </button>
@@ -160,7 +166,7 @@ function MainContent() {
                   <p className="text-[14px] font-Poppins">{post.body}</p>
                 </div>
                 <p className="text-[13px] text-gray-600 dark:text-gray-300">
-                  Liked by 120 people
+                  Liked by {post.likes.length} people
                 </p>
               </div>
             </div>
