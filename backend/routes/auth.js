@@ -117,10 +117,13 @@ router.post('/', (req, res) => {
 
                 // Generate the JWT token upon successful login
                 const token = jwt.sign({ _id: savedUser.id }, JwtSecret);
+                const {_id,name,email,userName} = savedUser
                 res.status(200).json({
                     message: "Signed in Successfully",
-                    token, // Send the token in the response
+                    token, 
+                    user:{_id,name,email,userName}
                 });
+                
             })
             .catch((err) => {
                 console.error(err);
