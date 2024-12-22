@@ -11,7 +11,9 @@ router.post("/createPost", requireLogin, (req, res) => {
 
   // Validate input fields
   if (!body || !pic) {
-    return res.status(422).json({ error: "Please provide all required fields" });
+    return res
+      .status(422)
+      .json({ error: "Please provide all required fields" });
   }
 
   const post = new POST({
@@ -55,17 +57,13 @@ router.get("/allposts", (req, res) => {
     });
 });
 
-
-router.get('/me', requireLogin ,(req, res) => {
-  POST.find({postedBy: req.user._id})
-  .populate('postedBy', '_id name userName') // Populate postedBy field
-  .then(myposts=>{
-    res.json(myposts);
-  })
-  
-})
-
-
+router.get("/me", requireLogin, (req, res) => {
+  POST.find({ postedBy: req.user._id })
+    .populate("postedBy", "_id name userName") // Populate postedBy field
+    .then((myposts) => {
+      res.json(myposts);
+    });
+});
 
 router.get("/searchuser", (req, res) => {
   const { query } = req.query; // Accept search term in query parameter (e.g., ?query=john)
@@ -75,14 +73,13 @@ router.get("/searchuser", (req, res) => {
   }
 
   // Search for users by name or userName (case-insensitive)
-  const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
+  const regex = new RegExp(query, "i"); // 'i' makes it case-insensitive
 
-  mongoose.model("USER").find({
-    $or: [
-      { name: { $regex: regex } },
-      { userName: { $regex: regex } }
-    ]
-  })
+  mongoose
+    .model("USER")
+    .find({
+      $or: [{ name: { $regex: regex } }, { userName: { $regex: regex } }],
+    })
     .select("_id name userName email") // Select specific fields to return
     .limit(10) // Optional: limit the number of results
     .then((users) => {
@@ -95,8 +92,7 @@ router.get("/searchuser", (req, res) => {
       console.error("Error searching users:", err);
       res.status(500).json({ error: "Failed to search users" });
     });
-})
-
+});
 
 // Like a post
 router.put("/likes", requireLogin, async (req, res) => {
@@ -122,7 +118,6 @@ router.put("/likes", requireLogin, async (req, res) => {
   }
 });
 
-
 // Unlike a post
 router.put("/unlikes", requireLogin, async (req, res) => {
   try {
@@ -147,6 +142,28 @@ router.put("/unlikes", requireLogin, async (req, res) => {
   }
 });
 
+router.put("/comment", requireLogin, async (req, res) => {
+  const comment = {
+    comment: req.body.text,
+    postedBy: req.user._id,
+    updatedAt: new Date(),
+  };
 
-  
+  try {
+    const result = await POST.findByIdAndUpdate(
+      req.body.postId,
+      {
+        $push: { comments: comment },
+      },
+      {
+        new: true,
+      }
+    )
+    .populate("comments.postedBy", "_id name");
+    res.json({ result });
+  } catch (err) {
+    res.status(422).json({ error: err.message });
+  }
+});
+
 module.exports = router;
