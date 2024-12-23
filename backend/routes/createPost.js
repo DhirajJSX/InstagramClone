@@ -159,11 +159,16 @@ router.put("/comment", requireLogin, async (req, res) => {
         new: true,
       }
     )
-    .populate("comments.postedBy", "_id name");
+    .populate("comments.postedBy", "_id name UserName")
     res.json({ result });
+    console.log(result);
+    
   } catch (err) {
     res.status(422).json({ error: err.message });
   }
 });
+
+
+
 
 module.exports = router;
