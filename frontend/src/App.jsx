@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/LoginPage";
 import SignUpForm from "./components/SignUpForm";
 import MainPage from "./pages/MainPage";
+import Error404 from "./components/Error404";
 
 
 // Lazy load other components for code splitting
@@ -32,7 +33,7 @@ function App() {
             <Route path="/search" element={<UserSearch />} />
             <Route path="/explore" element={<UserExplorePage />} />
             <Route path="/reels" element={<UserReelPage />} />
-            <Route path="*" element={<div className="text-center mt-10">Page Not Found</div>} />
+            <Route path="*" element={<Error404 />} />
           </Routes>
         </Suspense>
         <ToastContainer />

@@ -19,7 +19,7 @@ function MainContent() {
   const [openInput, setOpenInput] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [postComments, setPostComments] = useState({}); 
-
+  const [postMenu, setPostMenu] = useState();
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUserId(user?._id);
@@ -157,7 +157,9 @@ function MainContent() {
                     </p>
                   </div>
                 </div>
-                <MoreVertIcon style={{ fontSize: "30px" }} />
+                <button >
+                  <MoreVertIcon style={{ fontSize: "30px" }} />
+                </button>
               </div>
               <div className="w-full">
                 <img

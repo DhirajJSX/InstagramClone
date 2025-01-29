@@ -9,7 +9,6 @@ const POST = mongoose.model("POST");
 router.post("/createPost", requireLogin, (req, res) => {
   const { body, pic } = req.body;
 
-  // Validate input fields
   if (!body || !pic) {
     return res
       .status(422)
@@ -39,12 +38,10 @@ router.post("/createPost", requireLogin, (req, res) => {
     });
 });
 
-// Route: Get All Posts
-// Route: Get All Posts (with Sorting)
 router.get("/allposts", (req, res) => {
   POST.find()
-    .populate("postedBy", "_id name userName") // Populate postedBy field
-    .sort({ createdAt: -1 }) // Sort by createdAt in descending order (latest first)
+    .populate("postedBy", "_id name userName") 
+    .sort({ createdAt: -1 })
     .then((posts) => {
       if (!posts.length) {
         return res.status(404).json({ error: "No posts found." });
@@ -59,29 +56,27 @@ router.get("/allposts", (req, res) => {
 
 router.get("/me", requireLogin, (req, res) => {
   POST.find({ postedBy: req.user._id })
-    .populate("postedBy", "_id name userName") // Populate postedBy field
+    .populate("postedBy", "_id name userName")
     .then((myposts) => {
       res.json(myposts);
     });
 });
 
 router.get("/searchuser", (req, res) => {
-  const { query } = req.query; // Accept search term in query parameter (e.g., ?query=john)
+  const { query } = req.query; 
 
   if (!query) {
     return res.status(422).json({ error: "Search query is required" });
   }
 
-  // Search for users by name or userName (case-insensitive)
-  const regex = new RegExp(query, "i"); // 'i' makes it case-insensitive
-
+  const regex = new RegExp(query, "i");
   mongoose
     .model("USER")
     .find({
       $or: [{ name: { $regex: regex } }, { userName: { $regex: regex } }],
     })
-    .select("_id name userName email") // Select specific fields to return
-    .limit(10) // Optional: limit the number of results
+    .select("_id name userName email")
+    .limit(10) 
     .then((users) => {
       if (users.length === 0) {
         return res.status(404).json({ error: "No users found" });
@@ -94,7 +89,6 @@ router.get("/searchuser", (req, res) => {
     });
 });
 
-// Like a post
 router.put("/likes", requireLogin, async (req, res) => {
   try {
     const updatedPost = await POST.findByIdAndUpdate(
@@ -118,7 +112,6 @@ router.put("/likes", requireLogin, async (req, res) => {
   }
 });
 
-// Unlike a post
 router.put("/unlikes", requireLogin, async (req, res) => {
   try {
     const updatedPost = await POST.findByIdAndUpdate(
@@ -157,7 +150,7 @@ router.put("/comment", requireLogin, async (req, res) => {
       },
       {
         new: true,
-      }
+      } 
     )
     .populate("comments.postedBy", "_id name UserName")
     res.json({ result });

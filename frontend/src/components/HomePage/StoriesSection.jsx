@@ -5,7 +5,7 @@ function StoriesSection() {
 
   const handleScroll = (direction) => {
     const container = scrollContainerRef.current;
-    const scrollAmount = 200; // Adjust this value for scrolling distance
+    const scrollAmount = 200; 
     if (container) {
       container.scrollBy({
         left: direction === "right" ? scrollAmount : -scrollAmount,

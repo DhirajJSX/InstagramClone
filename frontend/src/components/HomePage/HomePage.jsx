@@ -1,5 +1,5 @@
 import React from "react";
-// import IGimg from "./../img/LoginPage/instagram.png";
+
 import MobileHeader from "./MobileHeader";
 import LeftSidebar from "./LeftSidebar";
 import Stories from "./StoriesSection";
@@ -13,8 +13,8 @@ function HomePage() {
       <MobileHeader />
       <div className="flex flex-col lg:flex-row justify-between">
         <LeftSidebar />
-        <div className="flex flex-col w-full lg:w-[50%] justify-center items-center">
-          <Stories />
+        <div className="flex flex-col w-full lg:w-[50%] justify-center pt-[10px] items-center">
+          {/* <Stories /> */}
           <MainContent />
         </div>
         <RightSidebar />

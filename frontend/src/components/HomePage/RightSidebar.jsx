@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import noProfile from "../../img/noImageProfile.jpg";
-import DeskTopRIghtSiderLoader from "../Loaders/deskTopRIghtSiderLoader";
+import DeskTopRIghtSiderLoader from "../Loaders/DeskTopRIghtSiderLoader";
 
 function RightSidebar() {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState(""); // To store user details dynamically
+  const [userInfo, setUserInfo] = useState("");
   const [img, setImg] = useState("");
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch user info from the backend
     fetch("http://localhost:5000/profile", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
