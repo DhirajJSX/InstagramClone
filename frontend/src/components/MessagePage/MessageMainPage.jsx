@@ -43,7 +43,6 @@ function MessagePage() {
       </div>
 
       <div className="flex-1 flex flex-col">
-
         {!selectedUser && (
           <header className="flex items-center justify-between p-4 border-b border-gray-700">
             <h1 className="text-2xl font-semibold">Direct</h1>
@@ -51,7 +50,7 @@ function MessagePage() {
         )}
 
         <div className="flex flex-1 overflow-hidden">
-          {/* User List - Show only if no user is selected (on mobile) */}
+          {/* User List */}
           <AnimatePresence>
             {!selectedUser && (
               <motion.div
@@ -59,18 +58,14 @@ function MessagePage() {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: "-100%", opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="absolute sm:relative sm:w-1/3 md:w-1/4 border-r border-[#374151] overflow-y-auto w-full h-full bg-[#1A1A1A]"
+                className="absolute sm:relative pb-12 border-r border-[#374151] overflow-y-auto w-full h-full bg-[#1A1A1A]"
               >
                 {users.map((user, index) => (
                   <motion.div
                     key={index}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`p-4 flex items-center space-x-3 cursor-pointer rounded-md transition-all duration-300 ${
-                      selectedUser?.email === user.email
-                        ? "bg-[#2A2A2A]"
-                        : "hover:bg-[#242424]"
-                    }`}
+                    className="p-4 flex items-center space-x-3 cursor-pointer rounded-md transition-all duration-300 hover:bg-[#242424]"
                     onClick={() => setSelectedUser(user)}
                   >
                     <img
@@ -88,7 +83,7 @@ function MessagePage() {
             )}
           </AnimatePresence>
 
-          {/* Chat Area - Show only when a user is selected */}
+          {/* Chat Area */}
           <AnimatePresence>
             {selectedUser && (
               <motion.div
@@ -98,14 +93,11 @@ function MessagePage() {
                 transition={{ duration: 0.3 }}
                 className="flex-1 flex flex-col"
               >
-                {/* Chat Header - Fixed at Top */}
+                {/* Chat Header */}
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  layout
                   className="flex items-center p-4 border-b border-gray-700 bg-[#1A1A1A] sticky top-0 z-10"
                 >
-                  {/* Back Button for Mobile */}
                   <button
                     className="block text-white mr-3"
                     onClick={() => setSelectedUser(null)}
@@ -120,7 +112,7 @@ function MessagePage() {
                   <h2 className="text-lg font-semibold">{selectedUser.name}</h2>
                 </motion.div>
 
-                {/* Chat Messages - Scrollable */}
+                {/* Chat Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
                   {chatMessages.map((msg, index) => (
                     <motion.div
@@ -151,9 +143,9 @@ function MessagePage() {
 
                 {/* Message Input - Fixed at Bottom */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  layout
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-4 border-t border-gray-700 bg-[#1A1A1A] sticky bottom-0 z-10 flex items-center"
                 >
                   <input
@@ -164,10 +156,10 @@ function MessagePage() {
                     className="w-full p-2 bg-[#242424] rounded-full focus:outline-none px-4 text-white placeholder-gray-500"
                   />
                   <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    className="ml-3 text-blue-500 hover:text-blue-400 transition"
+                    whileTap={{ scale: 0.4}}
+                    className="ml-3 text-white bg-blue-500 p-2 rounded-full hover:bg-blue-600 transition"
                   >
-                    <SendIcon />
+                    <SendIcon  className="ml-1" />
                   </motion.button>
                 </motion.div>
               </motion.div>
