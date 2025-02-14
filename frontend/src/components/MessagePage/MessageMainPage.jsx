@@ -1,132 +1,178 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
+import SendIcon from "@mui/icons-material/Send";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function MessagePage() {
-  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const chatEndRef = useRef(null);
+
+  const users = [
+    {
+      name: "John Doe",
+      email: "johndoe@example.com",
+      image:
+        "https://andrewstuder.com/wp-content/uploads/2020/04/AF3I3830-scaled.jpg",
+    },
+    {
+      name: "Jane Smith",
+      email: "janesmith@example.com",
+      image:
+        "https://andrewstuder.com/wp-content/uploads/2020/04/AF3I3830-scaled.jpg",
+    },
+  ];
+
+  const chatMessages = [
+    { sender: "John Doe", message: "Hey! How are you?", time: "10:00 AM" },
+    { sender: "You", message: "I'm good! What about you?", time: "10:05 AM" },
+    { sender: "John Doe", message: "Doing well!", time: "10:10 AM" },
+  ];
 
   useEffect(() => {
-    fetch("http://localhost:5000/users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error("Error fetching users:", err));
-  }, []);
-
-  useEffect(() => {
-    if (selectedUser) {
-      fetch(`http://localhost:5000/messages/${selectedUser._id}`)
-        .then((res) => res.json())
-        .then((data) => setMessages(data.messages))
-        .catch((err) => console.error("Error fetching messages:", err));
-    }
-  }, [selectedUser]);
-
-  const sendMessage = async () => {
-    if (newMessage.trim() && selectedUser) {
-      try {
-        const res = await fetch("http://localhost:5000/sendMessage", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ receiver: selectedUser._id, message: newMessage }),
-        });
-
-        const data = await res.json();
-        setMessages([...messages, data.savedMessage]);
-        setNewMessage("");
-      } catch (error) {
-        console.error("Send message error:", error);
-      }
-    }
-  };
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages]);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[#121212] text-white">
+      {/* Sidebar */}
       <div className="hidden sm:block">
         <LeftSidebar />
       </div>
 
       <div className="flex-1 flex flex-col">
-        <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
-          <button className="text-xl text-gray-800 dark:text-white">
-            <i className="fa fa-arrow-left"></i>
-          </button>
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white">Direct</h1>
-          <button className="text-xl text-gray-800 dark:text-white">
-            <i className="fa fa-pencil-alt"></i>
-          </button>
-        </header>
 
-        <div className="p-4 border-b border-gray-300 dark:border-gray-700">
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full p-2 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        {!selectedUser && (
+          <header className="flex items-center justify-between p-4 border-b border-gray-700">
+            <h1 className="text-2xl font-semibold">Direct</h1>
+          </header>
+        )}
 
         <div className="flex flex-1 overflow-hidden">
-          <div className="w-1/3 border-r border-gray-300 dark:border-gray-700 overflow-y-auto">
-            {users.length > 0 ? (
-              users.map((user) => (
-                <div
-                  key={user._id}
-                  className={`p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
-                    selectedUser?._id === user._id ? "bg-gray-300 dark:bg-gray-600" : ""
-                  }`}
-                  onClick={() => setSelectedUser(user)}
-                >
-                  <h2 className="font-semibold text-gray-800 dark:text-white">{user.userName}</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400 p-4">No users found</p>
+          {/* User List - Show only if no user is selected (on mobile) */}
+          <AnimatePresence>
+            {!selectedUser && (
+              <motion.div
+                initial={{ x: "-100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute sm:relative sm:w-1/3 md:w-1/4 border-r border-[#374151] overflow-y-auto w-full h-full bg-[#1A1A1A]"
+              >
+                {users.map((user, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`p-4 flex items-center space-x-3 cursor-pointer rounded-md transition-all duration-300 ${
+                      selectedUser?.email === user.email
+                        ? "bg-[#2A2A2A]"
+                        : "hover:bg-[#242424]"
+                    }`}
+                    onClick={() => setSelectedUser(user)}
+                  >
+                    <img
+                      src={user.image}
+                      alt={user.name}
+                      className="w-12 h-12 rounded-full border-2 border-gray-500"
+                    />
+                    <div>
+                      <h2 className="font-semibold">{user.name}</h2>
+                      <p className="text-sm text-gray-400">{user.email}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
 
-          <div className="w-2/3 flex flex-col">
-            {selectedUser ? (
-              <>
-                <div className="p-4 bg-gray-100 dark:bg-gray-900 flex-1 overflow-y-auto">
-                  {messages.length > 0 ? (
-                    messages.map((msg, index) => (
+          {/* Chat Area - Show only when a user is selected */}
+          <AnimatePresence>
+            {selectedUser && (
+              <motion.div
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "100%", opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex-1 flex flex-col"
+              >
+                {/* Chat Header - Fixed at Top */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center p-4 border-b border-gray-700 bg-[#1A1A1A] sticky top-0 z-10"
+                >
+                  {/* Back Button for Mobile */}
+                  <button
+                    className="block text-white mr-3"
+                    onClick={() => setSelectedUser(null)}
+                  >
+                    <ArrowBackIosIcon />
+                  </button>
+                  <img
+                    src={selectedUser.image}
+                    alt={selectedUser.name}
+                    className="w-10 h-10 rounded-full mr-3 border border-gray-600"
+                  />
+                  <h2 className="text-lg font-semibold">{selectedUser.name}</h2>
+                </motion.div>
+
+                {/* Chat Messages - Scrollable */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                  {chatMessages.map((msg, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2, delay: index * 0.1 }}
+                      className={`flex ${
+                        msg.sender === "You" ? "justify-end" : "justify-start"
+                      }`}
+                    >
                       <div
-                        key={index}
-                        className={`p-2 my-1 rounded-lg max-w-xs ${
-                          msg.sender === selectedUser._id ? "bg-gray-300 dark:bg-gray-700" : "bg-blue-500 text-white"
+                        className={`p-3 rounded-2xl max-w-[75%] text-sm ${
+                          msg.sender === "You"
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-800 text-gray-300"
                         }`}
                       >
-                        {msg.message}
+                        <p>{msg.message}</p>
+                        <span className="text-xs text-gray-400 block mt-1">
+                          {msg.time}
+                        </span>
                       </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-500 dark:text-gray-400">No messages yet</p>
-                  )}
+                    </motion.div>
+                  ))}
+                  <div ref={chatEndRef} />
                 </div>
 
-                <div className="p-4 border-t border-gray-300 dark:border-gray-700">
+                {/* Message Input - Fixed at Bottom */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="p-4 border-t border-gray-700 bg-[#1A1A1A] sticky bottom-0 z-10 flex items-center"
+                >
                   <input
                     type="text"
-                    placeholder="Type a message..."
-                    className="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                    placeholder="Message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full p-2 bg-[#242424] rounded-full focus:outline-none px-4 text-white placeholder-gray-500"
                   />
-                </div>
-              </>
-            ) : (
-              <div className="flex items-center justify-center flex-1">
-                <p className="text-gray-500 dark:text-gray-400">Select a user to chat</p>
-              </div>
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    className="ml-3 text-blue-500 hover:text-blue-400 transition"
+                  >
+                    <SendIcon />
+                  </motion.button>
+                </motion.div>
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
       </div>
 

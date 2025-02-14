@@ -3,14 +3,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Import components
 import LoginPage from "./pages/LoginPage";
 import SignUpForm from "./components/SignUpForm";
 import MainPage from "./pages/MainPage";
 import Error404 from "./components/Error404";
 
-
-// Lazy load other components for code splitting
 const MessageMainPage = lazy(() => import("./components/MessagePage/MessageMainPage"));
 const UserProfile = lazy(() => import("./components/UserProfilePage/UserProfile"));
 const UserNoticationPage = lazy(() => import("./components/NotificationPage/UserNoticationPage"));

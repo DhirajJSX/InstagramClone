@@ -107,7 +107,7 @@ function MainContent() {
   };
 
   const makeComment = (text, id) => {
-    if (!text) return; // Prevent empty comments
+    if (!text) return;
     fetch("http://localhost:5000/comment", {
       method: "PUT",
       headers: {

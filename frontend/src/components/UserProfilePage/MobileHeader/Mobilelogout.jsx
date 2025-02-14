@@ -20,9 +20,9 @@ function Mobilelogout() {
 
   const handleLogout = () => {
     setShowLogout(false);
-    localStorage.clear(); // Clear the user session from local storage
-    window.history.replaceState(null, "", "/"); // Remove the current page from history
-    navigate("/"); // Navigate to the login page or home page
+    localStorage.clear(); 
+    window.history.replaceState(null, "", "/"); 
+    navigate
   };
 
   const handleAddAccountClick = () => {
@@ -48,13 +48,13 @@ function Mobilelogout() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setUserInfo(data.user); // Set user info (name, email, etc.)
+        setUserInfo(data.user);
         setProfile(data.profile);
         console.log(data);
-        // Set profile info (bio, followers, etc.)
+       
       })
       .catch((err) => {
-        // console.error(err + " dhirajbhavsr");
+       
       });
   }, []);
 
