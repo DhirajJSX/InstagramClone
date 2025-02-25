@@ -1,29 +1,27 @@
+require('dotenv').config(); 
 const express = require('express');
-
 const cors = require('cors');
-const app = express();
 const mongoose = require('mongoose');
+
+const app = express();
 const PORT = 5000;
-const {mongoUrl} = require('./key.js');
+const mongoUrl = process.env.MONGO_URI;
 
-app.use(cors())
-
-require('./models/model')
-require('./models/userPost.js')
-require('./models/profileModel.js')
+app.use(cors());
 app.use(express.json());
-app.use(require("./routes/auth"))
-app.use(require("./routes/createPost"))
-app.use(require("./routes/profile"))
+
+require('./models/model');
+require('./models/userPost.js');
+require('./models/profileModel.js');
+
+app.use(require("./routes/auth"));
+app.use(require("./routes/createPost"));
+app.use(require("./routes/profile"));
 
 mongoose.connect(mongoUrl)
+    .then(() => console.log("✅ MongoDB connected"))
+    .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-mongoose.connection.on("connected", ()=>{
-    console.log("MongoDB connected");
-})
-mongoose.connection.on("error", ()=>{
-    console.log("MongoDB is not connected");
-})
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-})
+    console.log(`🚀 Server is running on port ${PORT}`);
+});

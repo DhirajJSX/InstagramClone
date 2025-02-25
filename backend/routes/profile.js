@@ -8,20 +8,17 @@ const ProfileModel = mongoose.model("profileModel");
 router.get('/profile', requireLogin, (req, res) => {
   const userId = req.user._id;
 
-  // Find the user and populate profile details
   USER.findById(userId)
-    .select("-password")  // Exclude password field
+    .select("-password")  
     .then(user => {
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
 
-      // Try to find the profile for the user
       ProfileModel.findOne({ userId: userId })
-        .populate('userId', 'username email') // Populate user details (adjust fields as needed)
+        .populate('userId', 'username email') 
         .then(profile => {
           if (!profile) {
-            // If profile is not found, create a new one
             const newProfile = new ProfileModel({
               userId: userId,
               bio: "This user has not added a bio yet.",
@@ -38,7 +35,7 @@ router.get('/profile', requireLogin, (req, res) => {
                 res.status(500).json({ error: "Failed to create profile" });
               });
           } else {
-            // If profile exists, return the profile
+        
             res.json({ user, profile });
           }
         })

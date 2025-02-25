@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 const requireLogin = require("../middleware/requireLogin");
 const POST = mongoose.model("POST");
 
-// Route: Create a New Post
-// Route: Create a New Post
+
 router.post("/createPost", requireLogin, (req, res) => {
   const { body, pic } = req.body;
 
@@ -17,9 +16,9 @@ router.post("/createPost", requireLogin, (req, res) => {
 
   const post = new POST({
     body,
-    image: pic, // Using 'image' for clarity
-    postedBy: req.user, // Attach user info
-    likes: [], // Initialize with an empty array for likes
+    image: pic, 
+    postedBy: req.user,
+    likes: [], 
   });
 
   post

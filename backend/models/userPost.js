@@ -1,4 +1,4 @@
-// models/userPost.js
+
 const mongoose = require("mongoose");
 
 const userPostSchema = new mongoose.Schema(
