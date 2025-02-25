@@ -22,7 +22,6 @@ function EditProfileModal({ setIsModalOpen, userInfo, profile, setProfile }) {
     }, 300);
   };
 
-  // Close modal if the user clicks outside the modal content
   const handleBackdropClick = (e) => {
     if (e.target.id === "backdrop") {
       handleClose();
@@ -30,7 +29,7 @@ function EditProfileModal({ setIsModalOpen, userInfo, profile, setProfile }) {
   };
 
   useEffect(() => {
-    // Animate modal on mount (fade in and slide up)
+    
     gsap.fromTo(
       ".modal-container",
       { opacity: 0, y: 50 },
