@@ -37,8 +37,14 @@ const connectDB = async () => {
 };
 
 connectDB();
+ 
+app.get("/ping", (req, res) => {
+  res.send("Server is alive!");
+});
 
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
 });
+
+

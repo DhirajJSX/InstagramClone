@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
     res.send("Hello Auth????");
 });
 
+
 router.post('/signup', async (req, res) => {
     const { name, userName, email, password } = req.body;
 
