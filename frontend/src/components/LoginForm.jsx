@@ -4,16 +4,16 @@ import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify"; // Make sure you have installed react-toastify for the toast notifications
+import { toast } from "react-toastify"; 
 
 function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // State to store error message
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  
 
   const postData = () => {
     
@@ -21,13 +21,7 @@ function LoginForm() {
       setErrorMessage("Please enter a valid email");
       return;
     }
-    // if (!passwordRegex.test(password)) {
-    //   setErrorMessage("Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
-    //   return;
-    // }
-    
-
-    fetch("http://localhost:5000/", {
+    fetch("http://localhost:5000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

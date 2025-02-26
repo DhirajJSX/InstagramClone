@@ -11,7 +11,7 @@ function UserProfile() {
   const [posts, setPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const postsRef = useRef(null); // Ref for the posts container
+  const postsRef = useRef(null); 
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
