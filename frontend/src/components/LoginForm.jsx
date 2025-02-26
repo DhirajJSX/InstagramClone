@@ -49,7 +49,7 @@ function LoginForm() {
           navigate("/home"); 
           localStorage.setItem("JWT", data.token)
           localStorage.setItem("user",JSON.stringify(data.user))
-          console.log(data.token);
+          // console.log(data.token);
           
         }
       })
