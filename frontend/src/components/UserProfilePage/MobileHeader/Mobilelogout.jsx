@@ -22,7 +22,7 @@ function Mobilelogout() {
     setShowLogout(false);
     localStorage.clear(); 
     window.history.replaceState(null, "", "/"); 
-    navigate
+    navigate("/");
   };
 
   const handleAddAccountClick = () => {
