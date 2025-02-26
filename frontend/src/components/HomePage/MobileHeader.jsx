@@ -50,7 +50,7 @@ function MobileHeader() {
     setIsLoading(true); // Set loading state while fetching results
 
     try {
-      const response = await fetch(`http://localhost:5000/searchuser?query=${searchQuery}`); // Replace with your actual API endpoint
+      const response = await fetch(`https://instagramclone-djuv.onrender.com/searchuser?query=${searchQuery}`); // Replace with your actual API endpoint
 
       if (!response.ok) {
         throw new Error("Failed to fetch search results");

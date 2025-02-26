@@ -13,7 +13,7 @@ function ProfileAbout() {
 
   useEffect(() => {
     setTimeout(() => {
-      fetch("http://localhost:5000/profile", {
+      fetch("https://instagramclone-djuv.onrender.com/profile", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("JWT"),
         },

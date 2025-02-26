@@ -5,33 +5,32 @@ import SearchIcon from "@mui/icons-material/Search";
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
 
 function UserSearch() {
-  const [query, setQuery] = useState(""); // State for the search query
-  const [results, setResults] = useState([]); // State for storing search results
-  const [isLoading, setIsLoading] = useState(false); // State to track loading
-  const [error, setError] = useState(null); // State to store any errors
+  const [query, setQuery] = useState(""); 
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); 
+  const [error, setError] = useState(null);
 
-  // Function to handle search input change
   const handleSearchInputChange = (event) => {
     setQuery(event.target.value);
   };
 
-  // Function to fetch users from the API
+ 
   const fetchSearchResults = async () => {
     if (query.trim() === "") {
-      setResults([]); // Clear results if query is empty
+      setResults([]); 
       setIsLoading(false);
       setError(null);
       return;
     }
 
-    setIsLoading(true); // Show loader
-    setError(null); // Reset previous errors
+    setIsLoading(true); 
+    setError(null); 
 
     try {
-      // Simulating 2-second delay for the loader
+     
       setTimeout(async () => {
         const response = await fetch(
-          `http://localhost:5000/searchuser?query=${encodeURIComponent(query)}`
+          `https://instagramclone-djuv.onrender.com/searchuser?query=${encodeURIComponent(query)}`
         );
 
         if (!response.ok) {

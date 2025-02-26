@@ -10,7 +10,7 @@ function RightSidebar() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/profile", {
+    fetch("https://instagramclone-djuv.onrender.com/profile", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
       },

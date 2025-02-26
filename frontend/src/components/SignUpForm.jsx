@@ -25,7 +25,7 @@ function SignUpForm() {
         return;
     }
 
-    fetch("http://localhost:5000/signup", {
+    fetch("https://instagramclone-djuv.onrender.com/signup", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

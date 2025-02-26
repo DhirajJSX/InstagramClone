@@ -24,7 +24,6 @@ router.post("/createPost", requireLogin, (req, res) => {
   post
     .save()
     .then((result) => {
-      // Populate postedBy field after saving
       return POST.findById(result._id)
         .populate("postedBy", "_id name userName email")
         .then((populatedPost) => {

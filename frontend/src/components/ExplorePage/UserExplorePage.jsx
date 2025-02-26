@@ -12,7 +12,7 @@ function UserExplorePage() {
     // Simulate loading for at least 2 seconds
     const loadPosts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/allposts");
+        const response = await fetch("https://instagramclone-djuv.onrender.com/allposts");
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }

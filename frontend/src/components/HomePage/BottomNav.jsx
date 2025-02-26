@@ -5,13 +5,12 @@ import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import ProfileIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useNavigate } from "react-router-dom";
-import UserMediaUpload from "../UserUpload/UserMediaUpload"; // Import UserMediaUpload
+import UserMediaUpload from "../UserUpload/UserMediaUpload"; 
 
 function BottomNav() {
-  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false); // State to control modal visibility
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false); 
   const navigate = useNavigate();
 
-  // Navigate functions
   const ProfileButton = () => navigate("/profile");
   const searchButton = () => navigate("/search");
   const notificationButton = () => navigate("/notification");
@@ -27,7 +26,7 @@ function BottomNav() {
           <SearchIcon style={{ fontSize: "30px" }} />
         </button>
         <button
-          onClick={() => setIsMediaModalOpen(true)} // Open modal on click
+          onClick={() => setIsMediaModalOpen(true)} 
           className="p-2"
         >
           <AddBoxRoundedIcon style={{ fontSize: "30px" }} />
@@ -40,10 +39,9 @@ function BottomNav() {
         </button>
       </nav>
 
-      {/* Conditionally render UserMediaUpload modal */}
       {isMediaModalOpen && (
         <UserMediaUpload
-          closeModal={() => setIsMediaModalOpen(false)} // Function to close modal
+          closeModal={() => setIsMediaModalOpen(false)} 
         />
       )}
     </>

@@ -108,7 +108,7 @@ function MainContent() {
 
   const makeComment = (text, id) => {
     if (!text) return;
-    fetch("http://localhost:5000/comment", {
+    fetch("https://instagramclone-djuv.onrender.com/comment", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

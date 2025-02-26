@@ -43,7 +43,7 @@ function LeftSiderButtom() {
     //     ease: "power3.in",
     //   });
     }
-  }, [showLogout]); // Trigger animation whenever the `showLogout` state changes
+  }, [showLogout]); 
 
   return (
     <div className="left-sidebar">

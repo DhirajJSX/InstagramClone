@@ -21,7 +21,7 @@ function LoginForm() {
       setErrorMessage("Please enter a valid email");
       return;
     }
-    fetch("http://localhost:5000/login", {
+    fetch("https://instagramclone-djuv.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

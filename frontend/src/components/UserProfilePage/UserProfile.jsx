@@ -23,7 +23,7 @@ function UserProfile() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:5000/me", {
+    fetch("https://instagramclone-djuv.onrender.com/me", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
       },
@@ -46,7 +46,7 @@ function UserProfile() {
 
   useEffect(() => {
     if (!loading && activeTab === "posts") {
-      // GSAP animation for the posts
+   
       gsap.fromTo(
         postsRef.current.children,
         { opacity: 0, y: 50, scale: 0.8 },
