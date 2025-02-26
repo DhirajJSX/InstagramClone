@@ -27,7 +27,7 @@ function ProfileAbout() {
           console.error(err);
         });
 
-      fetch("http://localhost:5000/me", {
+      fetch("https://instagramclone-djuv.onrender.com/me", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("JWT"),
         },
@@ -42,12 +42,11 @@ function ProfileAbout() {
   }, []);
 
   const handleEditProfileClick = () => {
-    setIsModalOpen(true); // Open the modal when "Edit Profile" is clicked
+    setIsModalOpen(true); 
   };
 
   useEffect(() => {
     if (!loading) {
-      // GSAP animations for the profile section after data is loaded
       gsap.from(".profile-img", { opacity: 0, scale: 0.8, duration: 1, ease: "back.out(1.7)" });
       gsap.from(".profile-info", { opacity: 0, y: 20, duration: 1, delay: 0.2, ease: "power3.out" });
       gsap.from(".profile-stats", { opacity: 0, y: 20, duration: 1, delay: 0.4, ease: "power3.out" });
