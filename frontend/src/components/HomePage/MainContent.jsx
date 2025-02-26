@@ -26,7 +26,7 @@ function MainContent() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:5000/allposts")
+    fetch("https://instagramclone-djuv.onrender.com/allposts")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
@@ -68,7 +68,7 @@ function MainContent() {
         post._id === id ? { ...post, likes: [...post.likes, userId] } : post
       )
     );
-    fetch("http://localhost:5000/likes", {
+    fetch("https://instagramclone-djuv.onrender.com/likes", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +91,7 @@ function MainContent() {
           : post
       )
     );
-    fetch("http://localhost:5000/unlikes", {
+    fetch("https://instagramclone-djuv.onrender.com/unlikes", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
