@@ -41,13 +41,11 @@ router.post('/signup', async (req, res) => {
         });
 
         const savedUser = await newUser.save();
-
-        // ✅ **Token Generate Karo**
         const token = jwt.sign({ _id: savedUser._id }, JwtSecret, { expiresIn: '7d' });
 
         res.status(201).json({
             message: "User registered successfully.",
-            token, // ✅ Yeh token response me milega
+            token,
             user: {
                 _id: savedUser._id,
                 name: savedUser.name,
@@ -89,12 +87,10 @@ router.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({ _id: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-        // 🛠 FIXED: Remove duplicate `email` declaration
         const userInfo = {
             _id: savedUser._id,
             name: savedUser.name,
-            email: savedUser.email,  // ✅ No re-declaration now!
+            email: savedUser.email,  
             userName: savedUser.userName
         };
 

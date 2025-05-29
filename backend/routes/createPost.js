@@ -4,23 +4,19 @@ const mongoose = require("mongoose");
 const requireLogin = require("../middleware/requireLogin");
 const POST = mongoose.model("POST");
 
-
 router.post("/createPost", requireLogin, (req, res) => {
   const { body, pic } = req.body;
-
   if (!body || !pic) {
     return res
       .status(422)
       .json({ error: "Please provide all required fields" });
   }
-
   const post = new POST({
     body,
-    image: pic, 
+    image: pic,
     postedBy: req.user,
-    likes: [], 
+    likes: [],
   });
-
   post
     .save()
     .then((result) => {
@@ -38,7 +34,7 @@ router.post("/createPost", requireLogin, (req, res) => {
 
 router.get("/allposts", (req, res) => {
   POST.find()
-    .populate("postedBy", "_id name userName") 
+    .populate("postedBy", "_id name userName")
     .sort({ createdAt: -1 })
     .then((posts) => {
       if (!posts.length) {
@@ -61,7 +57,7 @@ router.get("/me", requireLogin, (req, res) => {
 });
 
 router.get("/searchuser", (req, res) => {
-  const { query } = req.query; 
+  const { query } = req.query;
 
   if (!query) {
     return res.status(422).json({ error: "Search query is required" });
@@ -74,7 +70,7 @@ router.get("/searchuser", (req, res) => {
       $or: [{ name: { $regex: regex } }, { userName: { $regex: regex } }],
     })
     .select("_id name userName email")
-    .limit(10) 
+    .limit(10)
     .then((users) => {
       if (users.length === 0) {
         return res.status(404).json({ error: "No users found" });
@@ -148,18 +144,13 @@ router.put("/comment", requireLogin, async (req, res) => {
       },
       {
         new: true,
-      } 
-    )
-    .populate("comments.postedBy", "_id name UserName")
+      }
+    ).populate("comments.postedBy", "_id name UserName");
     res.json({ result });
     console.log(result);
-    
   } catch (err) {
     res.status(422).json({ error: err.message });
   }
 });
-
-
-
 
 module.exports = router;
