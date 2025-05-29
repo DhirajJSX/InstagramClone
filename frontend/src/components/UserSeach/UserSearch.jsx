@@ -30,7 +30,7 @@ function UserSearch() {
      
       setTimeout(async () => {
         const response = await fetch(
-          `https://instagramclone-djuv.onrender.com/searchuser?query=${encodeURIComponent(query)}`
+          `http://localhost:5000/searchuser?query=${encodeURIComponent(query)}`
         );
 
         if (!response.ok) {

@@ -9,6 +9,7 @@ import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
 import UserComment from "../HomePage/UserComment/UserComment";
 import SendIcon from "@mui/icons-material/Send";
+import { BASE_URL } from "../../Data/config";
 
 function MainContent() {
   const [posts, setPosts] = useState([]);
@@ -26,7 +27,7 @@ function MainContent() {
   }, []);
 
   useEffect(() => {
-    fetch("https://instagramclone-djuv.onrender.com/allposts")
+    fetch(`${BASE_URL}/allposts`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
@@ -68,7 +69,7 @@ function MainContent() {
         post._id === id ? { ...post, likes: [...post.likes, userId] } : post
       )
     );
-    fetch("https://instagramclone-djuv.onrender.com/likes", {
+    fetch(`${BASE_URL}/likes`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +92,7 @@ function MainContent() {
           : post
       )
     );
-    fetch("https://instagramclone-djuv.onrender.com/unlikes", {
+    fetch(`${BASE_URL}/unlikes`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +109,7 @@ function MainContent() {
 
   const makeComment = (text, id) => {
     if (!text) return;
-    fetch("https://instagramclone-djuv.onrender.com/comment", {
+    fetch(`${BASE_URL}/comment`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import noProfile from "../../../img/noImageProfile.jpg";
 import AvatarWithText from "../../Loaders/AvatarWithText";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
-
+import { BASE_URL } from "../../../Data/config";
 function ProfileAbout() {
   const [userInfo, setUserInfo] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -13,7 +13,7 @@ function ProfileAbout() {
 
   useEffect(() => {
     setTimeout(() => {
-      fetch("https://instagramclone-djuv.onrender.com/profile", {
+      fetch(`${BASE_URL}/profile`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("JWT"),
         },
@@ -27,7 +27,7 @@ function ProfileAbout() {
           console.error(err);
         });
 
-      fetch("https://instagramclone-djuv.onrender.com/me", {
+      fetch(`${BASE_URL}/me`  , {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("JWT"),
         },

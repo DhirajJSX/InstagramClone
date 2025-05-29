@@ -4,6 +4,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { gsap } from "gsap";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../../Data/config";
 
 function Mobilelogout() {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ function Mobilelogout() {
 
 
    
-    fetch("https://instagramclone-djuv.onrender.com/profile", {
+    fetch(`${BASE_URL}/profile`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
       },

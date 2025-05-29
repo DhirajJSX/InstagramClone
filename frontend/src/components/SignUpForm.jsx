@@ -5,7 +5,7 @@ import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { BASE_URL } from "../Data/config.js";
 function SignUpForm() {
   const navigate = useNavigate(); 
   const [name, setName] = useState("");
@@ -25,7 +25,7 @@ function SignUpForm() {
         return;
     }
 
-    fetch("https://instagramclone-djuv.onrender.com/signup", {
+    fetch(`${BASE_URL}/signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

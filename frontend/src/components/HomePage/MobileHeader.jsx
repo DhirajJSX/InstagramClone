@@ -5,14 +5,15 @@ import IGimg from "../../img/LoginPage/instagram.png";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import { BASE_URL } from "../../Data/config";
 
 function MobileHeader() {
   const navigate = useNavigate();
 
-  const [query, setQuery] = useState(""); // Search query state
-  const [results, setResults] = useState([]); // Search results state
-  const [isLoading, setIsLoading] = useState(false); // Loading state for search
-  const [debounceTimeout, setDebounceTimeout] = useState(null); // For debounce
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   const handleMessageClick = () => {
     navigate("/messages");
@@ -22,49 +23,46 @@ function MobileHeader() {
     navigate("/notification");
   };
 
-  // Debounce function to prevent multiple API calls in quick succession
   const handleSearchInputChange = (event) => {
     setQuery(event.target.value);
 
-    // Clear the previous timeout
     if (debounceTimeout) {
       clearTimeout(debounceTimeout);
     }
 
-    // Set a new timeout for the API call after 500ms
     const timeout = setTimeout(() => {
       fetchSearchResults(event.target.value);
     }, 500);
 
-    setDebounceTimeout(timeout); // Save the timeout id
+    setDebounceTimeout(timeout);
   };
 
-  // Fetch search results from API
   const fetchSearchResults = async (searchQuery) => {
     if (searchQuery.trim() === "") {
-      setResults([]); // Clear results if query is empty
+      setResults([]);
       setIsLoading(false);
       return;
     }
 
-    setIsLoading(true); // Set loading state while fetching results
+    setIsLoading(true);
 
     try {
-      const response = await fetch(`https://instagramclone-djuv.onrender.com/searchuser?query=${searchQuery}`); // Replace with your actual API endpoint
+      const response = await fetch(
+        `${BASE_URL}/searchuser?query=${searchQuery}`
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch search results");
       }
 
       const data = await response.json();
-      setResults(data.users); // Set the fetched users to state
+      setResults(data.users);
       console.log(data);
-      
     } catch (error) {
       console.error("Error fetching search results:", error);
-      setResults([]); // Clear results in case of error
+      setResults([]);
     } finally {
-      setIsLoading(false); // Stop loading when API call is complete
+      setIsLoading(false);
     }
   };
 
@@ -82,7 +80,6 @@ function MobileHeader() {
     >
       <img src={IGimg} alt="Instagram Logo" className="h-8 mt-1" />
       <div className="flex items-center space-x-4">
-        {/* Search Bar */}
         <div className="relative hidden md:block">
           <input
             type="text"
@@ -94,8 +91,6 @@ function MobileHeader() {
           <button className="px-1 absolute right-2 top-1/2 transform -translate-y-1/2 text-white">
             <SearchIcon style={{ fontSize: "24px" }} />
           </button>
-
-          {/* Show search results as a dropdown */}
           {query && results.length > 0 && (
             <div className="absolute left-0 right-0 bg-black text-white shadow-lg max-h-64 overflow-y-auto z-10 mt-2 rounded-lg">
               {isLoading ? (
@@ -105,7 +100,7 @@ function MobileHeader() {
                   <div
                     key={user._id}
                     className="px-4 py-2 cursor-pointer hover:bg-gray-700"
-                    onClick={() => navigate(`/profile/${user._id}`)} // Navigate to user profile
+                    onClick={() => navigate(`/profile/${user._id}`)}
                   >
                     <p className="text-sm">{user.userName}</p>
                     <p className="text-xs">{user.name}</p>
@@ -115,10 +110,11 @@ function MobileHeader() {
             </div>
           )}
         </div>
-
-        {/* Icons for notifications and messages */}
         <div className="flex justify-between px-1">
-          <button onClick={notificationBtn} className="text-gray-600 pr-3 mr-2 dark:text-gray-300">
+          <button
+            onClick={notificationBtn}
+            className="text-gray-600 pr-3 mr-2 dark:text-gray-300"
+          >
             <NotificationsNoneOutlinedIcon style={{ fontSize: "30px" }} />
           </button>
           <button

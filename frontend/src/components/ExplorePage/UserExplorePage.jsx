@@ -3,34 +3,29 @@ import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
+import { BASE_URL } from "../../Data/config";
 
 function UserExplorePage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading for at least 2 seconds
     const loadPosts = async () => {
       try {
-        const response = await fetch("https://instagramclone-djuv.onrender.com/allposts");
+        const response = await fetch(`${BASE_URL}/allposts`);
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
 
         const data = await response.json();
-
-        // Sort posts by creation date in descending order (newest first)
         const sortedPosts = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-
-        // Limit the number of posts to show (e.g., 9 newest posts)
         const newestPosts = sortedPosts.slice(0, 9);
         setPosts(newestPosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
-        // Ensure loader stays visible for 2 seconds minimum
         setTimeout(() => {
           setLoading(false);
         }, 1000);

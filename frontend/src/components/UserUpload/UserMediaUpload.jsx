@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import SendIcon from "@mui/icons-material/Send";
 import "react-toastify/dist/ReactToastify.css";
-
+import { BASE_URL } from "../../Data/config";
 function UserMediaUpload({ closeModal }) {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState("");
@@ -69,10 +69,9 @@ function UserMediaUpload({ closeModal }) {
 
   useEffect(() => {
     if (url) {
-      // Proceed only if the URL is available (after file upload to Cloudinary)
-      console.log("Sending post request to server with caption:", caption);
+      // console.log("Sending post request to server with caption:", caption);
 
-      fetch("https://instagramclone-djuv.onrender.com/createPost", {
+      fetch(`${BASE_URL}/createPost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

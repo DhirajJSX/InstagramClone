@@ -5,7 +5,7 @@ import BottomNav from "../HomePage/BottomNav";
 import Mobilelogout from "./MobileHeader/Mobilelogout";
 import ProfileAbout from "./ProfileAbout.js/ProfileAbout";
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
-
+import { BASE_URL } from "../../Data/config";
 function UserProfile() {
   const [activeTab, setActiveTab] = useState("posts");
   const [posts, setPosts] = useState([]);
@@ -23,7 +23,7 @@ function UserProfile() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://instagramclone-djuv.onrender.com/me", {
+    fetch(`${BASE_URL}/me`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("JWT"),
       },

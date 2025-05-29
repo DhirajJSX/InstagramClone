@@ -4,24 +4,22 @@ import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify"; 
-
+import { toast } from "react-toastify";
+import { BASE_URL } from "../Data/config.js";
 function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
 
   const postData = () => {
-    
     if (!emailRegex.test(email)) {
       setErrorMessage("Please enter a valid email");
       return;
     }
-    fetch("https://instagramclone-djuv.onrender.com/login", {
+    fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,11 +44,10 @@ function LoginForm() {
             progress: undefined,
             theme: "dark",
           });
-          navigate("/home"); 
-          localStorage.setItem("JWT", data.token)
-          localStorage.setItem("user",JSON.stringify(data.user))
+          navigate("/home");
+          localStorage.setItem("JWT", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
           // console.log(data.token);
-          
         }
       })
       .catch((error) => {
@@ -152,14 +149,15 @@ function LoginForm() {
 
       {/* Footer Section */}
       <div className="flex flex-col flex-wrap justify-around mt-10 text-[13px] gap-4 px-4">
-        <div className="flex flex-wrap justify-center gap-2">
+        <div className="flex flex-wrap justify-center gap-2 px-4 py-6">
           {FooterTerms.map((term) => (
-            <div
-              key={term.id} // Ensure a unique key for FooterTerms
-              className="p-2 cursor-pointer text-gray-400 hover:text-gray-300 hover:underline"
+            <a
+              key={term.label}
+              href={term.href}
+              className="p-2 text-sm text-gray-400 hover:text-gray-300 hover:underline"
             >
               {term.label}
-            </div>
+            </a>
           ))}
         </div>
         <div className="flex justify-center">
