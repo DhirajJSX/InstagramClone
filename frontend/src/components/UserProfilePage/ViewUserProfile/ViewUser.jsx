@@ -17,7 +17,6 @@ function ViewUser({ userId }) {
 
   useEffect(() => {
     setLoading(true);
-    // Fetch user profile and posts by userId (replace endpoints as needed)
     Promise.all([
       fetch(`${BASE_URL}/users/${userId}/profile`).then((res) => res.json()),
       fetch(`${BASE_URL}/users/${userId}/posts`).then((res) => res.json()),
@@ -54,7 +53,7 @@ function ViewUser({ userId }) {
           profile={profile}
           posts={posts}
           loading={loading}
-          // If you want modal, pass props for modal as needed
+          setProfile={setProfile}
         />
 
         <div className="w-full max-w-5xl border-t border-b py-2 border-gray-300 dark:border-gray-700">

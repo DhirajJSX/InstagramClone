@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import noProfile from "../../../img/noImageProfile.jpg";
 import AvatarWithText from "../../Loaders/AvatarWithText";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
-function ProfileAbout({
-  userInfo,
-  profile,
-  posts,
-  loading,
-  isModalOpen,
-  setIsModalOpen,
-  setProfile,
-}) {
+function ProfileAbout({ userInfo, profile, posts, loading, setProfile }) {
+  const [isModalOpen, setIsModalOpen] = useState(false); // modal state here
+
   useEffect(() => {
     if (!loading) {
       gsap.from(".profile-img", {
@@ -54,7 +48,7 @@ function ProfileAbout({
       {loading ? (
         <AvatarWithText />
       ) : (
-        <div>
+        <>
           <div className="flex items-center space-x-8">
             <div className="profile-img w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full overflow-hidden">
               <img
@@ -121,16 +115,16 @@ function ProfileAbout({
               {profile?.link || "No Link Yet"}
             </a>
           </div>
-        </div>
-      )}
 
-      {isModalOpen && (
-        <EditProfileModal
-          setIsModalOpen={setIsModalOpen}
-          userInfo={userInfo}
-          profile={profile}
-          setProfile={setProfile}
-        />
+          {isModalOpen && (
+            <EditProfileModal
+              setIsModalOpen={setIsModalOpen}
+              userInfo={userInfo}
+              profile={profile}
+              setProfile={setProfile}
+            />
+          )}
+        </>
       )}
     </div>
   );
