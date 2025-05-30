@@ -2,14 +2,18 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+// Pages & Components
 import LoginPage from "./pages/LoginPage";
 import SignUpForm from "./components/SignUpForm";
 import MainPage from "./pages/MainPage";
 import Error404 from "./components/Error404";
-import ProtectedRoute from "./components/ProtectedRoute"; 
+import ProtectedRoute from "./components/ProtectedRoute";
 
+// Lazy Loaded Components
 const MessageMainPage = lazy(() => import("./components/MessagePage/MessageMainPage"));
 const UserProfile = lazy(() => import("./components/UserProfilePage/UserProfile"));
+const ViewUserProfile = lazy(() => import("./components/UserProfilePage/ViewUserProfile/ViewUser")); // 👈 Added
 const UserNoticationPage = lazy(() => import("./components/NotificationPage/UserNoticationPage"));
 const UserSearch = lazy(() => import("./components/UserSeach/UserSearch"));
 const UserExplorePage = lazy(() => import("./components/ExplorePage/UserExplorePage"));
@@ -23,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpForm />} />
+
             <Route
               path="/home"
               element={
@@ -44,6 +49,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user/:username" // 👈 New dynamic route
+              element={
+                <ProtectedRoute>
+                  <ViewUserProfile />
                 </ProtectedRoute>
               }
             />
