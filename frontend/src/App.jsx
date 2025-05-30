@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpForm from "./components/SignUpForm";
 import MainPage from "./pages/MainPage";
 import Error404 from "./components/Error404";
+import ProtectedRoute from "./components/ProtectedRoute"; // import added
 
 const MessageMainPage = lazy(() => import("./components/MessagePage/MessageMainPage"));
 const UserProfile = lazy(() => import("./components/UserProfilePage/UserProfile"));
@@ -22,13 +23,64 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/home" element={<MainPage />} />
-            <Route path="/messages" element={<MessageMainPage />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/notification" element={<UserNoticationPage />} />
-            <Route path="/search" element={<UserSearch />} />
-            <Route path="/explore" element={<UserExplorePage />} />
-            <Route path="/reels" element={<UserReelPage />} />
+
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <MainPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/messages"
+              element={
+                <ProtectedRoute>
+                  <MessageMainPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notification"
+              element={
+                <ProtectedRoute>
+                  <UserNoticationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <ProtectedRoute>
+                  <UserSearch />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <ProtectedRoute>
+                  <UserExplorePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reels"
+              element={
+                <ProtectedRoute>
+                  <UserReelPage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<Error404 />} />
           </Routes>
         </Suspense>
