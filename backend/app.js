@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 const mongoUrl = process.env.MONGO_URI;
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "*",
+  origin: "https://instagram-clone-blush-two.vercel.app",
   credentials: true,
 };
 app.use(cors(corsOptions));
