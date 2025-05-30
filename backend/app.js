@@ -6,55 +6,38 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const mongoUrl = process.env.MONGO_URI;
+const frontendUrl = process.env.FRONTEND_URL;
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://instagram-clone-blush-two.vercel.app",
-];
-
+// ✅ Setup CORS
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: frontendUrl || "*",
   credentials: true,
 };
-
 app.use(cors(corsOptions));
 
-// Also handle CORS manually for preflight (just in case)
+// ✅ Extra CORS headers (optional but helps)
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
-app.use(cors(corsOptions));
-
-// ✅ Extra CORS Headers (for preflight requests)
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
+  res.header("Access-Control-Allow-Origin", frontendUrl || "*");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
   next();
 });
 
-// ✅ JSON Parsing
+// ✅ JSON parsing middleware
 app.use(express.json());
 
-// ✅ MongoDB Connection
+// ✅ Models
+require("./models/model");
+require("./models/userPost");
+require("./models/profileModel");
+
+// ✅ Routes
+app.use(require("./routes/auth"));
+app.use(require("./routes/createPost"));
+app.use(require("./routes/profile"));
+
+// ✅ MongoDB connection
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoUrl, {
@@ -69,22 +52,11 @@ const connectDB = async () => {
 };
 connectDB();
 
-// ✅ Models
-require("./models/model");
-require("./models/userPost");
-require("./models/profileModel");
 
-// ✅ Routes
-app.use(require("./routes/auth"));
-app.use(require("./routes/createPost"));
-app.use(require("./routes/profile"));
-
-// ✅ Test Route
 app.get("/", (req, res) => {
   res.send("🚀 Instagram Clone Backend is Live!");
 });
 
-// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
 });

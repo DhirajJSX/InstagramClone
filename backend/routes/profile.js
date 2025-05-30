@@ -1,22 +1,23 @@
-
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin');
 const USER = mongoose.model("USER");
 const ProfileModel = mongoose.model("profileModel");
+
+// Get current logged-in user's profile
 router.get('/profile', requireLogin, (req, res) => {
   const userId = req.user._id;
 
   USER.findById(userId)
-    .select("-password")  
+    .select("-password")
     .then(user => {
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
 
       ProfileModel.findOne({ userId: userId })
-        .populate('userId', 'username email') 
+        .populate('userId', 'userName email')
         .then(profile => {
           if (!profile) {
             const newProfile = new ProfileModel({
@@ -35,7 +36,6 @@ router.get('/profile', requireLogin, (req, res) => {
                 res.status(500).json({ error: "Failed to create profile" });
               });
           } else {
-        
             res.json({ user, profile });
           }
         })
@@ -50,8 +50,59 @@ router.get('/profile', requireLogin, (req, res) => {
     });
 });
 
-router.post('/profile', requireLogin, (req, res) => {
-    const userId = req.user._id;
-    const { bio, website, location } = req.body;
-})
+// Update logged-in user's profile
+router.post('/profile', requireLogin, async (req, res) => {
+  const userId = req.user._id;
+  const { bio, website, location } = req.body;
+
+  try {
+    let profile = await ProfileModel.findOne({ userId });
+
+    if (!profile) {
+      profile = new ProfileModel({
+        userId,
+        bio: bio || "This user has not added a bio yet.",
+        link: website || "No Link Yet",
+        location: location || "",
+        profileImage: "https://via.placeholder.com/150",
+      });
+    } else {
+      // Update fields if provided
+      if (bio !== undefined) profile.bio = bio;
+      if (website !== undefined) profile.link = website;
+      if (location !== undefined) profile.location = location;
+    }
+
+    const savedProfile = await profile.save();
+    res.json({ message: "Profile updated successfully", profile: savedProfile });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update profile" });
+  }
+});
+
+// Get user profile by username (for URL like /user/:username)
+router.get('/user/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const user = await USER.findOne({ userName: username }).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const profile = await ProfileModel.findOne({ userId: user._id })
+      .populate('userId', 'userName email');
+
+    if (!profile) {
+      return res.status(404).json({ error: "Profile not found" });
+    }
+
+    res.json({ user, profile });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 module.exports = router;
