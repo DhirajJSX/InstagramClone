@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpForm from "./components/SignUpForm";
 import MainPage from "./pages/MainPage";
 import Error404 from "./components/Error404";
-import ProtectedRoute from "./components/ProtectedRoute"; // import added
+import ProtectedRoute from "./components/ProtectedRoute"; 
 
 const MessageMainPage = lazy(() => import("./components/MessagePage/MessageMainPage"));
 const UserProfile = lazy(() => import("./components/UserProfilePage/UserProfile"));
