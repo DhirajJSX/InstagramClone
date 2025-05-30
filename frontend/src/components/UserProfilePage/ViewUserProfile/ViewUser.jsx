@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import LeftSidebar from "../HomePage/LeftSidebar";
-import BottomNav from "../HomePage/BottomNav";
-import Mobilelogout from "./MobileHeader/Mobilelogout";
-import ProfileAbout from "./ProfileAbout.js/ProfileAbout";
-import ProfilePostLoader from "../Loaders/ProfilePostLoader";
-import { BASE_URL } from "../../utils/config";
+import LeftSidebar from "../../HomePage/LeftSidebar";
+import BottomNav from "../../HomePage/BottomNav";
+import Mobilelogout from "../MobileHeader/Mobilelogout";
+import ProfileAbout from "../ProfileAbout/ProfileAbout";
+import ProfilePostLoader from "../../Loaders/ProfilePostLoader";
+import { BASE_URL } from "../../../utils/config";
 
 function ViewUser({ userId }) {
   const [activeTab, setActiveTab] = useState("posts");

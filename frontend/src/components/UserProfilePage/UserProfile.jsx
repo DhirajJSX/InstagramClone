@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 import Mobilelogout from "./MobileHeader/Mobilelogout";
-import ProfileAbout from "./ProfileAbout.js/ProfileAbout";
+import ProfileAbout from "./ProfileAbout/ProfileAbout";
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
 import { BASE_URL } from "../../utils/config";
 
