@@ -21,10 +21,10 @@ function UserProfile() {
     Promise.all([
       fetch(`${BASE_URL}/profile`, {
         headers: { Authorization: "Bearer " + localStorage.getItem("JWT") },
-      }).then(res => res.json()),
+      }).then((res) => res.json()),
       fetch(`${BASE_URL}/me`, {
         headers: { Authorization: "Bearer " + localStorage.getItem("JWT") },
-      }).then(res => res.json()),
+      }).then((res) => res.json()),
     ])
       .then(([profileData, postsData]) => {
         setUserInfo(profileData.user);
@@ -32,7 +32,7 @@ function UserProfile() {
         setPosts(postsData);
         setTimeout(() => setLoading(false), 1000);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Error fetching data:", err);
         setLoading(false);
       });
@@ -89,29 +89,37 @@ function UserProfile() {
             <ProfilePostLoader />
           </div>
         ) : (
-          <div className="w-full max-w-5xl grid grid-cols-3 gap-[5px] py-2 pb-16" ref={postsRef}>
+          <div
+            className="w-full max-w-5xl grid grid-cols-3 gap-[5px] py-2 pb-16"
+            ref={postsRef}
+          >
             {activeTab === "posts" && posts.length > 0 ? (
-              [...posts].reverse().map((post, index) => (
-                <div key={post._id || index} className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden">
-                  <img
-                    onClick={() => console.log(`Navigating to post: ${post._id}`)}
-                    src={post.image}
-                    alt={post.body}
-                    className="w-full h-full object-cover absolute cursor-pointer"
-                  />
-                  <p className="text-center text-sm mt-2 text-gray-800 dark:text-gray-100">
-                    {post.body}
-                  </p>
-                </div>
-              ))
+              [...posts]
+                .reverse()
+                .map((post, index) => (
+                  <div
+                    key={post._id || index}
+                    className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden relative"
+                  >
+                    <img
+                      onClick={() => console.log(`Navigating to post: ${post._id}`)}
+                      src={post.image}
+                      alt={post.body}
+                      className="w-full h-full object-cover cursor-pointer"
+                      loading="lazy"
+                    />
+                  </div>
+                ))
             ) : (
-              <p className="text-gray-600 dark:text-gray-400">No posts to display.</p>
+              <p className="col-span-3 text-center text-gray-600 dark:text-gray-400">
+                No posts to show.
+              </p>
             )}
-            {activeTab === "tagged" && <p>Tagged content will be displayed here.</p>}
           </div>
         )}
+
+        <BottomNav />
       </div>
-      <BottomNav />
     </div>
   );
 }
