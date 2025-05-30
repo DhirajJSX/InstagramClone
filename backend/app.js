@@ -53,8 +53,8 @@ const connectDB = async () => {
 connectDB();
 
 // ✅ Test route
-app.get("/ping", (req, res) => {
-  res.send("Server is alive!");
+app.get("/", (req, res) => {
+  res.send("🚀 Instagram Clone Backend is Live!");
 });
 
 // ✅ Start server
