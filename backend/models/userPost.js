@@ -1,6 +1,4 @@
-
 const mongoose = require("mongoose");
-
 const userPostSchema = new mongoose.Schema(
   {
     body: {
