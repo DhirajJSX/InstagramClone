@@ -37,15 +37,20 @@ function ViewUserProfile() {
         <div>
           <h2 className="text-xl font-semibold">{user.userName}</h2>
           <div className="flex space-x-4 mt-2">
-            <div>{posts.length} posts</div>
-            <div>{profile?.followers.length || 0} followers</div>
-            <div>{profile?.following.length || 0} following</div>
+            <div>{posts?.length || 0} posts</div>
+            <div>{profile?.followers?.length || 0} followers</div>
+            <div>{profile?.following?.length || 0} following</div>
           </div>
           <div className="mt-2">
             <p>{user.name}</p>
             <p>{profile?.bio}</p>
             {profile?.link && (
-              <a href={profile.link} className="text-blue-500" target="_blank">
+              <a
+                href={profile.link}
+                className="text-blue-500"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {profile.link}
               </a>
             )}
