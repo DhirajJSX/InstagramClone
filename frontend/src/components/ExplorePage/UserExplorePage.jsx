@@ -3,8 +3,7 @@ import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
-import { BASE_URL } from "../../Data/config";
-
+import { BASE_URL } from "../../utils/config";
 function UserExplorePage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);

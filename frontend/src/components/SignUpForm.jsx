@@ -5,7 +5,7 @@ import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BASE_URL } from "../Data/config.js";
+import { BASE_URL } from "../utils/config.js";
 function SignUpForm() {
   const navigate = useNavigate(); 
   const [name, setName] = useState("");
@@ -42,7 +42,6 @@ function SignUpForm() {
             if (data.error) {
                 setErrorMessage(data.error);
             } else {
-                // console.log(data);
                 toast.success("Successfully Registered!", {
                     position: "top-right",
                     autoClose: 3000,
@@ -53,7 +52,7 @@ function SignUpForm() {
                     progress: undefined,
                     theme: "dark",
                 });
-                navigate("/"); // Navigate to home or login page
+                navigate("/");
             }
         })
         .catch((error) => {

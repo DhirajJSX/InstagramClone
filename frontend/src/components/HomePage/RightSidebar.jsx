@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import noProfile from "../../img/noImageProfile.jpg";
 import DeskTopRIghtSiderLoader from "../Loaders/DeskTopRIghtSiderLoader";
-import { BASE_URL } from "../../Data/config";
+import { BASE_URL } from "../../utils/config";
 
 function RightSidebar() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ function RightSidebar() {
         setImg(result.profile);
         setTimeout(() => {
           setLoading(false)
-        }, 3000);
+        }, 100);
       })
       .catch((err) => {
         console.error("Error fetching user info:", err);

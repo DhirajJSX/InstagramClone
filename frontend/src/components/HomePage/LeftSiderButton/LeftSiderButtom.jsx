@@ -7,7 +7,7 @@ import gsap from "gsap";
 function LeftSiderButtom() {
   const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
-  const logoutDropdownRef = useRef(null); // Reference to the logout dropdown for animation
+  const logoutDropdownRef = useRef(null);
 
   const handleSettingsClick = () => {
     setShowLogout((prev) => !prev); // Toggle the logout menu visibility
@@ -20,14 +20,13 @@ function LeftSiderButtom() {
 
   const handleLogout = () => {
     setShowLogout(false);
-    localStorage.clear(); // Clear the user session from local storage
-    window.history.replaceState(null, "", "/"); // Remove the current page from history
-    navigate("/"); // Navigate to the login page or home page
+    localStorage.clear();
+    window.history.replaceState(null, "", "/"); 
+    navigate("/");
   };
 
   useEffect(() => {
     if (showLogout) {
-      // Slide from top with scale effect
       gsap.fromTo(
         logoutDropdownRef.current,
         { opacity: 0, y: -30, scale: 0.8 },
@@ -74,7 +73,6 @@ function LeftSiderButtom() {
           </div>
         )}
         <li
-          // onClick={handleAiStudioClick}
           className="flex items-center space-x-3 p-2 my-1 rounded-md hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 ease-out cursor-pointer"
         >
           <AutoFixHighIcon style={{ fontSize: "24px" }} />

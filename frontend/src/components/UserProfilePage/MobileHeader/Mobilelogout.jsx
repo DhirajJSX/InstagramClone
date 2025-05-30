@@ -4,7 +4,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { gsap } from "gsap";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../../Data/config";
+import { BASE_URL } from "../../../utils/config";
 
 function Mobilelogout() {
   const navigate = useNavigate();

@@ -5,8 +5,7 @@ import IGimg from "../../img/LoginPage/instagram.png";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import { BASE_URL } from "../../Data/config";
-
+import { BASE_URL } from "../../utils/config";
 function MobileHeader() {
   const navigate = useNavigate();
 

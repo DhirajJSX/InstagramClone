@@ -18,19 +18,19 @@ function DesktopLogout() {
 
   const handleLogout = () => {
     setShowLogout(false);
-    localStorage.clear();  // Clear the user session from local storage
-    window.history.replaceState(null, '', '/'); // Remove the current page from history
-    navigate('/'); // Navigate to the login page or home page
+    localStorage.clear();
+    window.history.replaceState(null, "", "/");
+    navigate("/");
   };
 
   const handleSettingsClick = () => {
     setShowLogout(false);
-    navigate('/settings'); // Navigate to settings page
+    navigate("/settings");
   };
 
   const handleAiStudioClick = () => {
     setShowLogout(false);
-    navigate('/ai-studio'); // Navigate to Ai Studio page
+    navigate("/ai-studio");
   };
 
   useEffect(() => {
@@ -41,13 +41,18 @@ function DesktopLogout() {
         { y: "0%", opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }
       );
     } else {
-      gsap.to(".logout-button", { y: "100%", opacity: 0, scale: 0.5, duration: 0.6, ease: "power3.in" });
+      gsap.to(".logout-button", {
+        y: "100%",
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.6,
+        ease: "power3.in",
+      });
     }
   }, [showLogout]);
 
   return (
     <div className="w-full bg-black max-w-5xl px-4 py-2 flex items-center justify-between border-b border-gray-600 sticky top-0 z-10">
-      {/* Desktop Menu Button */}
       <button
         onClick={hamburgerButtonHandle}
         className="text-white text-xl p-2 sm:p-3"
@@ -56,7 +61,6 @@ function DesktopLogout() {
         <span className="text-2xl">☰</span>
       </button>
 
-      {/* Logout and Settings UI */}
       {showLogout && (
         <div
           onClick={touchAnyWhere}
@@ -69,7 +73,6 @@ function DesktopLogout() {
         <div className="logout-button fixed bottom-0 mx-1.5 mb-2 left-0 right-0 bg-[#262626] text-white rounded-[5px] shadow-xl z-50">
           <div className="flex flex-col items-center justify-center mx-4 sm:mx-6 md:mx-8 py-5 sm:p-8">
             <div className="flex flex-col items-center justify-between bg-[#333333] w-full p-2 sm:p-6 rounded-md shadow-md">
-              {/* Settings Button */}
               <div className="flex items-center justify-start w-full p-2">
                 <SettingsIcon
                   className="bg-[#3b3b3b] rounded-full text-white mr-3"
@@ -84,7 +87,6 @@ function DesktopLogout() {
                 </button>
               </div>
 
-              {/* Ai Studio Button */}
               <div className="flex items-center justify-start w-full p-2 mt-4">
                 <AutoFixHighIcon
                   className="bg-[#3b3b3b] rounded-full text-white mr-3"
@@ -99,7 +101,6 @@ function DesktopLogout() {
                 </button>
               </div>
 
-              {/* Logout Button */}
               <div className="w-full flex justify-center mt-4">
                 <button
                   onClick={handleLogout}

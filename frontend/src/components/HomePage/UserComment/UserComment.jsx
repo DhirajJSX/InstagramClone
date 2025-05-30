@@ -7,7 +7,7 @@ import ChevronUpIcon from "@mui/icons-material/ExpandLess";
 import SendIcon from "@mui/icons-material/Send";
 import { formatDistanceToNow } from "date-fns";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import DeleletComment from "./deleteCommentButton/DeleletComment";  // Import the delete confirmation component
+import DeleletComment from "./deleteCommentButton/DeleletComment"; 
 
 function UserComment({ comments }) {
   const [showReplies, setShowReplies] = useState({});
@@ -41,7 +41,6 @@ function UserComment({ comments }) {
 
   const handleDeleteConfirm = () => {
     
-    // You can add the actual delete logic here
     setShowDeleteConfirmation(false);
   };
 

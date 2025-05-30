@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import IGimg from "./../img/LoginPage/instagram.png";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-
 import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { BASE_URL } from "../Data/config.js";
+import { BASE_URL } from "../utils/config.js";
+
 function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");

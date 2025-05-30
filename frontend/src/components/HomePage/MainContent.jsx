@@ -9,7 +9,7 @@ import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
 import UserComment from "../HomePage/UserComment/UserComment";
 import SendIcon from "@mui/icons-material/Send";
-import { BASE_URL } from "../../Data/config";
+import { BASE_URL } from "../../utils/config";
 
 function MainContent() {
   const [posts, setPosts] = useState([]);

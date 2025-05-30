@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import noProfile from "../../../img/noImageProfile.jpg";
 import AvatarWithText from "../../Loaders/AvatarWithText";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
-import { BASE_URL } from "../../../Data/config";
+import { BASE_URL } from "../../../utils/config";
 function ProfileAbout() {
   const [userInfo, setUserInfo] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -104,7 +104,7 @@ function ProfileAbout() {
             </div>
           </div>
 
-          <div className="mt-4 profile-description">
+          <div className="mt-4 profile-description  ">
             <p className="font-semibold text-gray-800 dark:text-gray-100">
               {userInfo?.name || "Name not available"}
             </p>

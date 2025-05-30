@@ -36,7 +36,7 @@ function MessagePage() {
   }, [chatMessages]);
 
   return (
-    <div className="flex h-screen bg-[#121212] text-white">
+    <div className="flex h-screen bg-[#121212] text-white ">
       {/* Sidebar */}
       <div className="hidden sm:block">
         <LeftSidebar />

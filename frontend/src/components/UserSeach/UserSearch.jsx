@@ -3,34 +3,32 @@ import LeftSidebar from "../HomePage/LeftSidebar";
 import BottomNav from "../HomePage/BottomNav";
 import SearchIcon from "@mui/icons-material/Search";
 import ProfilePostLoader from "../Loaders/ProfilePostLoader";
-
+import { BASE_URL } from "../../utils/config";
 function UserSearch() {
-  const [query, setQuery] = useState(""); 
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSearchInputChange = (event) => {
     setQuery(event.target.value);
   };
 
- 
   const fetchSearchResults = async () => {
     if (query.trim() === "") {
-      setResults([]); 
+      setResults([]);
       setIsLoading(false);
       setError(null);
       return;
     }
 
-    setIsLoading(true); 
-    setError(null); 
+    setIsLoading(true);
+    setError(null);
 
     try {
-     
       setTimeout(async () => {
         const response = await fetch(
-          `http://localhost:5000/searchuser?query=${encodeURIComponent(query)}`
+          `${BASE_URL}/searchuser?query=${encodeURIComponent(query)}`
         );
 
         if (!response.ok) {
@@ -38,29 +36,24 @@ function UserSearch() {
         }
 
         const data = await response.json();
-        setResults(data.users || []); // Update results
-      }, 2000); // 2-second delay
+        setResults(data.users || []);
+      }, 2000);
     } catch (err) {
       setError("Unable to fetch search results. Please try again.");
-      setResults([]); // Clear results in case of an error
+      setResults([]);
     } finally {
-      setTimeout(() => setIsLoading(false), 2000); // Stop loader after 2 seconds
+      setTimeout(() => setIsLoading(false), 2000);
     }
   };
 
-  // useEffect to trigger search whenever the query changes
   useEffect(() => {
     fetchSearchResults();
   }, [query]);
 
   return (
     <div className="flex h-screen flex-row">
-      {/* Sidebar */}
       <LeftSidebar />
-
-      {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-y-auto">
-        {/* Search Bar */}
         <div className="w-full max-w-5xl mx-auto px-1 py-2 sticky top-0 border-b border-gray-500 bg-black z-10 sm:border-b-0">
           <div className="flex items-center rounded-lg px-4 py-2">
             <input
@@ -73,33 +66,21 @@ function UserSearch() {
             <SearchIcon className="text-gray-200 p-1" />
           </div>
         </div>
-
-        {/* Search Results */}
         <div className="relative w-full max-w-5xl mx-auto px-6 pt-1 pb-16">
-          {/* Loader */}
           {isLoading && (
             <div className="absolute inset-0 flex justify-center items-center">
               <ProfilePostLoader />
             </div>
           )}
-
-          {/* Error Message */}
           {!isLoading && error && (
             <p className="text-center text-red-500">{error}</p>
           )}
-
-          {/* No Results Message */}
           {!isLoading && !error && query.trim() && results.length === 0 && (
             <p className="text-center text-gray-500">No users found</p>
           )}
-
-          {/* Render Results */}
           {!isLoading &&
             results.map((user) => (
-              <div
-                key={user._id}
-                className="flex items-center space-x-4 py-3"
-              >
+              <div key={user._id} className="flex items-center space-x-4 py-3">
                 <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
                   <img
                     src={`https://via.placeholder.com/150?text=${user.name}`}
@@ -119,8 +100,6 @@ function UserSearch() {
             ))}
         </div>
       </div>
-
-      {/* Bottom Navigation */}
       <BottomNav />
     </div>
   );

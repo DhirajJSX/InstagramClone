@@ -2,48 +2,49 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import SendIcon from "@mui/icons-material/Send";
 import "react-toastify/dist/ReactToastify.css";
-import { BASE_URL } from "../../Data/config";
+
+import { BASE_URL, CLOUD_NAME, CLOUD_PRESET } from "../../utils/config";
 function UserMediaUpload({ closeModal }) {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState("");
   const [url, setUrl] = useState(""); 
   const [loading, setLoading] = useState(false);
+const handleUpload = () => {
+  if (!file) {
+    toast.error("Please select an image or video to upload!");
+    return;
+  }
 
-  const handleUpload = () => {
-    if (!file) {
-      toast.error("Please select an image or video to upload!");
-      return;
-    }
+  setLoading(true);
 
-    setLoading(true); 
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", `${CLOUD_PRESET}`);
 
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "CLoneDAta");
-    data.append("cloud_name", "igcloudclone");
-
-    fetch("https://api.cloudinary.com/v1_1/igcloudclone/image/upload", {
-      method: "POST",
-      body: data,
+  fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: "POST",
+    body: data,
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Cloudinary upload failed");
+      }
+      return res.json();
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Cloudinary upload failed");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("File uploaded successfully, Cloudinary response:", data);
+    .then((data) => {
+      console.log("File uploaded successfully, Cloudinary response:", data);
 
-        setUrl(data.url); 
-        console.log("Image URL:", data.url); 
-      })
-      .catch((err) => {
-        console.error("File upload failed:", err);
-        toast.error("Failed to upload file!"); 
-        setLoading(false);
-      });
-  };
+      setUrl(data.url);
+      console.log("Image URL:", data.url);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("File upload failed:", err);
+      toast.error("Failed to upload file!");
+      setLoading(false);
+    });
+};
+
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -106,8 +107,8 @@ function UserMediaUpload({ closeModal }) {
   }, [url, caption, closeModal]);
 
   return (
-    <div className="fixed font-Poppins inset-0 p-3 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-[#262626] p-6 rounded-lg w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] shadow-lg flex flex-col space-y-4">
+    <div className="fixed font-Poppins inset-0 p-3 bg-black bg-opacity-50 flex justify-center items-center ">
+      <div className="bg-[#262626] p-6 rounded-lg w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] shadow-lg flex flex-col space-y-4 ">
         <h2 className="text-center text-xl font-semibold text-white">
           Upload Media
         </h2>
