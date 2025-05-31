@@ -14,7 +14,9 @@ A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Fi
 ## 📷 App Screenshots
 
 ### 🔐 Mobile Output
-(../InstagramClone/frontend/public/outputImg/iPhone%2014%20&%2015%20Pro%20Max%20-%201%20(1).png)
+
+<img src="./frontend/public/outputImg/iPhone 14 & 15 Pro Max - 1 (1).png" alt="Mobile Output" width="300"/>
+
 
 
 ## ✨ Features
