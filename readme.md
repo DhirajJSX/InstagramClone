@@ -4,7 +4,7 @@ A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Fi
 
 While features like **real-time messaging using Socket.io** are part of future updates, this project represents more than just a clone. It is a **personal journey** and a **foundation** for building my own unique **social media platform inspired by Instagram**. Over time, I aim to transform this into a fully customized **application and website** that reflects my individual creativity, ideas, and innovations.
 
-If anyone is interested in contributing or collaborating on this project, feel free to reach out — I’d be happy to welcome meaningful contributions that align with the project's goals.
+*If anyone is interested in contributing or collaborating on this project, feel free to reach out — I’d be happy to welcome meaningful contributions that align with the project's goals.*
 ---
 
 ## 🔗 Live Demo
