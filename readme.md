@@ -62,7 +62,76 @@ A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Fi
 
 ---
 
-## 📁 Folder Structure
+# Folder Structure
+
+```
+.
+├── instagram-clone/
+│   ├── backend/
+│   │   ├── middleware/
+│   │   │   └── requireLogin.js
+│   │   ├── models/
+│   │   │   ├── model.js
+│   │   │   ├── profileModel.js
+│   │   │   └── userPost.js
+│   │   ├── node_modules/       # Backend dependencies
+│   │   ├── routes/
+│   │   │   ├── auth.js
+│   │   │   ├── createPost.js
+│   │   │   └── profile.js
+│   │   ├── .env                # Backend specific .env
+│   │   ├── app.js
+│   │   ├── package-lock.json   # Backend specific lock file
+│   │   └── package.json        # Backend specific package.json
+│   │
+│   ├── frontend/
+│   │   ├── node_modules/       # Frontend dependencies
+│   │   ├── public/
+│   │   │   └── vite.svg
+│   │   └── src/
+│   │       ├── components/
+│   │       │   ├── ExplorePage/
+│   │       │   ├── HomePage/
+│   │       │   ├── Loaders/
+│   │       │   ├── Logout/
+│   │       │   ├── MessagePage/
+│   │       │   ├── NotificationPage/
+│   │       │   ├── Reels/
+│   │       │   ├── UserProfilePage/
+│   │       │   ├── UserSearch/
+│   │       │   ├── UserUpload/
+│   │       │   ├── Error404.jsx
+│   │       │   ├── LoginForm.jsx
+│   │       │   ├── ProtectedRoute.jsx
+│   │       │   └── SignUpForm.jsx
+│   │       ├── Data/
+│   │       │   └── dataButtons.js
+│   │       ├── img/
+│   │       │   ├── Error404
+│   │       │   ├── LoginPage
+│   │       │   ├── InstargamSquare.png
+│   │       │   └── noImageProfile.jpg
+│   │       ├── pages/
+│   │       │   ├── LoginPage.jsx
+│   │       │   └── MainPage.jsx
+│   │       ├── utils/
+│   │       │   └── config.js
+│   │       ├── App.jsx
+│   │       ├── index.css
+│   │       └── main.jsx
+│   │   ├── .env                # Frontend specific .env
+│   │   ├── eslint.config.js
+│   │   ├── index.html
+│   │   ├── package-lock.json   # Frontend specific lock file
+│   │   ├── package.json        # Frontend specific package.json
+│   │   ├── postcss.config.js
+│   │   ├── tailwind.config.js
+│   │   ├── vercel.json
+│   │   └── vite.config.js
+│   │
+│   ├── .gitignore              # Root .gitignore for the monorepo
+│   └── README.md               # Main README for the entire project
+```
 
 .
 ├── instagram-clone/
