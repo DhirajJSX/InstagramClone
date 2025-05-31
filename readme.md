@@ -11,9 +11,17 @@ A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Fi
 
 ---
 
-## 📷 App Screenshots
+## 📷 Output Screenshots
 
-### 🔐 Mobile Output
+### 🖥️ Desktop Output
+
+<h3 align="center">📱 Instagram Clone - Desktop UI</h3>
+
+<p align="center">
+    <img src="/frontend/public/outputImg/Untitled.png" width="800" alt="Instagram Clone - Desktop UI" />
+</p>
+
+### 📱 Mobile Output
 
 <h3 align="center">📱 Instagram Clone - Mobile UI</h3>
 
