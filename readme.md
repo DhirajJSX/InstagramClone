@@ -14,36 +14,35 @@ A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Fi
 ## ✨ Features
 
 ### 🔐 Authentication (via Firebase)
-- Email & password registration/login
-- Phone number OTP login
-- Email verification after signup
+- Email & password registration/login 
+- Phone number OTP login (In Update)
+- Email verification after signup (In Update)
 - Protected routes (auto-redirect for unauthorized users)
 
 ### 📸 Post System
-- Upload image with caption
+- Upload image with caption 
 - Like/unlike posts
-- Add/delete comments
-- Delete your own posts
-- Fully responsive feed
+- Add/delete comments (In Update)
+- Delete your own posts (In Update)
+- Fully responsive feed 
 
 ### 🧑‍💼 User Profiles
-- View personal profile and all uploaded posts
-- View other users’ public profiles
+- View personal profile and all uploaded posts (In Update)
+- View other users’ public profiles (In Future update Private Profiles) 
 - Optional (Follow/Unfollow system – to be added)
 
-### 💬 Real-Time Chat (Socket.io + MongoDB)
+### 💬 Real-Time Chat (Socket.io + MongoDB)(This Updated Will Be In Future)
 - One-to-one messaging system
 - Live message updates
 - Chat history stored in MongoDB
 - Displays selected user’s name at top of chat window
 - Scrollable, timestamped messages
-- Typing indicator
+- Typing indicator 
 
 ### 🎨 UI/UX
 - Tailwind CSS for beautiful, responsive design
 - Mobile-first layout, desktop optimized
 - Framer Motion for subtle animations
-
 ---
 
 ## 🛠️ Tech Stack
@@ -147,6 +146,7 @@ npm install
 ```
 ### Create a .env file in the root of your frontend project with the following content:
 
+```
 VITE_FIREBASE_API_KEY=your_api_key
 
 VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
@@ -158,7 +158,7 @@ VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 
 VITE_FIREBASE_APP_ID=your_app_id
-
+```
 
 #### After setting up .env, start the development server:
 
