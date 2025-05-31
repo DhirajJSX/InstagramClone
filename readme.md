@@ -31,7 +31,7 @@ A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Fi
 - View other users’ public profiles (In Future update Private Profiles) 
 - Optional (Follow/Unfollow system – to be added)
 
-### 💬 Real-Time Chat (Socket.io + MongoDB)(This Updated Will Be In Future)
+### 💬 Real-Time Chat (Socket.io + MongoDB)(This Feature Will Be In Future)
 - One-to-one messaging system
 - Live message updates
 - Chat history stored in MongoDB
