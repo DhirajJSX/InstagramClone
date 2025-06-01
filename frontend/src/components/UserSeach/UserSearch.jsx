@@ -87,9 +87,9 @@ function UserSearch() {
             results.map((user) => {
               return (
                 <Link
-                  to={`/user/${user.userName}`} // 👈 LINK BY userName
+                  to={`/user/${user.userName}`}
                   key={user._id}
-                  className="flex items-center space-x-4 py-3 hover:bg-gray-100 rounded cursor-pointer"
+                  className="flex items-center space-x-4 py-3 rounded cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
                     <img

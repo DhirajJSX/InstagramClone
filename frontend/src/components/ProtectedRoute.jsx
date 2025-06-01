@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem("JWT"); 
+  const isAuthenticated = !!localStorage.getItem("JWT");
 
   if (!isAuthenticated) {
     return (
@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
             You must log in first
           </h2>
           <Link
-            href="/"
+            to="/"
             className="inline-block mt-2 text-blue-500 font-medium text-lg underline hover:text-blue-400 transition"
           >
             Go to Login

@@ -36,7 +36,7 @@ function UserProfile() {
         }
         setTimeout(() => {
           setLoading(false);
-        }, 2000);
+        }, 700);
       })
       .catch((err) => {
         console.error("Error fetching posts:", err);
@@ -97,7 +97,7 @@ function UserProfile() {
             </div>
           ) : (
             <div
-              className="w-full max-w-5xl grid grid-cols-3 gap-[5px] py-2 pb-16 justify-center"
+              className="w-full max-w-5xl grid grid-cols-3 px-3 gap-[5px] py-2 pb-16 justify-center"
               ref={postsRef}
             >
               {activeTab === "posts" && posts.length > 0 ? (

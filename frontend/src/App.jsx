@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Lazy Loaded Components
 const MessageMainPage = lazy(() => import("./components/MessagePage/MessageMainPage"));
 const UserProfile = lazy(() => import("./components/UserProfilePage/UserProfile"));
-const ViewUserProfile = lazy(() => import("./components/UserProfilePage/ViewUserProfile/ViewUser")); // 👈 Added
+const ViewUserProfile = lazy(() => import("./components/UserProfilePage/ViewUserProfile/ViewUserProfile")); // 👈 Added
 const UserNoticationPage = lazy(() => import("./components/NotificationPage/UserNoticationPage"));
 const UserSearch = lazy(() => import("./components/UserSeach/UserSearch"));
 const UserExplorePage = lazy(() => import("./components/ExplorePage/UserExplorePage"));
