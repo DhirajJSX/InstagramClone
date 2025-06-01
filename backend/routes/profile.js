@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin');
 const USER = mongoose.model("USER");
 const ProfileModel = mongoose.model("profileModel");
-
+const POST = mongoose.model("POST");
 // Get current logged-in user's profile
 router.get('/profile', requireLogin, (req, res) => {
   const userId = req.user._id;
@@ -98,11 +98,18 @@ router.get('/user/:username', async (req, res) => {
       return res.status(404).json({ error: "Profile not found" });
     }
 
-    res.json({ user, profile });
+    // Count posts made by this user
+    const postCount = await POST.countDocuments({ postedBy: user._id });
+
+    // Optionally: fetch actual posts if you want
+    // const posts = await POST.find({ postedBy: user._id }).sort({ createdAt: -1 });
+
+    res.json({ user, profile, postCount /*, posts*/ });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 module.exports = router;
