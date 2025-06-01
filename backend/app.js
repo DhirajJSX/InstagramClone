@@ -17,7 +17,7 @@ if (isProduction && !process.env.FRONTEND_URL) {
 
 const frontendUrl = isProduction
   ? process.env.FRONTEND_URL
-  : "http://192.168.62.111:5174";
+  : "http://192.168.62.111:5173";
 
 app.use(
   cors({
@@ -42,12 +42,12 @@ mongoose
 require("./models/model");
 require("./models/userPost");
 require("./models/profileModel");
-
+// require('./models/Userhistory');
 
 app.use(require("./routes/auth"));
 app.use(require("./routes/createPost"));
 app.use(require("./routes/profile"));
-
+// app.use(require("./routes/userHistoryRoutes"))
 app.get("/", (req, res) => {
   res.send("🚀 Instagram Clone Backend is Live!");
 });
