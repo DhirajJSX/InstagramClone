@@ -31,7 +31,7 @@ While features like **real-time messaging using Socket.io** are part of future u
 <h3 align="center">📱 Instagram Clone - Mobile UI</h3>
 
 <p align="center">
-    <img src="/frontend/public/outputImg/iPhone 14 & 15 Pro Max - 1 (1).png" width="800" alt="Instagram Clone Mobile UI" />
+    <img src="/frontend/public/outputImg/iPhone 14 & 15 Pro Max - 1 (1).png" width="900" alt="Instagram Clone Mobile UI" />
 </p>
 
 
