@@ -1,4 +1,4 @@
-# 📸 Instagram Clone (Full-Stack App)
+# 📸 Instagram Clone (Full-Stack Web App)
 
 A full-featured, mobile-first **Instagram Clone** built using **React.js**, **Firebase**, **MongoDB**, **Tailwind CSS**, **Socket.io**, and **Express.js**. It replicates the core features of Instagram, including **image posting**, **commenting**, **real-time chat**, and both **email and phone authentication**, all within a clean, responsive **UI**.
 
