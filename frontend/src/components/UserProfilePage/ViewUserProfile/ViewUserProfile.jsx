@@ -8,6 +8,7 @@ import BottomNav from "../../HomePage/BottomNav";
 import api from "../../../utils/ViewUserapi";
 import noProfile from "../../../img/noImageProfile.jpg";
 import ViewUserPost from "./viewUserPost/ViewUserPost";
+import ProfilePostLoader from "../../Loaders/ProfilePostLoader";
 
 const ViewUserProfile = () => {
   const { username } = useParams();
@@ -103,7 +104,7 @@ const ViewUserProfile = () => {
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-600 dark:text-gray-300">Loading profile...</p>
+        <ProfilePostLoader />
       </div>
     );
 

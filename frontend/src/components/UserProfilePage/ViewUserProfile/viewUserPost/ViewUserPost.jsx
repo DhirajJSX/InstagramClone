@@ -39,9 +39,9 @@ const ViewUserPost = ({ posts, taggedPosts = [] }) => {
                 src={post.image}
                 alt={post.body || "User post image"}
                 className="w-full h-full object-cover cursor-pointer absolute inset-0"
-                onClick={() => {
-                  console.log(`Clicked post: ${post._id}`);
-                }}
+                // onClick={() => {
+                //   console.log(`Clicked post: ${post._id}`);
+                // }}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500">

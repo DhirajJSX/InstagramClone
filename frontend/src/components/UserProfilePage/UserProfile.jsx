@@ -18,7 +18,7 @@ function UserProfile() {
   const postsRef = useRef(null);
 
   const handleTabChange = (tab) => setActiveTab(tab);
-  console.log(profile);
+  // console.log(profile);
   
   useEffect(() => {
     setLoading(true);
@@ -123,7 +123,7 @@ const handleProfileUpdate = (updatedUserInfo, updatedProfile) => {
                   className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden relative"
                 >
                   <img
-                    onClick={() => console.log(`Navigating to post: ${post._id}`)}
+                    // onClick={() => console.log(`Navigating to post: ${post._id}`)}
                     src={post.image}
                     alt={post.body}
                     className="w-full h-full object-cover cursor-pointer"
