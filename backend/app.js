@@ -17,7 +17,7 @@ if (isProduction && !process.env.FRONTEND_URL) {
 
 const frontendUrl = isProduction
   ? process.env.FRONTEND_URL
-  : "http://192.168.62.111:5174";
+  : "http://localhost:5173";
 
 app.use(
   cors({

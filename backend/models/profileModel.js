@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const profileModel = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
   bio: {
     type: String,
     default: "This user has not added a bio yet.",
   },
   profileImage: {
     type: String,
-    default: "https://i.sstatic.net/GqoVi.png",
+    default: "https://res.cloudinary.com/igcloudclone/image/upload/v1748871619/noImageProfile_emejna.jpg",
   },
   followers: {
     type: [String],
@@ -21,6 +21,10 @@ const profileModel = new mongoose.Schema({
     type: String,
     default: "No Link Yet",
   },
+  location: {
+    type: String,
+    default: "",
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'USER',
@@ -28,4 +32,5 @@ const profileModel = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-mongoose.model("profileModel", profileModel);
+// ✅ Export the model
+module.exports = mongoose.model("profileModel", profileSchema);
