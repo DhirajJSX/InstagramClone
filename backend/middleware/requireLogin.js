@@ -12,7 +12,8 @@ module.exports = (req, res, next) => {
         return res.status(401).json({ error: "You must be logged in!" });
     }
 
-    const token = authorization.replace("Bearer ", ""); 
+    const token = authorization.replace("Bearer ", "");
+
     jwt.verify(token, JwtSecret, (err, payload) => {
         if (err) {
             return res.status(401).json({ error: "Invalid token!" });
