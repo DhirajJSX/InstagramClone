@@ -23,6 +23,8 @@ function RightSidebar() {
         setTimeout(() => {
           setLoading(false)
         }, 100);
+        // console.log(result);
+        
       })
       .catch((err) => {
         console.error("Error fetching user info:", err);
@@ -48,7 +50,7 @@ function RightSidebar() {
       <div className="space-y-4">
         <div className="flex items-center">
           <img
-            src={img?.profileImage && noProfile} 
+            src={img?.profileImage ||noProfile} 
             className="w-12 h-12 rounded-full object-cover"
           />
           <div className="ml-4">
