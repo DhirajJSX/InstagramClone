@@ -11,58 +11,65 @@ import ViewUserPost from "./viewUserPost/ViewUserPost";
 
 const ViewUserProfile = () => {
   const { username } = useParams();
+
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [loadingFollow, setLoadingFollow] = useState(false);
 
-  // This is current logged-in user ID (for demo purpose, replace with your auth context)
-  const currentUserId = "currentLoggedInUserId";
+  // Get current logged-in user from localStorage
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const currentUserId = currentUser?._id;
 
   useEffect(() => {
     if (!username) return;
+
+    setLoading(true);
+    setError(null);
 
     api
       .get(`/user/${username}`)
       .then((res) => {
         const result = res.data;
         setPosts(result.posts || []);
-        setProfileData(result.profile || null);
-        setUserData(result.user || null);
+        setProfileData(result.profile || {});
+        setUserData(result.user || {});
 
-        // Check if current user is following the profile user
         const followers = result.profile?.followers || [];
         setIsFollowing(followers.includes(currentUserId));
       })
       .catch((err) => {
-        console.error("Error fetching posts:", err);
+        console.error("Error fetching user data:", err);
         setPosts([]);
         setProfileData(null);
         setUserData(null);
         setError("Failed to load user data");
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }, [username]);
+  }, [username, currentUserId]);
 
-  // Dummy follow/unfollow functions, replace with your API calls
   const handleFollowToggle = async () => {
     if (!profileData || !userData) return;
 
     setLoadingFollow(true);
     try {
       if (isFollowing) {
-        // Call your unfollow API here
         await api.post(`/user/${username}/unfollow`, {
           followerId: currentUserId,
         });
         setIsFollowing(false);
         setProfileData((prev) => ({
           ...prev,
-          followers: prev.followers.filter((id) => id !== currentUserId),
+          followers: (prev.followers || []).filter(
+            (id) => id !== currentUserId
+          ),
         }));
       } else {
-        // Call your follow API here
         await api.post(`/user/${username}/follow`, {
           followerId: currentUserId,
         });
@@ -79,13 +86,11 @@ const ViewUserProfile = () => {
     }
   };
 
-  // Normalize link to include https if missing
   const formattedLink =
     profileData?.link && !profileData.link.startsWith("http")
       ? `https://${profileData.link}`
       : profileData?.link;
 
-  // Animation variants for different sections
   const variants = {
     hidden: { opacity: 0, y: 20 },
     visible: (customDelay = 0) => ({
@@ -94,6 +99,27 @@ const ViewUserProfile = () => {
       transition: { delay: customDelay, duration: 0.6, ease: "easeOut" },
     }),
   };
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-600 dark:text-gray-300">Loading profile...</p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+
+  if (!userData || !profileData)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-600 dark:text-gray-300">No profile found.</p>
+      </div>
+    );
 
   return (
     <div className="flex h-screen">
@@ -107,7 +133,7 @@ const ViewUserProfile = () => {
             transition={{ duration: 1, ease: "backOut" }}
           >
             <img
-              src={profileData?.profilePicture || noProfile}
+              src={profileData?.profileImage || noProfile}
               alt={`${userData?.userName || "User"} profile`}
               className="object-cover w-full h-full rounded-full"
             />
@@ -124,21 +150,20 @@ const ViewUserProfile = () => {
               <h2 className="text-[20px] font-semibold text-gray-800 dark:text-gray-100">
                 {userData?.userName || username || ""}
               </h2>
-
               {userData?._id !== currentUserId && (
                 <button
                   onClick={handleFollowToggle}
                   disabled={loadingFollow}
                   className={`
-        px-5 py-1.5 rounded-md text-sm font-semibold
-        transition-colors duration-300
-        ${
-          isFollowing
-            ? "bg-red-500 text-white hover:bg-red-600"
-            : "bg-blue-500 text-white hover:bg-blue-600"
-        }
-        disabled:opacity-50 disabled:cursor-not-allowed
-      `}
+                    px-5 py-1.5 rounded-md text-sm font-semibold
+                    transition-colors duration-300
+                    ${
+                      isFollowing
+                        ? "bg-red-500 text-white hover:bg-red-600"
+                        : "bg-blue-500 text-white hover:bg-blue-600"
+                    }
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                  `}
                 >
                   {loadingFollow ? "..." : isFollowing ? "Unfollow" : "Follow"}
                 </button>
@@ -195,14 +220,16 @@ const ViewUserProfile = () => {
           <p className="text-gray-600 dark:text-gray-400">
             {profileData?.bio || ""}
           </p>
-          <a
-            href={formattedLink || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 dark:text-blue-400"
-          >
-            {profileData?.link || "No Link Yet"}
-          </a>
+          {profileData?.link && (
+            <a
+              href={formattedLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 dark:text-blue-400"
+            >
+              {profileData.link}
+            </a>
+          )}
         </motion.div>
 
         <ViewUserPost posts={posts} />
