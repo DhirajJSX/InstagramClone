@@ -38,9 +38,9 @@ While features like **real-time messaging using Socket.io** are part of future u
 
 ## ✨ Features
 
-### 🔐 Authentication (via Firebase)
+### 🔐 Authentication (via JWT)
 - Email & password registration/login 
-- Phone number OTP login (In Update)
+- Phone number OTP login (In Update) (In Update)
 - Email verification after signup (In Update)
 - Protected routes (auto-redirect for unauthorized users)
 
