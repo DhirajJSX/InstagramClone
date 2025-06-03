@@ -172,17 +172,9 @@ npm install
 ### Create a .env file in the root of your frontend project with the following content:
 
 ```
-VITE_FIREBASE_API_KEY=your_api_key
-
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-
-VITE_FIREBASE_PROJECT_ID=your_project_id
-
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-
-VITE_FIREBASE_APP_ID=your_app_id
+VITE_BACKEND_URL = Your Backend LocalHost URl
+VITE_CLOUDINARY_CLOUD_NAME= Your Couldinary CouldName
+VITE_CLOUDINARY_UPLOAD_PRESET= Your Cloudinary Upload_Preset
 ```
 
 #### After setting up .env, start the development server:
@@ -201,9 +193,13 @@ npm install
 ```
 #### Create .env file inside /backend folder:
 
-PORT=5000 
+```
+JWT_SECRET = Generate Your Own JWT_TOKEN 
+MONGO_URI = Your MONGO.DB Url
+PORT = Your Backend PORT example : (5000)
+FRONTEND_URL = Your Frontend LocalHost Url
 
-MONGO_URI=your_mongo_uri
+```
 
 
 #### Run backend server:
