@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === "production";
 
 
@@ -52,10 +52,6 @@ app.get("/", (req, res) => {
   res.send("🚀 Instagram Clone Backend is Live!");
 });
 
-// app.listen(PORT, () => {
-//   console.log(`🚀 Server running on port ${PORT}`);
-// });
-
-app.listen(process.env.PORT, () => {
-  console.log(`🚀 Server running on port ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
