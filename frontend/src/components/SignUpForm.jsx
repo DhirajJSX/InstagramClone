@@ -1,203 +1,142 @@
 import React, { useState } from "react";
 import IGimg from "./../img/LoginPage/instagram.png";
-import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BASE_URL } from "../utils/config.js";
+
 function SignUpForm() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  const passwordRegex =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const postData = () => {
     if (!emailRegex.test(email)) {
-        setErrorMessage("Please enter a valid email");
-        return;
+      setErrorMessage("Please enter a valid email");
+      return;
     } else if (!passwordRegex.test(password)) {
-        setErrorMessage("Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character");
-        return;
+      setErrorMessage(
+        "Password must be 8+ characters with uppercase, lowercase, number, and special char"
+      );
+      return;
     }
 
+    setIsLoading(true);
+
     fetch(`${BASE_URL}/signup`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            name: name,
-            email: email,
-            password: password,
-            userName: username,
-        }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        userName: username,
+      }),
     })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.error) {
-                setErrorMessage(data.error);
-            } else {
-                toast.success("Successfully Registered!", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                navigate("/");
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            setErrorMessage("Something went wrong. Please try again later.");
-        });
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLoading(false);
+        if (data.error) {
+          setErrorMessage(data.error);
+        } else {
+          toast.success("Successfully Registered!", {
+            position: "top-right",
+            autoClose: 3000,
+            theme: "dark",
+          });
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setErrorMessage("Something went wrong. Please try again.");
+      });
   };
 
   return (
-    <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 sm:px-6 lg:px-8">
-      <div className="border-gray-700 mt-20 border text-white p-6 sm:p-8 md:p-10 w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg">
-        <div className="flex justify-center pt-6 pb-3">
-          <img className="w-[150px] sm:w-[200px]" src={IGimg} alt="Instagram" />
+    <div className="flex items-center justify-center min-h-screen bg-black px-4 py-8">
+      <div className="bg-[#121212] border border-gray-700 w-full max-w-sm rounded-xl p-6 text-white">
+        <div className="flex justify-center mb-5">
+          <img className="w-[180px]" src={IGimg} alt="Instagram" />
         </div>
-        <div className="flex flex-col text-[18px] text-gray-400 font-bold text-center justify-center p-1">
-          <h2 className="text-white">Sign up to see photos and videos</h2>
-          <h2 className="text-center">from your friends.</h2>
-        </div>
-        <div className="flex mt-4 bg-blue-500 hover:bg-blue-600 font-semibold rounded-sm cursor-pointer flex-col justify-center items-center">
-          <div className="flex justify-center items-center px-14">
-            <button className="rounded-md py-1 text-white hover:text-white">
-              <FacebookRoundedIcon
-                fontSize="large"
-                className="w-[50px] text-center flex justify-center h-[50px] text-white px-0.5 mr-2"
-              />
-              <span>Sign Up with Facebook</span>
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center px-2 mt-5 font-Poppins">
-          <div className="flex-grow border-t border-gray-600"></div>
-          <span className="mx-4 text-white opacity-70">OR</span>
-          <div className="flex-grow border-t border-gray-600"></div>
-        </div>
-        <div className="flex flex-col text-[14px]">
+
+        <h2 className="text-center font-semibold text-gray-300 text-sm mb-4">
+          Sign up to see photos and videos from your friends.
+        </h2>
+
+        <div className="flex flex-col space-y-3">
           <input
-            className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border-[1px] border-slate-300"
-            placeholder="Mobile Number or Email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <input
-            className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border-[1px] border-slate-300"
-            placeholder="Password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <input
-            className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border-[1px] border-slate-300"
+            className="bg-black border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500"
+            type="text"
             placeholder="Full Name"
-            type="text"
             value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
-            className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border-[1px] border-slate-300"
-            placeholder="Username"
+            className="bg-black border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500"
             type="text"
+            placeholder="Username"
             value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
+            onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
+          <input
+            className="bg-black border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500"
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        {/* Error Message */}
-        <div className="flex items-center justify-center mt-2 text-red-500">
-          {errorMessage && <p>{errorMessage}</p>} {/* Display error message if it exists */}
-        </div>
-
-        <div>
-          <button
-            onClick={() => {
-              postData();
-            }}
-            className="mt-4 w-full rounded-[10px] text-white bg-blue-600 hover:bg-blue-500 py-2 font-Poppins"
-          >
-            Sign Up
-          </button>
-        </div>
-      </div>
-
-      {/* Login Section */}
-      <div className="border-gray-700 border text-white mt-4 w-full max-w-sm md:max-w-md lg:max-w-lg rounded-lg">
-        <div className="p-5 text-[16px] flex justify-center">
-          <span>
-            Already have an account?{" "}
-            <Link to="/" className="font-Poppins text-[#0095f6] hover:underline">
-              Log in
-            </Link>
-          </span>
-        </div>
-      </div>
-
-      {/* App Download Section */}
-      <div className="text-white">
-        <div className="text-center mt-6 mb-2">
-          <span className="text-[16px]">Get the app.</span>
-        </div>
-        <div className="flex items-center justify-center gap-4">
-          {imgButton.map((item, index) => (
-            <a key={item.id || index} href={item.href}>
-              <img
-                className="w-[160px] sm:w-[170px] h-[55px] cursor-pointer"
-                src={item.img}
-                alt={item.alt}
-              />
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* Footer Section */}
-      <div className="flex mb-5 flex-col flex-wrap justify-around mt-10 text-[13px] gap-4 px-4">
-        <div className="flex flex-wrap justify-center gap-2">
-          {FooterTerms.map((term, index) => (
-            <div
-              key={term.id || index}
-              className="p-2 cursor-pointer text-gray-400 hover:text-gray-300 hover:underline"
+          <div className="relative">
+            <input
+              className="bg-black border border-gray-600 px-4 py-2 pr-10 w-full rounded-md focus:outline-none focus:border-blue-500"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <span
+              className="absolute right-3 top-2.5 cursor-pointer text-gray-400"
+              onClick={togglePasswordVisibility}
             >
-              {term.label}
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center">
-          <select className="p-2 border rounded-md bg-black cursor-pointer outline-none text-gray-400">
-            {Languages.map((lang, index) => (
-              <option key={lang.value || index} value={lang.value}>
-                {lang.label}
-              </option>
-            ))}
-          </select>
-          <div className="m-2 ml-3 flex justify-center items-center">
-            <span className="text-gray-300">© 2024 Instagram from Meta</span>
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </span>
           </div>
+        </div>
+
+        {errorMessage && (
+          <p className="text-red-500 text-sm mt-3">{errorMessage}</p>
+        )}
+
+        <button
+          onClick={postData}
+          disabled={isLoading}
+          className="w-full mt-5 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition"
+        >
+          {isLoading ? "Creating Account..." : "Sign Up"}
+        </button>
+
+        <div className="text-center text-sm text-gray-400 mt-4">
+          Already have an account?{" "}
+          <Link to="/" className="text-blue-400 hover:underline">
+            Log in
+          </Link>
         </div>
       </div>
     </div>
