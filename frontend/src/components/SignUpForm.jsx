@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BASE_URL } from "../utils/config.js";
+import { motion } from "framer-motion";
 
 function SignUpForm() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function SignUpForm() {
       return;
     } else if (!passwordRegex.test(password)) {
       setErrorMessage(
-        "Password must be 8+ characters with uppercase, lowercase, number, and special char"
+        "Password must be 8+ chars with uppercase, lowercase, number, and special char"
       );
       return;
     }
@@ -70,75 +71,80 @@ function SignUpForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black px-4 py-8">
-      <div className="bg-[#121212] border border-gray-700 w-full max-w-sm rounded-xl p-6 text-white">
-        <div className="flex justify-center mb-5">
-          <img className="w-[180px]" src={IGimg} alt="Instagram" />
+    <div className="min-h-screen bg-gradient-to-br from-black via-[#0e0e0e] to-[#1a1a1a] flex items-center justify-center px-4 py-10">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="bg-white/5 backdrop-blur-xl border border-white/10 text-white w-full max-w-sm p-8 rounded-2xl shadow-xl shadow-white/5"
+      >
+        <div className="flex justify-center mb-6">
+          <img className="w-[160px]" src={IGimg} alt="Instagram" />
         </div>
 
-        <h2 className="text-center font-semibold text-gray-300 text-sm mb-4">
+        <h2 className="text-center font-semibold text-gray-200 mb-4">
           Sign up to see photos and videos from your friends.
         </h2>
 
-        <div className="flex flex-col space-y-3">
+        <div className="space-y-4">
           <input
-            className="bg-black border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500"
             type="text"
             placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="w-full rounded-xl bg-white/10 border border-gray-600 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-600"
           />
           <input
-            className="bg-black border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500"
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="w-full rounded-xl bg-white/10 border border-gray-600 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-600"
           />
           <input
-            className="bg-black border border-gray-600 px-4 py-2 rounded-md focus:outline-none focus:border-blue-500"
             type="email"
-            placeholder="Email address"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-xl bg-white/10 border border-gray-600 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-600"
           />
-
           <div className="relative">
             <input
-              className="bg-black border border-gray-600 px-4 py-2 pr-10 w-full rounded-md focus:outline-none focus:border-blue-500"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-xl bg-white/10 border border-gray-600 px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-600"
             />
-            <span
-              className="absolute right-3 top-2.5 cursor-pointer text-gray-400"
+            <button
+              type="button"
               onClick={togglePasswordVisibility}
+              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-300 hover:text-white"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
-            </span>
+            </button>
           </div>
+
+          {errorMessage && (
+            <div className="text-red-400 text-xs text-center -mt-2">{errorMessage}</div>
+          )}
+
+          <button
+            onClick={postData}
+            disabled={isLoading}
+            className="w-full mt-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-3 rounded-xl font-semibold transition duration-200"
+          >
+            {isLoading ? "Signing Up..." : "Sign Up"}
+          </button>
         </div>
 
-        {errorMessage && (
-          <p className="text-red-500 text-sm mt-3">{errorMessage}</p>
-        )}
-
-        <button
-          onClick={postData}
-          disabled={isLoading}
-          className="w-full mt-5 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition"
-        >
-          {isLoading ? "Creating Account..." : "Sign Up"}
-        </button>
-
-        <div className="text-center text-sm text-gray-400 mt-4">
+        <p className="text-center text-gray-400 text-sm mt-6">
           Already have an account?{" "}
-          <Link to="/" className="text-blue-400 hover:underline">
+          <Link to="/" className="text-pink-500 hover:underline">
             Log in
           </Link>
-        </div>
-      </div>
+        </p>
+      </motion.div>
     </div>
   );
 }

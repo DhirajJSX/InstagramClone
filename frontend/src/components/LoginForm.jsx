@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import IGimg from "./../img/LoginPage/instagram.png";
-import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import { FooterTerms, Languages, imgButton } from "./../Data/dataButtons.js";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../utils/config.js";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { motion } from "framer-motion";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -32,10 +31,7 @@ function LoginForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+      body: JSON.stringify({ email, password }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -55,70 +51,70 @@ function LoginForm() {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.error("Error:", error);
         setErrorMessage("Something went wrong. Please try again later.");
       });
   };
 
   return (
-    <div className="flex items-center flex-col justify-center min-h-screen bg-black px-4 py-7">
-      <div className="border border-gray-700 text-white p-6 w-full max-w-sm rounded-lg">
-        <div className="flex justify-center py-6">
+    <div className="flex items-center justify-center min-h-screen px-4 py-10">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="bg-white/5 backdrop-blur-xl border border-white/10 text-white w-full max-w-sm p-8 rounded-2xl shadow-xl shadow-white/5"
+      >
+        <div className="flex justify-center mb-6">
           <img className="w-[150px]" src={IGimg} alt="Instagram" />
         </div>
 
-        <div className="flex flex-col text-[14px] relative">
+        <div className="flex flex-col text-sm space-y-4">
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-3 bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border border-slate-300"
+            className="w-full rounded-xl bg-white/10 border border-gray-600 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-600"
             placeholder="Phone number, username, or email"
             type="text"
           />
 
-          <div className="relative mt-3">
+          <div className="relative">
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-[#121212] py-2.5 px-3 w-full rounded-lg outline-none border border-slate-300 pr-10"
+              className="w-full rounded-xl bg-white/10 border border-gray-600 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-600"
               placeholder="Password"
               type={showPassword ? "text" : "password"}
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400"
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-white"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </button>
           </div>
+
+          {errorMessage && (
+            <div className="text-red-400 text-xs text-center -mt-2">{errorMessage}</div>
+          )}
+
+          <button
+            onClick={postData}
+            disabled={isLoading}
+            className={`w-full mt-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-3 rounded-xl font-semibold transition duration-200 ${
+              isLoading ? "opacity-60 cursor-not-allowed" : ""
+            }`}
+          >
+            {isLoading ? "Logging in..." : "Log In"}
+          </button>
         </div>
 
-        {errorMessage && (
-          <div className="text-red-500 text-sm mt-3">{errorMessage}</div>
-        )}
-
-        <button
-          onClick={postData}
-          disabled={isLoading}
-          className="mt-4 w-full rounded-[10px] font-semibold text-white bg-blue-500 hover:bg-blue-600 py-2 transition duration-200 disabled:opacity-50"
-        >
-          {isLoading ? "Logging in..." : "Log In"}
-        </button>
-
-        <div className="text-center text-sm text-gray-400 mt-4">
-          <Link to="/forgot-password" className="text-blue-400 hover:underline">
-            Forgot password?
-          </Link>
-        </div>
-
-        <div className="text-center text-sm text-gray-400 mt-4">
+        <div className="mt-6 text-center text-sm text-gray-400">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-400 hover:underline">
+          <Link to="/signup" className="text-pink-500 hover:underline">
             Sign up
           </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
