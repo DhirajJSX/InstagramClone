@@ -37,7 +37,7 @@ function BottomNav() {
 
   return (
     <>
-      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[95%] bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl shadow-[0_5px_30px_rgba(255,255,255,0.08)] flex justify-around items-center  py-1 lg:hidden z-50">
+      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[95%] bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl shadow-[0_5px_30px_rgba(255,255,255,0.08)] flex justify-around items-center  py-1 lg:hidden ">
         {navItems.map(({ path, icon: IconComponent, label }) => {
           const isActive = location.pathname === path;
           const isCreate = path === "create";
@@ -76,7 +76,7 @@ function BottomNav() {
                 className={`rounded-full p-3 flex items-center justify-center transition-all duration-300 ${
                   isActive
                     ? "bg-white/10 "
-                    : "text-white hover:text-pink-400"
+                    : "text-white"
                 }`}
               >
                 <IconComponent style={{ fontSize: isCreate ? 34 : 28 }} />

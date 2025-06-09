@@ -1,4 +1,3 @@
-// pages/UserProfile.jsx
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -29,7 +28,6 @@ const UserProfile = () => {
       <h1 className="text-2xl font-bold">{user.userName}</h1>
       <p>Email: {user.email}</p>
       <p>Bio: {profile.bio}</p>
-      {/* Add more profile fields here */}
     </div>
   );
 };

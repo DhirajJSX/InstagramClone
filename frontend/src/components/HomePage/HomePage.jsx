@@ -13,10 +13,11 @@ function HomePage() {
       <MobileHeader />
       <div className="flex flex-col lg:flex-row justify-between">
         <LeftSidebar />
-        <div className="flex flex-col w-full lg:w-[50%] justify-center pt-[10px] items-center">
+        <div className="flex flex-col w-full lg:w-[50%] justify-center pt-[66px] lg:pt-4 items-center">
           {/* <Stories /> */}
           <MainContent />
         </div>
+
         <RightSidebar />
       </div>
       <BottomNav />

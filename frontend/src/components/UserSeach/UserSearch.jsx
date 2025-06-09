@@ -23,13 +23,11 @@ function UserSearch() {
     localStorage.setItem("userSearchHistory", JSON.stringify(searchHistory));
   }, [searchHistory]);
 
-  const handleSearchInputChange = (e) => setQuery(e.target.value);
-
   const addToHistory = (item) => {
     const trimmed = item.trim().toLowerCase();
     if (!trimmed) return;
     setSearchHistory((prev) => {
-      const filtered = prev.filter(i => i.toLowerCase() !== trimmed);
+      const filtered = prev.filter((i) => i.toLowerCase() !== trimmed);
       return [item, ...filtered].slice(0, 10);
     });
   };
@@ -46,7 +44,9 @@ function UserSearch() {
     setError(null);
     try {
       const response = await fetch(
-        `${BASE_URL}/searchuser?query=${encodeURIComponent(trimmedQuery.toLowerCase())}`
+        `${BASE_URL}/searchuser?query=${encodeURIComponent(
+          trimmedQuery.toLowerCase()
+        )}`
       );
       if (!response.ok) throw new Error("Failed to fetch search results");
       const data = await response.json();
@@ -63,6 +63,7 @@ function UserSearch() {
         return aName.localeCompare(bName);
       });
       setResults(sortedUsers);
+      addToHistory(trimmedQuery);
     } catch {
       setError("User Not Found");
       setResults([]);
@@ -94,7 +95,9 @@ function UserSearch() {
       <>
         {parts.map((part, i) =>
           regex.test(part) ? (
-            <mark key={i} className="bg-blue-600 text-white rounded px-1">{part}</mark>
+            <mark key={i} className="bg-blue-600 text-white rounded px-1">
+              {part}
+            </mark>
           ) : (
             <span key={i}>{part}</span>
           )
@@ -104,116 +107,105 @@ function UserSearch() {
   };
 
   return (
-    <div className="flex h-screen flex-row">
-      <LeftSidebar />
-      <div className="flex-1 flex flex-col overflow-y-auto">
-        <div className="w-full max-w-5xl mx-auto px-1 py-2 sticky top-0 border-b border-gray-500 bg-black z-10 sm:border-b-0">
-          <div className="flex items-center rounded-lg px-4 py-2">
+    <>
+      <div className="lg:flex min-h-screen bg-black text-white">
+        <LeftSidebar />
+        <main className="w-full lg:ml-[250px] p-4 max-w-2xl mx-auto">
+          <div className="flex items-center bg-white/5 backdrop-blur border border-white/10 rounded-xl px-4 py-2">
+            <SearchIcon className="text-white opacity-80 mr-2" />
             <input
               type="text"
-              placeholder="Search"
-              className="w-full bg-black text-sm ml-2 text-white focus:outline-none"
               value={query}
-              onChange={handleSearchInputChange}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search users"
+              className="bg-transparent outline-none text-white w-full placeholder:text-gray-400"
             />
-            <SearchIcon className="text-gray-200 p-1" />
           </div>
-        </div>
-
-        <div className="relative w-full max-w-5xl mx-auto px-6 pt-1 pb-16">
-          {isLoading && (
-            <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 rounded-lg">
-              <ProfilePostLoader />
-            </div>
-          )}
-
-          {!isLoading && error && (
-            <p className="text-center text-red-500 mt-6">{error}</p>
-          )}
-
-          {!isLoading && !query.trim() && searchHistory.length > 0 && (
-            <div className="mt-6 text-sm text-gray-300">
-              <div className="flex justify-between items-center mb-3">
-                <p className="font-semibold text-gray-400 tracking-wide uppercase">
+          {searchHistory.length > 0 && !query && (
+            <div className="mt-6">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-white font-medium text-lg">
                   Recent Searches
-                </p>
+                </h3>
                 <button
                   onClick={clearHistory}
-                  className="text-xs text-red-500 hover:text-red-600 font-semibold"
-                  aria-label="Clear all search history"
+                  className="text-sm text-red-400 hover:underline"
                 >
-                  Clear
+                  Clear All
                 </button>
               </div>
-              <div className="space-y-3">
-                {searchHistory.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center py-3 px-4 "
+              <ul className="space-y-2">
+                {searchHistory.map((item) => (
+                  <li
+                    key={item}
+                    className="flex justify-between items-center backdrop-blur-md px-4 py-2 rounded-lg transition"
                   >
                     <button
                       onClick={() => setQuery(item)}
-                      className="text-left text-[#dadfe8] font-medium hover:text-blue-400 truncate max-w-xs"
+                      className="text-white text-sm truncate text-left w-full"
                       title={item}
                     >
                       {item}
                     </button>
-                    <button
+                    <ClearIcon
+                      className="text-gray-400 hover:text-red-400 cursor-pointer"
                       onClick={() => removeFromHistory(item)}
-                      className="text-xs ml-3"
-                      aria-label={`Remove ${item} from search history`}
-                    >
-                      <ClearIcon sx={{ fontSize: 17 }} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {!isLoading && !error && query.trim() && results.length === 0 && (
-            <p className="text-center text-gray-500 mt-6">No users found</p>
-          )}
-
-          {!isLoading &&
-            results.length > 0 && (
-              <ul className="mt-4 space-y-4">
-                {results.map((user) => (
-                  <li
-                    key={user._id}
-                    className="rounded-lg transition-colors cursor-pointer"
-                  >
-                    <Link
-                      to={`/user/${user.userName}`}
-                      className="flex items-center space-x-4 px-5 py-3"
-                      onClick={() => addToHistory(user.userName)}
-                    >
-                      <div className="w-14 h-14 rounded-full bg-gray-700 overflow-hidden flex-shrink-0 border border-gray-600">
-                        <img
-                          src={`https://via.placeholder.com/150?text=${encodeURIComponent(
-                            user.name || user.userName
-                          )}`}
-                          alt={user.name || user.userName}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 overflow-hidden">
-                        <p className="text-lg font-semibold text-white truncate">
-                          <HighlightedText text={user.userName} highlight={query} />
-                        </p>
-                        <p className="text-sm text-gray-400 truncate">
-                          <HighlightedText text={user.name} highlight={query} />
-                        </p>
-                      </div>
-                    </Link>
+                      fontSize="small"
+                      aria-label={`Remove ${item} from history`}
+                    />
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          <div className="mt-6">
+            {isLoading ? (
+              <div className="flex items-center justify-center min-h-screen">
+                <ProfilePostLoader />
+              </div>
+            ) : error ? (
+              <p className="text-red-500 text-sm text-center">{error}</p>
+            ) : (
+              results.length > 0 && (
+                <ul className="space-y-4">
+                  {results.map((user) => (
+                    <li key={user._id}>
+                      <Link
+                        to={`/user/${user.userName}`}
+                        className="flex items-center space-x-4 backdrop-blur rounded-xl p-3 transition"
+                      >
+                        <img
+                          src={user.profilePhoto || "/default-profile.png"}
+                          alt={`${user.userName}'s profile`}
+                          className="w-12 h-12 rounded-full object-cover"
+                          loading="lazy"
+                        />
+                        <div>
+                          <p className="font-semibold text-white truncate">
+                            <HighlightedText
+                              text={user.userName}
+                              highlight={query}
+                            />
+                          </p>
+                          <p className="text-gray-400 text-sm truncate max-w-xs">
+                            <HighlightedText
+                              text={user.name || ""}
+                              highlight={query}
+                            />
+                          </p>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )
             )}
-        </div>
+          </div>
+        </main>
       </div>
       <BottomNav />
-    </div>
+    </>
   );
 }
 
