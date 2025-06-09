@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 import SearchIcon from "@mui/icons-material/Search";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -29,7 +29,7 @@ function BottomNav() {
       setTimeout(() => {
         setRotateCreateIcon(false);
         setIsMediaModalOpen(true);
-      }, 500); // Rotation duration
+      }, 500);
     } else {
       navigate(path);
     }
@@ -37,36 +37,51 @@ function BottomNav() {
 
   return (
     <>
-      <nav className="fixed bottom-0 w-full bg-gradient-to-br from-black via-[#0e0e0e] to-[#1a1a1a] border-t border-white/10 shadow-[0_-2px_10px_rgba(255,255,255,0.05)] flex justify-around items-center px-2 py-2 lg:hidden z-50">
+      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[95%] bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl shadow-[0_5px_30px_rgba(255,255,255,0.08)] flex justify-around items-center  py-1 lg:hidden z-50">
         {navItems.map(({ path, icon: IconComponent, label }) => {
           const isActive = location.pathname === path;
           const isCreate = path === "create";
 
+          const x = useMotionValue(0);
+          const y = useMotionValue(0);
+          const springX = useSpring(x, { stiffness: 300, damping: 20 });
+          const springY = useSpring(y, { stiffness: 300, damping: 20 });
+
+          const handleMouseMove = (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left - rect.width / 2;
+            const mouseY = e.clientY - rect.top - rect.height / 2;
+            x.set(mouseX * 0.3);
+            y.set(mouseY * 0.3);
+          };
+
+          const handleMouseLeave = () => {
+            x.set(0);
+            y.set(0);
+          };
+
           return (
-            <button
+            <motion.button
               key={label}
               onClick={() => handleClick(path)}
-              className="group flex flex-col items-center justify-center transition-all duration-200"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="relative flex flex-col items-center justify-center focus:outline-none"
+              whileTap={{ scale: 0.9 }}
             >
-              <div
-                className={`rounded-full p-3 transition-all duration-300
-                  ${isActive
-                    ? "bg-white/10 drop-shadow-[0_0_8px_rgba(255,0,115,0.7)] text-pink-500"
-                    : "text-white group-hover:text-pink-400"}`}
+              <motion.div
+                style={{ x: springX, y: springY }}
+                animate={isCreate && rotateCreateIcon ? {  scale: [1, 1, 1] } : {}}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className={`rounded-full p-3 flex items-center justify-center transition-all duration-300 ${
+                  isActive
+                    ? "bg-white/10 "
+                    : "text-white hover:text-pink-400"
+                }`}
               >
-                {isCreate ? (
-                  <motion.div
-                    animate={rotateCreateIcon ? { rotate: 360 } : {}}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="flex items-center justify-center"
-                  >
-                    <IconComponent style={{ fontSize: "30px" }} />
-                  </motion.div>
-                ) : (
-                  <IconComponent style={{ fontSize: "30px" }} />
-                )}
-              </div>
-            </button>
+                <IconComponent style={{ fontSize: isCreate ? 34 : 28 }} />
+              </motion.div>
+            </motion.button>
           );
         })}
       </nav>
