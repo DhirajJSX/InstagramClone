@@ -40,7 +40,7 @@ function LeftSiderButtom() {
 
   return (
     <div className="left-sidebar mt-auto">
-      <ul className="flex flex-col space-y-2 overflow-y-auto">
+      <ul className="flex flex-col space-y-3 overflow-y-auto">
         <li
           onClick={handleSettingsClick}
           className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors duration-300

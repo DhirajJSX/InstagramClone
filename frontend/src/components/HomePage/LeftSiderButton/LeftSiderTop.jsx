@@ -34,7 +34,7 @@ function LeftSiderTop() {
 
   return (
     <>
-      <ul className="flex-grow space-y-1">
+      <ul className="flex-grow space-y-2">
         {menuItems.map(({ path, icon, label }) => {
           const isActive = location.pathname === path;
 

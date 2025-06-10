@@ -129,7 +129,7 @@ function UserSearch() {
                 </h3>
                 <button
                   onClick={clearHistory}
-                  className="text-sm text-red-400 hover:underline"
+                  className="text-sm text-[#dadada]"
                 >
                   Clear All
                 </button>
@@ -165,7 +165,7 @@ function UserSearch() {
                 <ProfilePostLoader />
               </div>
             ) : error ? (
-              <p className="text-red-500 text-sm text-center">{error}</p>
+              <p className="text-[#dadada] text-sm text-center">{error}</p>
             ) : (
               results.length > 0 && (
                 <ul className="space-y-4">
