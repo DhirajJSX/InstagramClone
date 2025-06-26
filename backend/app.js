@@ -17,7 +17,7 @@ if (isProduction && !process.env.FRONTEND_URL) {
 
 const frontendUrl = isProduction
   ? process.env.FRONTEND_URL
-  : "http://localhost:5173";
+  : "https://instagram-clone-blush-two.vercel.app";
 
 app.use(
   cors({
