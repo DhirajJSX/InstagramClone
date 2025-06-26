@@ -15,6 +15,8 @@ function ProfileAbout({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // console.log(userInfo?.userName);
+  
   useEffect(() => {
     if (!loading) {
       gsap.from(".profile-img", {
@@ -68,9 +70,10 @@ function ProfileAbout({
 
             <div className="flex-1">
               <div className="flex items-center ml-5 space-x-4 mb-4 profile-info">
-                <h2 className="text-[16px] font-semibold text-gray-800 dark:text-gray-100">
-                  {userInfo?.userName || "Loading..."}
-                </h2>
+              <h2 className="text-[16px] font-semibold text-gray-800 dark:text-gray-100">
+  {userInfo?.userName ? userInfo.userName : "User not available"}
+</h2>
+
                 <button
                   onClick={handleEditProfileClick}
                   className="px-4 py-1 border rounded-md text-sm font-medium"

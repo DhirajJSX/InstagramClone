@@ -18,8 +18,7 @@ function UserProfile() {
   const postsRef = useRef(null);
 
   const handleTabChange = (tab) => setActiveTab(tab);
-  // console.log(profile);
-  
+
   useEffect(() => {
     setLoading(true);
     fetch(`${BASE_URL}/me`, {
@@ -27,14 +26,28 @@ function UserProfile() {
     })
       .then((res) => res.json())
       .then((result) => {
-        if (result.length > 0) {
+        // console.log("Fetched /me:", result);
+
+        if (Array.isArray(result) && result.length > 0) {
           setPosts(result);
-          setUserInfo(result[0].postedBy);
+
+          // Check if postedBy exists
+          const postedBy = result[0]?.postedBy;
+          if (postedBy) {
+            setUserInfo(postedBy);
+          } else {
+            console.warn("postedBy not found in first post. Using fallback.");
+            setUserInfo({
+              userName: "anonymous",
+              name: "Anonymous User",
+            });
+          }
         }
         setTimeout(() => setLoading(false), 700);
       })
       .catch((err) => {
         console.error("Error fetching posts:", err);
+        toast.error("Failed to fetch posts.");
         setLoading(false);
       });
   }, []);
@@ -47,11 +60,10 @@ function UserProfile() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.profile) {
-          setProfile(data.profile);
-        }
+        // console.log("Fetched profile + user:", data);
+        if (data.profile) setProfile(data.profile);
+        if (data.user) setUserInfo(data.user);
       })
-  
       .catch((err) => {
         console.error("Error fetching profile:", err);
         toast.error("Failed to load profile data.");
@@ -61,25 +73,32 @@ function UserProfile() {
   useEffect(() => {
     if (!loading && activeTab === "posts") {
       gsap.fromTo(
-        postsRef.current.children,
+        postsRef.current?.children || [],
         { opacity: 0, y: 50, scale: 0.8 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.1, ease: "power3.out" }
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power3.out",
+        }
       );
     }
   }, [loading, activeTab]);
 
-const handleProfileUpdate = (updatedUserInfo, updatedProfile) => {
-  setUserInfo(updatedUserInfo);
-  setProfile(updatedProfile);
-  toast.success("Profile updated successfully!");
-};
-
+  const handleProfileUpdate = (updatedUserInfo, updatedProfile) => {
+    setUserInfo(updatedUserInfo);
+    setProfile(updatedProfile);
+    toast.success("Profile updated successfully!");
+  };
 
   return (
     <div className="flex h-screen flex-row">
       <LeftSidebar />
       <div className="flex-1 flex flex-col items-center overflow-y-auto">
         <Mobilelogout />
+
         <ProfileAbout
           userInfo={userInfo}
           setUserInfo={setUserInfo}
@@ -94,13 +113,17 @@ const handleProfileUpdate = (updatedUserInfo, updatedProfile) => {
           <div className="flex justify-center space-x-10 text-gray-500 dark:text-gray-400 py-2">
             <button
               onClick={() => handleTabChange("posts")}
-              className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "posts" ? "text-gray-800 dark:text-gray-100" : ""}`}
+              className={`hover:text-gray-800 dark:hover:text-gray-100 ${
+                activeTab === "posts" ? "text-gray-800 dark:text-gray-100" : ""
+              }`}
             >
               Posts
             </button>
             <button
               onClick={() => handleTabChange("tagged")}
-              className={`hover:text-gray-800 dark:hover:text-gray-100 ${activeTab === "tagged" ? "text-gray-800 dark:text-gray-100" : ""}`}
+              className={`hover:text-gray-800 dark:hover:text-gray-100 ${
+                activeTab === "tagged" ? "text-gray-800 dark:text-gray-100" : ""
+              }`}
             >
               Tagged
             </button>
@@ -123,7 +146,6 @@ const handleProfileUpdate = (updatedUserInfo, updatedProfile) => {
                   className="aspect-square bg-gray-300 dark:bg-gray-700 overflow-hidden relative"
                 >
                   <img
-                    // onClick={() => console.log(`Navigating to post: ${post._id}`)}
                     src={post.image}
                     alt={post.body}
                     className="w-full h-full object-cover cursor-pointer"
