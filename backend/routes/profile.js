@@ -18,7 +18,6 @@ router.get("/profile", requireLogin, async (req, res) => {
       "userName email"
     );
 
-    // Auto-create profile if not exists
     if (!profile) {
       profile = await new ProfileModel({
         userId,
